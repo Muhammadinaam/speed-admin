@@ -53,7 +53,12 @@
         gtag('config', 'UA-118965717-5');
 
     </script>
-    <link href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/chartjs/css/coreui-chartjs.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/chartjs/css/coreui-chartjs.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/css/free.min.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'fontawesome-free-5.15.2-web/css/all.css')}}" rel="stylesheet">
+
+    <!-- this script should be in the head as we need its functionality in the pages to load content -->
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
 </head>
 
 <body class="c-app">
@@ -85,7 +90,7 @@
             <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar"
                 data-class="c-sidebar-show">
                 <svg class="c-icon c-icon-lg">
-                    <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-menu')}}"></use>
+                    <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-menu')}}"></use>
                 </svg>
             </button><a class="c-header-brand d-lg-none" href="#">
                 <svg width="118" height="46" alt="CoreUI Logo">
@@ -94,7 +99,7 @@
             <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
                 data-class="c-sidebar-lg-show" responsive="true">
                 <svg class="c-icon c-icon-lg">
-                    <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-menu')}}"></use>
+                    <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-menu')}}"></use>
                 </svg>
             </button>
             <ul class="c-header-nav d-md-down-none">
@@ -106,15 +111,15 @@
             <ul class="c-header-nav {{$is_rtl ? 'ml-4 mr-auto' : 'ml-auto mr-4'}}">
                 <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
                         <svg class="c-icon">
-                            <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-bell')}}"></use>
+                            <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-bell')}}"></use>
                         </svg></a></li>
                 <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
                         <svg class="c-icon">
-                            <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-list-rich')}}"></use>
+                            <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-list-rich')}}"></use>
                         </svg></a></li>
                 <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
                         <svg class="c-icon">
-                            <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-envelope-open')}}"></use>
+                            <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-envelope-open')}}"></use>
                         </svg></a></li>
                 @component('speed-admin::components.lang_selector')
                 @endcomponent
@@ -129,7 +134,7 @@
                         <a class="dropdown-item" href="{{route('admin.profile.form')}}">
                             
                             <svg class="c-icon mr-2">
-                                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-user')}}"></use>
+                                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-user')}}"></use>
                             </svg> 
                             {{__('Profile')}}
                         </a>
@@ -137,17 +142,17 @@
                         <a class="dropdown-item" href="{{route('admin.change-password-form')}}">
                             
                             <svg class="c-icon mr-2">
-                                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-lock-locked')}}"></use>
+                                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-lock-locked')}}"></use>
                             </svg> 
                             {{__('Change password')}}
                         </a>
 
                         <div class="dropdown-divider"></div><a class="dropdown-item" href="{{route('admin.logout')}}">
                             <!-- <svg class="c-icon mr-2">
-                                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-lock-locked')}}"></use>
+                                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-lock-locked')}}"></use>
                             </svg> Lock Account</a><a class="dropdown-item" href="{{route('admin.logout')}}"> -->
                             <svg class="c-icon mr-2">
-                                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-account-logout')}}"></use>
+                                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-account-logout')}}"></use>
                             </svg> Logout</a>
                     </div>
                 </li>
@@ -186,15 +191,16 @@
         </div>
     </div>
     <!-- CoreUI and necessary plugins-->
-    <script src="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/coreui/js/coreui.bundle.min.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/coreui/js/coreui.bundle.min.js')}}"></script>
     <!--[if IE]><!-->
-    <script src="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/js/svgxuse.min.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/js/svgxuse.min.js')}}"></script>
     <!--<![endif]-->
+
     <!-- Plugins and scripts required by this view-->
     
     <!-- TODO: page specific, should be removed from layout -->
-    <!-- <script src="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js')}}"></script> -->
-    <script src="{{asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/utils/js/coreui-utils.js')}}"></script>
+    <!-- <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/chartjs/js/coreui-chartjs.bundle.js')}}"></script> -->
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/utils/js/coreui-utils.js')}}"></script>
     
     <!-- main.js -->
     <!-- <script src="{{asset(config('speed-admin.coreui_assets_path').'js/main.js')}}"></script> -->

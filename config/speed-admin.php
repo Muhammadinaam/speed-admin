@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'developer_mode' => true,
+
     'title' => 'Speed Admin',
 
     'meta_description' => 'Speed Admin Project',
@@ -8,7 +11,7 @@ return [
     'meta_keyword' => 'Speed Admin, Laravel Admin, CRUD Admin Applications',
 
     'admin_url' => 'admin',
-    'coreui_assets_path' => 'vendor/speed-admin/coreui3.4.0/',
+    'speed_admin_assets_path' => 'vendor/speed-admin/',
 
     'languages' => [
         ['name' => 'English', 'locale' => 'en', 'rtl' => false],

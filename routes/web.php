@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\AuthController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\LanguageController;
+use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,8 @@ Route::group([
     Route::get('uploaded-images', function() {
         return response()->file(Storage::path(request()->path));
     })->name('admin.get-uploaded-image');
+
+    Route::resource('users', UserController::class);
 });
 
 Route::group(['middleware' => ['web', 'language'], 'prefix' => config('speed-admin.admin_url')], function () {
