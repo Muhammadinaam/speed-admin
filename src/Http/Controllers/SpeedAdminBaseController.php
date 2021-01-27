@@ -20,10 +20,18 @@ class SpeedAdminBaseController extends BaseController
 
     /**
      * $column = [
-     *      'id' => 'name',
+     *      'id' => 'picture',
      *      'before_id' => null, //optional
-     *      'title' => __('Name')
-     *      'field' => 'name'   // database column name. dot notation allowed for fields in relations
+     *      'title' => __('Picture'),
+     *      'field' => [name => 'picture', type => 'image'],   // 'name' is database column name. dot 
+     *                                                         // notation allowed for fields in 
+     *                                                          // relations. 
+     *                                                          // 'type' is column type and can be 
+     *                                                          // 'image', 'file', 'boolean', 'string', 
+     *                                                          // 'number', 'currency'
+     *      'render_function' => // callback function, this function will be called with as follows
+     *                          // render_function($field_value, $model_row)
+     *                          // this callback should return html as string
      * ]
      */
     public function addGridColumn(array $column)
@@ -71,11 +79,55 @@ class SpeedAdminBaseController extends BaseController
         }
 
         $model = new $this->model();
-        
-        $data = $model->paginate(10);
+
+        $select_fields = [];
+        foreach ($this->grid_columns as $grid_column) {
+            if(isset($grid_column['field'])) {
+                array_push($select_fields, $grid_column['field']['name']);
+            }
+        }
+        $model = $model->select($select_fields);
+
+        $paginated_data = $model->paginate(10);
+
+        $items = $paginated_data->getCollection();
+
+        foreach ($items as $index => $item) {
+            foreach ($this->grid_columns as $grid_column) {
+                
+                if(isset($grid_column['field']['type'])) {
+                    $type = $grid_column['field']['type'];
+
+                    $value = $items[$index]->{$grid_column['field']['name']};
+
+                    switch ($type) {
+                        case 'image':
+                            $value = $value != '' ?
+                                '<img class="img-thumbnail" width="150px" src="'.
+                                route('admin.get-uploaded-image', ['path' => $value]).
+                                '" />' : '';
+                            break;
+                        case 'boolean':
+                            $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                            $color_class = $bool ? "text-success" : "text-danger";
+                            $font_class = $bool ? "fas fa-check" : "fas fa-times";
+                            $value = '<i class="'.$color_class.' '.$font_class.'"></i>';
+                            break;
+                        
+                        default:
+                            break;
+
+                    }
+                    
+                    $items[$index]->{$grid_column['field']['name']} = $value;
+                }
+            }
+        }
+
+        $paginated_data->setCollection($items);
 
         return response()
-            ->json($data)
+            ->json($paginated_data)
             ->header('Vary', 'Accept');
     }
 }

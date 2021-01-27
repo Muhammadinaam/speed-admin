@@ -17,22 +17,28 @@ class UserController extends SpeedAdminBaseController
         $this->addGridColumn([
             'id' => 'picture', 
             'title' => __('Picture'), 
-            'field' => 'picture', 
+            'field' => ['name' => 'picture', 'type' => 'image'], 
             'type' => 'image'
         ]);
-        $this->addGridColumn(['id' => 'name', 'title' => __('Name'), 'field' => 'name',]);
-        $this->addGridColumn(['id' => 'email', 'title' => __('Email'), 'field' => 'email']);
+        $this->addGridColumn([
+            'id' => 'name', 
+            'title' => __('Name'), 
+            'field' => ['name' => 'name', 'type' => 'string'],
+        ]);
+        $this->addGridColumn([
+            'id' => 'email', 
+            'title' => __('Email'), 
+            'field' => ['name' => 'email', 'type' => 'string'],
+        ]);
         $this->addGridColumn([
             'id' => 'is_superadmin', 
             'title' => __('Superadmin'), 
-            'field' => 'is_superadmin',
-            'type' => 'boolean' 
+            'field' => ['name' => 'is_superadmin', 'type' => 'boolean'],
         ]);
         $this->addGridColumn([
             'id' => 'is_active', 
             'title' => __('Active'), 
-            'field' => 'is_active',
-            'type' => 'boolean' 
+            'field' => ['name' => 'is_active', 'type' => 'boolean'],
         ]);
     }
 }
