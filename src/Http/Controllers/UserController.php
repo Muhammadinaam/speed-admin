@@ -18,7 +18,6 @@ class UserController extends SpeedAdminBaseController
             'id' => 'picture', 
             'title' => __('Picture'), 
             'field' => ['name' => 'picture', 'type' => 'image'], 
-            'type' => 'image'
         ]);
         $this->addGridColumn([
             'id' => 'name', 

@@ -28,21 +28,23 @@
                 </div>
             </div>
             <div class="card-body">
-                <table class="table table-sm">
-                    <thead>
-                        <tr>
-                            @foreach($columns as $column)
-                            <th data-id="{{$column['id']}}">{{$column['title']}}</th>
-                            @endforeach
-                            <th>
-                                {{__('Action')}}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body-{{$uniqid}}">
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                @foreach($columns as $column)
+                                <th data-id="{{$column['id']}}">{{$column['title']}}</th>
+                                @endforeach
+                                <th>
+                                    {{__('Action')}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body-{{$uniqid}}">
+    
+                        </tbody>
+                    </table>
+                </div>
                 <div id="loader-{{$uniqid}}" class="text-center">
                     <i class="fas fa-circle-notch fa-spin"></i>
                 </div>
