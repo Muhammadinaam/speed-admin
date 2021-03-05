@@ -16,3 +16,7 @@ composer require muhammad-inaam-munir/speed-admin
 ```bash
 php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProvider"
 ```
+
+## Add alias in app.php:
+
+'SpeedAdminPermissions' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminPermissionsFacade::class,

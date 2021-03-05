@@ -18,28 +18,31 @@
     <meta name="keyword" content="{{config('speed-admin.meta_keyword')}}">
     <title>{{config('speed-admin.title')}}</title>
     
-    <link rel="apple-touch-icon" sizes="57x57" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-57x57.png')}}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-60x60.png')}}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-72x72.png')}}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-76x76.png')}}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-114x114.png')}}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-120x120.png')}}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-144x144.png')}}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-152x152.png')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/apple-icon-180x180.png')}}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/android-icon-192x192.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/favicon-96x96.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/favicon-16x16.png')}}">
-    <link rel="manifest" href="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/manifest.json')}}">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-57x57.png')}}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-60x60.png')}}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-72x72.png')}}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-76x76.png')}}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-114x114.png')}}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-120x120.png')}}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-144x144.png')}}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-152x152.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/apple-icon-180x180.png')}}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/android-icon-192x192.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/favicon-96x96.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/favicon-16x16.png')}}">
+    <link rel="manifest" href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/manifest.json')}}">
     
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{asset(config('speed-admin.coreui_assets_path').'assets/favicon/ms-icon-144x144.png')}}">
+    <meta name="msapplication-TileImage" content="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/favicon/ms-icon-144x144.png')}}">
     <meta name="theme-color" content="#ffffff">
     <!-- Main styles for this application-->
-    <link href="{{asset(config('speed-admin.coreui_assets_path').'css/style.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/css/style.css')}}" rel="stylesheet">
+
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/css/select2.min.css')}}" rel="stylesheet">
+
     <!-- Global site tag (gtag.js) - Google Analytics-->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+    <!-- <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script> -->
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -57,18 +60,28 @@
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/css/free.min.css')}}" rel="stylesheet">
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'fontawesome-free-5.15.2-web/css/all.css')}}" rel="stylesheet">
 
-    <!-- this script should be in the head as we need its functionality in the pages to load content -->
-    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/css/main.css')}}" rel="stylesheet">
+    
+    <script>
+        window.adminLoginUrl = "{{route('admin.login')}}";
+        window.ajaxError = "{{__('Error occurred while making request to server. Please try again.')}}"
+        window.noPermissionMessage = "{!! __('You don\'t have permission to perform this operation') !!}";
+        window.errorText = "{{__('Error')}}"
+        window.successText = "{{__('Success')}}"
+    </script>
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'jquery-3.5.1.min.js')}}"></script>
+
 </head>
 
 <body class="c-app">
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
         <div class="c-sidebar-brand">
             <!-- <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'assets/brand/coreui.svg#full')}}"></use>
+                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/brand/coreui.svg#full')}}"></use>
             </svg>
             <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
-                <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'assets/brand/coreui.svg#signet')}}"></use>
+                <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/brand/coreui.svg#signet')}}"></use>
             </svg> -->
             <h3 class="c-sidebar-brand-full">
                 {{config('speed-admin.title')}}
@@ -92,10 +105,13 @@
                 <svg class="c-icon c-icon-lg">
                     <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-menu')}}"></use>
                 </svg>
-            </button><a class="c-header-brand d-lg-none" href="#">
-                <svg width="118" height="46" alt="CoreUI Logo">
-                    <use xlink:href="{{asset(config('speed-admin.coreui_assets_path').'assets/brand/coreui.svg#full')}}"></use>
-                </svg></a>
+            </button>
+            <a class="c-header-brand d-lg-none" href="{{url(config('speed-admin.admin_url'))}}">
+                <h4>{{config('speed-admin.title')}}</h4>
+                <!-- <svg width="118" height="46" alt="CoreUI Logo">
+                    <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/assets/brand/coreui.svg#full')}}"></use>
+                </svg> -->
+            </a>
             <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
                 data-class="c-sidebar-lg-show" responsive="true">
                 <svg class="c-icon c-icon-lg">
@@ -171,8 +187,8 @@
             @endif
         </header>
         <div class="c-body">
-            <main class="c-main">
-                <div class="container-fluid">
+            <main class="c-main p-2">
+                <div class="container-fluid p-0">
                     <div class="fade-in">
                     
                         @yield('content')
@@ -203,7 +219,19 @@
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/utils/js/coreui-utils.js')}}"></script>
     
     <!-- main.js -->
-    <!-- <script src="{{asset(config('speed-admin.coreui_assets_path').'js/main.js')}}"></script> -->
+    <!-- <script src="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/js/main.js')}}"></script> -->
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'sweetalert.min.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'axios-0.21.1.min.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/js/select2.full.min.js')}}"></script>
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
+
+    <script>
+        $(window).bind("popstate", function () {
+            window.location.reload();
+        });
+    </script>
 
 </body>
 

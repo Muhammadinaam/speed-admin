@@ -20,6 +20,7 @@
                         @endif
 
                         <form method="post" action="{{ route('admin.login') }}">
+                            <input type="hidden" name="redirect_after_login" value="{{request()->redirect_after_login}}">
                             @csrf()
                             <h1>{{__('Login')}}</h1>
                             <p class="text-muted">{{__('Sign In to your account')}}</p>
@@ -27,7 +28,7 @@
                                 <div class="input-group-prepend"><span class="input-group-text">
                                         <svg class="c-icon">
                                             <use
-                                                xlink:href="{{ asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-user') }}">
+                                                xlink:href="{{ asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-user') }}">
                                             </use>
                                         </svg></span></div>
                                 <input class="form-control" name="email" type="text" placeholder="{{__('Email')}}">
@@ -36,7 +37,7 @@
                                 <div class="input-group-prepend"><span class="input-group-text">
                                         <svg class="c-icon">
                                             <use
-                                                xlink:href="{{ asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-lock-locked') }}">
+                                                xlink:href="{{ asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-lock-locked') }}">
                                             </use>
                                         </svg></span></div>
                                 <input class="form-control" name="password" type="password" placeholder="{{__('Password')}}">

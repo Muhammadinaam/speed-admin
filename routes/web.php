@@ -6,6 +6,7 @@ use Intervention\Image\Facades\Image;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\AuthController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\LanguageController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\UserController;
+use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\SelectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,10 @@ use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\UserController;
 |
  */
 
-Route::group([
-    'prefix' => config('speed-admin.admin_url'),
-    'middleware' => ['web', 'admin_auth', 'language'],
-], function () {
+Route::middleware(['web', 'admin_auth', 'language'])
+->prefix(config('speed-admin.admin_url'))
+->name('admin.')
+->group(function () {
 
     Route::get('/', function () {
         return view('speed-admin::layouts.layout');
@@ -31,42 +32,48 @@ Route::group([
         '/profile',
         'speed-admin::auth.profile',
         ['breadcrumbs' => [__('Account'), __('Profile')]]
-    )->name('admin.profile.form');
+    )->name('profile.form');
 
-    Route::post('/profile', [AuthController::class, 'updateProfile'])->name('admin.update-profile');
+    Route::post('/profile', [AuthController::class, 'updateProfile'])->name('update-profile');
 
     Route::view(
         '/change-password',
         'speed-admin::auth.change-password',
         ['breadcrumbs' => [__('Account'), __('Change password')]]
-    )->name('admin.change-password-form');
+    )->name('change-password-form');
 
-    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('admin.change-password');
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
 
     Route::get('uploaded-images', function() {
         return response()->file(Storage::path(request()->path));
-    })->name('admin.get-uploaded-image');
+    })->name('get-uploaded-image');
 
     Route::resource('users', UserController::class);
+    Route::get('users-data', [UserController::class, 'getData'])->name('users.get-data');
+
+    Route::get('select-model', [SelectController::class, 'selectModel'])->name('select.model');
 });
 
-Route::group(['middleware' => ['web', 'language'], 'prefix' => config('speed-admin.admin_url')], function () {
+Route::middleware(['web', 'language'])
+->prefix(config('speed-admin.admin_url'))
+->name('admin.')
+->group(function () {
 
-    Route::view('login', 'speed-admin::auth.login')->name('admin.login');
+    Route::view('login', 'speed-admin::auth.login')->name('login');
     Route::post('login', [AuthController::class, 'authenticate']);
     Route::get('logout', function () {
         Auth::logout();
         return redirect(route('admin.login'));
-    })->name('admin.logout');
+    })->name('logout');
 
-    Route::view('forgot-password', 'speed-admin::auth.forgot-password')->name('admin.forgot-password-form');
-    Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('admin.forgot-password');
+    Route::view('forgot-password', 'speed-admin::auth.forgot-password')->name('forgot-password-form');
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
 
     Route::get('/reset-password/{token}', function ($token) {
         return view('speed-admin::auth.reset-password', ['token' => $token]);
     })->name('password.reset');
 
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('admin.password.update');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
-    Route::get('select-language', [LanguageController::class, 'selectLanguage'])->name('admin.select-language');
+    Route::get('select-language', [LanguageController::class, 'selectLanguage'])->name('select-language');
 });

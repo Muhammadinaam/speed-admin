@@ -2,7 +2,7 @@
 
 return [
 
-    'developer_mode' => true,
+    'developer_mode' => false,
 
     'title' => 'Speed Admin',
 

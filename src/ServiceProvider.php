@@ -5,6 +5,7 @@ namespace MuhammadInaamMunir\SpeedAdmin;
 use Illuminate\Routing\Router;
 use MuhammadInaamMunir\SpeedAdmin\Http\Middleware\AdminAuth;
 use MuhammadInaamMunir\SpeedAdmin\Http\Middleware\Language;
+use MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminPermissions;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -49,6 +50,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->app->bind('speed-admin', function () {
             return new SpeedAdmin();
+        });
+
+        $this->app->bind('SpeedAdminPermissions', function () {
+            return new SpeedAdminPermissions();
         });
 
         $this->app->singleton('speed-admin-menu', function() {
