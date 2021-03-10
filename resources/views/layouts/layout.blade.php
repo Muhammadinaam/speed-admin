@@ -40,6 +40,7 @@
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/css/style.css')}}" rel="stylesheet">
 
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'flatpickr/css/fp.min.css')}}" rel="stylesheet">
 
     <!-- Global site tag (gtag.js) - Google Analytics-->
     <!-- <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script> -->
@@ -71,6 +72,12 @@
     </script>
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'jquery-3.5.1.min.js')}}"></script>
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'axios-0.21.1.min.js')}}"></script>
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
+
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'flatpickr/js/fp.min.js')}}"></script>
 
 </head>
 
@@ -224,8 +231,6 @@
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'sweetalert.min.js')}}"></script>
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'axios-0.21.1.min.js')}}"></script>
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/js/select2.full.min.js')}}"></script>
-
-    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
 
     <script>
         $(window).bind("popstate", function () {

@@ -36,6 +36,7 @@
         </div>
         <div class="card-body p-2">
             @component('speed-admin::components.form_components.form_items', [
+                'model' => $model,
                 'form_items' => $model->getFormItems(),
                 'obj' => isset($obj) ? $obj : null,
             ])
@@ -50,7 +51,7 @@
 
     @if(!request()->has('dont_redirect_on_save'))
     <script>
-        $(document).ready(function(){
+        ready(function(){
             document.querySelector('#form_{{$uniqid}}')
                 .addEventListener('saved', function(){
                     window.location.href = "{{$index_url}}"

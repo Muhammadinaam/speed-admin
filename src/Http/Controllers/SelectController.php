@@ -10,16 +10,16 @@ class SelectController extends BaseController
     public function selectModel(Request $request)
     {
         $model_class_name = urldecode($request->model);
-        $wheres = json_decode(urldecode($request->where));
+        $main_model_class_name = urldecode($request->main_model);
 
         $model = app()->bound($model_class_name) ? app()->make($model_class_name) : new $model_class_name();
+        $main_model = app()->bound($main_model_class_name) ? app()->make($main_model_class_name) : new $main_model_class_name();
+
         $query = $model;
 
-        if($wheres != null) 
-        {
-            foreach($wheres as $where)
-            {
-                $query = $query->where($where[0], $where[1], $where[2]);
+        foreach($main_model->getFormItemsFlat() as $form_item) {
+            if($form_item['id'] == $request->form_item_id) {
+                $query = $form_item['where']($query);
             }
         }
 

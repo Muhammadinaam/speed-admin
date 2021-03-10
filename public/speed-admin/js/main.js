@@ -7,19 +7,38 @@ function getParameterByNameFromUrl(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-function handleAjaxError(jqXhr) {
-  if (jqXhr.status === 422) {
+function ready(callbackFunc) {
+  if (document.readyState !== 'loading') {
+    // Document is already ready, call the callback directly
+    callbackFunc();
+  } else if (document.addEventListener) {
+    // All modern browsers to register DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', callbackFunc);
+  } else {
+    // Old IE browsers
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState === 'complete') {
+        callbackFunc();
+      }
+    });
+  }
+}
+
+function handleAjaxError(error) {
+  if (error.response.status === 422) {
 
 
     //process validation errors here.
-    errors = jqXhr.responseJSON.errors; //this will get the errors response data.
+    errors = error.response.data.errors; //this will get the errors response data.
     //show them somewhere in the markup
     //e.g
     errorsHtml = '<div class="alert alert-danger text-left"><ul>';
 
-    $.each(errors, function (key, value) {
-      errorsHtml += '<li>' + value + '</li>'; //showing only the first error.
-    });
+    errorMessages = Object.values(errors);
+    for(let i = 0; i < errorMessages.length; i++) {
+      errorsHtml += '<li>' + errorMessages[i][0] + '</li>'; //showing only the first error.
+    }
+
     errorsHtml += '</ul></di>';
 
     Swal.fire({
@@ -27,9 +46,9 @@ function handleAjaxError(jqXhr) {
       icon: 'error',
       html: errorsHtml,
     })
-  } else if (jqXhr.status === 401) {
+  } else if (error.response.status === 401) {
     window.location.href = window.adminLoginUrl + "?redirect_after_login=" + window.location.href;
-  } else if (jqXhr.status === 403) {
+  } else if (error.response.status === 403) {
     Swal.fire({
       title: '<strong>'+window.errorText+'</strong>',
       icon: 'error',
@@ -47,31 +66,31 @@ function handleAjaxError(jqXhr) {
 }
 
 function showSelectedImage(input) {
-  let formGroup = $(input).closest('.form-group');
-  let img = formGroup.find('img');
-  img.attr('src', '');
+  let formGroup = input.closest('.form-group');
+  let img = formGroup.querySelector('img');
+  img.getAttribute('src', '');
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      img.attr('src', e.target.result);
-      formGroup.find('.btn-remove').removeClass('d-none');
-      formGroup.find('input [type="hidden"]').val('0');
+      img.setAttribute('src', e.target.result);
+      formGroup.querySelector('.btn-remove').classList.remove('d-none');
+      formGroup.querySelector('input[type="hidden"]').value = 0;
     };
 
     reader.readAsDataURL(input.files[0]);
   } else {
-    img.attr('src', '');
+    img.setAttribute('src', '');
   }
 }
 
 function removeSelectedImage(button) {
-  let formGroup = $(button).closest('.form-group');
-  let img = formGroup.find('img');
-  img.attr('src', '');
+  let formGroup = button.closest('.form-group');
+  let img = formGroup.querySelector('img');
+  img.setAttribute('src', '');
 
-  formGroup.find('.btn-remove').addClass('d-none');
-  formGroup.find('input[type="file"]').val('');
-  formGroup.find('input[type="hidden"]').val('1');
+  formGroup.querySelector('.btn-remove').classList.add('d-none');
+  formGroup.querySelector('input[type="file"]').value = '';
+  formGroup.querySelector('input[type="hidden"]').value = '1';
 }
 
 function submitForm(event) {
@@ -83,42 +102,48 @@ function submitForm(event) {
   let formData = new FormData(form);
   let ajaxOptions = {
     data: formData,
-    type: $(form).attr('method'),
-    url: $(form).attr('action'),
+    method: form.getAttribute('method'),
+    url: form.getAttribute('action'),
     processData: false,
     contentType: false
   }
 
-  console.log(ajaxOptions)
-  
-  $.ajax(ajaxOptions)
-    .done(data => {
-      Swal.fire({
-        title: '<strong>' + (data.success ? window.successText : window.errorText) + '</strong>',
-        icon: data.success ? 'success' : 'error',
-        text: data.message,
-      }).then(() => {
-        if (data.success) {
-          const event = new CustomEvent('saved', { obj: data.obj });
-          form.dispatchEvent(event);
-        }
-      })
+  axios(ajaxOptions)
+  .then(resp => {
+    let data = resp.data;
+
+    Swal.fire({
+      title: '<strong>' + (data.success ? window.successText : window.errorText) + '</strong>',
+      icon: data.success ? 'success' : 'error',
+      text: data.message,
+    }).then(() => {
+      if (data.success) {
+        const event = new CustomEvent('saved', { obj: data.obj });
+        form.dispatchEvent(event);
+      }
     })
-    .fail(handleAjaxError)
-    .always(() => {
-      enableFromSubmitButton(form, true);
-    })
+  })
+  .catch(handleAjaxError)
+  .finally(() => {
+    enableFromSubmitButton(form, true);
+  })
 
   return false;
 }
 
 function enableFromSubmitButton(form, isEnabled) {
-  let button = $(form).find('button[type="submit"]');
+  let button = form.querySelector('button[type="submit"]');
 
-  $(button).attr('disabled', !isEnabled);
+  if(isEnabled) {
+    button.removeAttribute("disabled");
+  } else {
+    button.setAttribute("disabled", "disabled");
+  }
 
   let classesToAdd = isEnabled ? 'fas fa-save' : 'fas fa-spinner fa-spin';
   let classesToRemove = isEnabled ? 'fas fa-spinner fa-spin' : 'fas fa-save';
 
-  $(button).find('i').removeClass(classesToRemove).addClass(classesToAdd);
+  let i = button.querySelector('i');
+  i.classList.remove(...classesToRemove.split(' '))
+  i.classList.add(...classesToAdd.split(' '));
 }

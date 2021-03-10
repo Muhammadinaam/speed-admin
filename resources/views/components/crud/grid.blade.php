@@ -102,7 +102,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    ready(function(){
         getData_{{$uniqid}}();
 
         document.addEventListener('click', function (event) {
@@ -134,24 +134,23 @@
         }).then((result) => {
             if (result.isConfirmed) {
 
-                $.ajax({
-                    url: "{{$index_url}}/" + id,
-                    type: "post",
-                    data: {'_method': 'DELETE', '_token': "{{@csrf_token()}}"}
+                axios.post("{{$index_url}}/" + id, {
+                    '_method': 'DELETE', 
+                    '_token': "{{@csrf_token()}}"
                 })
-                .fail(error => {
-                    handleAjaxError(error)
-                }).done(() => {
+                .catch(error => {
+                    handleAjaxError(error);
+                })
+                .then((response) => {
+                    data = response.data;
                     Swal.fire(
-                    "{{__('Deleted!')}}",
-                    "{{__('Item has been deleted.')}}",
-                    'success'
+                    "",
+                    data.message,
+                    data.success ? 'success' : 'error'
                     )
 
                     getData_{{$uniqid}}()
                 })
-
-
             }
         })
     }
@@ -241,12 +240,10 @@
         url.search = new URLSearchParams(data)
         indexUrl.search = new URLSearchParams(data);
 
-        $.ajax({
-            url: url,
-            type: 'get',
-        })
-        .done(data => {
-            // let data = data;
+        axios.get(url)
+        .then(response => {
+            let data = response.data;
+
             let items = data.paginated_data.data;
 
             let tableBody = document.getElementById("table-body-{{$uniqid}}");
@@ -298,10 +295,10 @@
 
             window.history.pushState("object or string", "Title", indexUrl);
         })
-        .fail(error => {
+        .catch(error => {
             handleAjaxError(error)
         })
-        .always(() => {
+        .finally(() => {
             document.getElementById("loader-{{$uniqid}}").style.display = 'none';
         });
     }

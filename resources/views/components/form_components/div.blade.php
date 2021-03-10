@@ -9,6 +9,7 @@
 
     @if(isset($form_item['children']))
         @component('speed-admin::components.form_components.form_items', [
+            'model' => $model,
             'form_items' => $form_item['children'],
             'obj' => isset($obj) ? $obj : null,
         ])

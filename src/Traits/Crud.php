@@ -120,4 +120,9 @@ trait Crud{
         return $this->form_items_tree->getTree();
     }
 
+    public function getFormItemsFlat()
+    {
+        return $this->form_items_tree->getFlatTreeArray();
+    }
+
 }

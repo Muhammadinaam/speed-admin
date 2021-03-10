@@ -19,7 +19,8 @@ $uniqid = uniqid();
                 data: function (params) {
                     var query = {
                         model: "{{urlencode($form_item['model'])}}",
-                        where: "{{urlencode(json_encode($form_item['where']))}}"
+                        main_model: "{{urlencode(get_class($model))}}",
+                        form_item_id: "{{$form_item['id']}}"
                     }
                     return query
                 }

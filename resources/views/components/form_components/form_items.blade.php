@@ -5,6 +5,7 @@
             'speed-admin::components.form_components.' . $form_item['type'];
     ?>
     @component($view_path, [
+        'model' => $model,
         'form_item' => $form_item,
         'obj' => isset($obj) ? $obj : null,
     ])
