@@ -16,7 +16,7 @@ function ready(callbackFunc) {
     document.addEventListener('DOMContentLoaded', callbackFunc);
   } else {
     // Old IE browsers
-    document.attachEvent('onreadystatechange', function() {
+    document.attachEvent('onreadystatechange', function () {
       if (document.readyState === 'complete') {
         callbackFunc();
       }
@@ -35,14 +35,14 @@ function handleAjaxError(error) {
     errorsHtml = '<div class="alert alert-danger text-left"><ul>';
 
     errorMessages = Object.values(errors);
-    for(let i = 0; i < errorMessages.length; i++) {
+    for (let i = 0; i < errorMessages.length; i++) {
       errorsHtml += '<li>' + errorMessages[i][0] + '</li>'; //showing only the first error.
     }
 
     errorsHtml += '</ul></di>';
 
     Swal.fire({
-      title: '<strong>'+window.errorText+'</strong>',
+      title: '<strong>' + window.errorText + '</strong>',
       icon: 'error',
       html: errorsHtml,
     })
@@ -50,18 +50,94 @@ function handleAjaxError(error) {
     window.location.href = window.adminLoginUrl + "?redirect_after_login=" + window.location.href;
   } else if (error.response.status === 403) {
     Swal.fire({
-      title: '<strong>'+window.errorText+'</strong>',
+      title: '<strong>' + window.errorText + '</strong>',
       icon: 'error',
       // text: jqXhr.responseJSON.message,
       text: window.noPermissionMessage
     })
   } else {
     Swal.fire({
-      title: '<strong>'+window.errorText+'</strong>',
+      title: '<strong>' + window.errorText + '</strong>',
       icon: 'error',
       // text: jqXhr.responseJSON.message,
       text: window.ajaxError
     })
+  }
+}
+
+function removeRepeatedItem(button) {
+  let repeatedItem = button.closest('.repeated-item');
+  repeatedItem.parentNode.removeChild(repeatedItem);
+}
+
+function addRepeatedItem(button) {
+  let repeatedItemsContainer = button.closest('.repeater').querySelector(':scope .repeated-items-container:first-of-type');
+  let template = repeatedItemsContainer.querySelector('.template:first-of-type');
+  let cloned = template.cloneNode(true);
+  cloned.classList.remove('template');
+  cloned.style.display = '';
+
+  setInputsNames(cloned);
+
+  repeatedItemsContainer.appendChild(cloned);
+
+  let form = button.closest('form')
+  initializeUninitializedItems(form);
+}
+
+function setInputsNames(clonedGroup) {
+  inputs = clonedGroup.querySelectorAll('[data-__repeater__name]');
+  for(let i = 0; i < inputs.length; i++)
+  {
+    let input = inputs[i];
+    let name = input.dataset.__repeater__name;
+    input.setAttribute('name', name);
+  }
+}
+
+function initRepeater(repeater) {
+  inputs = repeater.querySelectorAll('[name]');
+  for(let i = 0; i < inputs.length; i++)
+  {
+    let input = inputs[i];
+    let name = input.getAttribute('name');
+    input.setAttribute('name', '');
+    input.dataset.__repeater__name = name + '[]';
+  }
+}
+
+function initBelongsTo(input) {
+  $(input).select2({
+    allowClear: true,
+    placeholder :'...',
+    ajax: {
+      url: input.dataset.url,
+      dataType: 'json',
+      data: function (params) {
+        var query = {
+          model: input.dataset.model,
+          main_model: input.dataset.main_model,
+          form_item_id: input.dataset.form_item_id,
+          dataset: JSON.stringify(input.dataset)
+        }
+        return query
+      }
+    }
+  });
+}
+
+function initializeUninitializedItems(form) {
+  items = form.querySelectorAll('[data-initialized="false"]:not(.template *)');
+  console.log(items);
+
+  for (let i = 0; i < items.length; i++) {
+    let item = items[i];
+
+    let initializeFunctionName = item.dataset.initialize_function_name;
+
+    window[initializeFunctionName](item)
+
+    item.dataset.initialized = true;
   }
 }
 
@@ -109,24 +185,26 @@ function submitForm(event) {
   }
 
   axios(ajaxOptions)
-  .then(resp => {
-    let data = resp.data;
+    .then(resp => {
+      let data = resp.data;
 
-    Swal.fire({
-      title: '<strong>' + (data.success ? window.successText : window.errorText) + '</strong>',
-      icon: data.success ? 'success' : 'error',
-      text: data.message,
-    }).then(() => {
-      if (data.success) {
-        const event = new CustomEvent('saved', { obj: data.obj });
-        form.dispatchEvent(event);
-      }
+      Swal.fire({
+        title: '<strong>' + (data.success ? window.successText : window.errorText) + '</strong>',
+        icon: data.success ? 'success' : 'error',
+        text: data.message,
+      }).then(() => {
+        if (data.success) {
+          const event = new CustomEvent('saved', {
+            obj: data.obj
+          });
+          form.dispatchEvent(event);
+        }
+      })
     })
-  })
-  .catch(handleAjaxError)
-  .finally(() => {
-    enableFromSubmitButton(form, true);
-  })
+    .catch(handleAjaxError)
+    .finally(() => {
+      enableFromSubmitButton(form, true);
+    })
 
   return false;
 }
@@ -134,7 +212,7 @@ function submitForm(event) {
 function enableFromSubmitButton(form, isEnabled) {
   let button = form.querySelector('button[type="submit"]');
 
-  if(isEnabled) {
+  if (isEnabled) {
     button.removeAttribute("disabled");
   } else {
     button.setAttribute("disabled", "disabled");

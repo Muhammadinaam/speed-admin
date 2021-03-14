@@ -1,3 +1,17 @@
 img[src=""] {
   display: none;
 }
+
+.select2-container {
+  width: 100% !important;
+  min-width: 200px !important;
+}
+
+td > .form-group > label {
+  display: none;
+}
+
+td > .form-group {
+  margin: 0;
+  padding: 0;
+}

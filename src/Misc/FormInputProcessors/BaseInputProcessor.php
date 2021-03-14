@@ -4,27 +4,32 @@ namespace MuhammadInaamMunir\SpeedAdmin\Misc\FormInputProcessors;
 
 class BaseInputProcessor{
 
-    public function process($form_item, $obj, $request)
+    public function process($form_item, $obj, $request, $repeater_index)
     {
-        $name = $form_item['name'];
-        $is_relation_field = str_contains($name, '.');
+        $name = isset($form_item['name']) ? $form_item['name'] : null;
+        $is_relation_field = $name == null ? false : str_contains($name, '.');
 
         if (!$is_relation_field) {
-            $this->processNonRelationField($form_item, $obj, $request, $name);
+            $this->processNonRelationField($form_item, $obj, $request, $name, $repeater_index);
         }
         else
         {
-            $this->processRelationField($form_item, $obj, $request, $name);
+            $this->processRelationField($form_item, $obj, $request, $name, $repeater_index);
         }
     }
 
-    public function processNonRelationField($form_item, $obj, $request, $name)
+    public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
     {
+        if($name == null) {
+            return;
+        }
+
         $empty_value = $form_item['type'] == 'checkbox' ? false : null;
-        $obj->{$name} = $request->has($name) ? $request->{$name} : $empty_value;
+        $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
+        $obj->{$name} = $request->has($name) ? $value : $empty_value;
     }
 
-    public function processRelationField($form_item, $obj, $request, $name)
+    public function processRelationField($form_item, $obj, $request, $name, $repeater_index)
     {
         throw new \Exception("To be implemented", 1);
         

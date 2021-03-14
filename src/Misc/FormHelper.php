@@ -27,23 +27,20 @@ class FormHelper{
         
         $children = isset($form_item['children']) ? $form_item['children'] : null;
 
-        $validation_rule = '';
+        $validation_rules_array = [];
+        if(isset($form_item['validation_rules'])) {
+            $validation_rules_array = $form_item['validation_rules'];
+        }
 
-        if(isset($form_item['validation_rules'])) 
-        {
-            $validation_rule = $form_item['validation_rules'];
-            
-            if($id != null) {
-                
-                if(isset($form_item['update_validation_rules'])) 
-                {
-                    $validation_rule = $form_item['update_validation_rules'];
-                }
-    
-                $validation_rule = str_replace('{{$id}}', $id, $validation_rule);
-            } else {
-                $validation_rule = str_replace('{{$id}}', '', $validation_rule);
-            }
+        if(isset($form_item['update_validation_rules']) && $id != null) {
+            $validation_rules_array = $form_item['update_validation_rules'];
+        }
+
+        foreach($validation_rules_array as $name => $validation_rule) 
+        {    
+            $validation_rule = str_replace('{{$id}}', $id, $validation_rule);
+
+            $validation_rule = str_replace(',,', ',', $validation_rule);
 
             if($obj != null)
             {
@@ -66,12 +63,8 @@ class FormHelper{
                 }
             }
 
-            $validation_rules[$form_item['name']] = $validation_rule;
+            $validation_rules[$name] = $validation_rule;
         }
-
-        // 
-        $validation_rule = str_replace(',,', ',', $validation_rule);
-
 
         if($children != null && count($children) > 0)
         {
@@ -111,26 +104,26 @@ class FormHelper{
         }
     }
 
-    private static function processFormItemRecursively($form_item, $obj, $request)
+    public static function processFormItemRecursively($form_item, $obj, $request, $repeater_index = null)
     {
         $children = isset($form_item['children']) ? $form_item['children'] : null;
         
-        FormHelper::processInputAndSetModelObjValue($form_item, $obj, $request);
+        FormHelper::processInputAndSetModelValues($form_item, $obj, $request, $repeater_index);
 
-        if($children != null && count($children) > 0)
+        if($children != null && count($children) > 0 && $form_item['type'] != 'repeater')
         {
             foreach ($children as $child_form_item)
             {
-                FormHelper::processFormItemRecursively($child_form_item, $obj, $request);
+                FormHelper::processFormItemRecursively($child_form_item, $obj, $request, $repeater_index);
             }
         }
     }
 
-    private static function processInputAndSetModelObjValue($form_item, $obj, $request)
+    private static function processInputAndSetModelValues($form_item, $obj, $request, $repeater_index)
     {
-        if(!isset($form_item['name'])) {
-            return;
-        }
+        // if(!isset($form_item['name'])) {
+        //     return;
+        // }
 
         // set obj values (process input)
         $processor_classpath = \MuhammadInaamMunir\SpeedAdmin\Misc\FormInputProcessors\BaseInputProcessor::class;
@@ -143,6 +136,6 @@ class FormHelper{
             $processor_classpath = $processor_classpath_by_type;
         }
         $processor = new $processor_classpath();
-        $processor->process($form_item, $obj, $request);
+        $processor->process($form_item, $obj, $request, $repeater_index);
     }
 }

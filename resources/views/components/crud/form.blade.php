@@ -52,10 +52,12 @@
     @if(!request()->has('dont_redirect_on_save'))
     <script>
         ready(function(){
-            document.querySelector('#form_{{$uniqid}}')
-                .addEventListener('saved', function(){
-                    window.location.href = "{{$index_url}}"
-                })
+            form = document.querySelector('#form_{{$uniqid}}')
+            form.addEventListener('saved', function(){
+                window.location.href = "{{$index_url}}"
+            })
+
+            initializeUninitializedItems(form);
         })
     </script>
     @endif
