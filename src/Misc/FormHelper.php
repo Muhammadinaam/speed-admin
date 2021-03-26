@@ -51,7 +51,7 @@ class FormHelper{
                 {
                     $is_image_deleted = request()->has($form_item_name . '_deleted') && request()->{$form_item_name . '_deleted'} == '1';
 
-                    if($form_item['type'] == 'image' && $obj->{$form_item_name} != null && !$is_image_deleted)
+                    if($form_item['type'] == 'image' && !$is_image_deleted)
                     {
                         $validation_rule = str_replace('required', '', $validation_rule);
                     }
@@ -84,6 +84,7 @@ class FormHelper{
             $obj = $id != null ? $model->find($id) : $model;
     
             $form_items = $model->getFormItems();
+            $form_items = FormHelper::orderFormItems($form_items);
             foreach ($form_items as $form_item)
             {
                 FormHelper::processFormItemRecursively($form_item, $obj, $request);
@@ -107,16 +108,35 @@ class FormHelper{
     public static function processFormItemRecursively($form_item, $obj, $request, $repeater_index = null)
     {
         $children = isset($form_item['children']) ? $form_item['children'] : null;
-        
+            
         FormHelper::processInputAndSetModelValues($form_item, $obj, $request, $repeater_index);
 
         if($children != null && count($children) > 0 && $form_item['type'] != 'repeater')
         {
+            $children = FormHelper::orderFormItems($children);
             foreach ($children as $child_form_item)
             {
                 FormHelper::processFormItemRecursively($child_form_item, $obj, $request, $repeater_index);
             }
         }
+
+    }
+
+    public static function orderFormItems($form_items)
+    {
+        $ordered_form_items = collect($form_items);
+
+        $ordered_form_items = $ordered_form_items->sortBy(function($form_item){
+            $type = isset($form_item['type']) ? $form_item['type'] : null;
+            $input_processing_requires_model_save = isset($form_item['input_processing_requires_model_save']) ? 
+                $form_item['input_processing_requires_model_save'] : false;
+
+            $order = $type == 'repeater' || $type == 'belongsToMany' || $input_processing_requires_model_save ?
+                1 : 0;
+            return $order;
+        });
+
+        return $ordered_form_items->toArray();
     }
 
     private static function processInputAndSetModelValues($form_item, $obj, $request, $repeater_index)

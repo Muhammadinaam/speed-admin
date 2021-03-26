@@ -19,7 +19,9 @@ class SelectController extends BaseController
 
         foreach($main_model->getFormItemsFlat() as $form_item) {
             if($form_item['id'] == $request->form_item_id) {
-                $query = $form_item['where']($query);
+                if(isset($form_item['where'])) {
+                    $query = $form_item['where']($query);
+                }
             }
         }
 

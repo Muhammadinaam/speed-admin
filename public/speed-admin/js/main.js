@@ -67,6 +67,14 @@ function handleAjaxError(error) {
 
 function removeRepeatedItem(button) {
   let repeatedItem = button.closest('.repeated-item');
+  let repeater = button.closest('.repeater');
+  let deletedItemsInput = repeater.querySelector('.deleted_items_input');
+  let deletedItemId = repeatedItem.querySelector(".id_input").value;
+  
+  if (deletedItemId != -1) {
+    deletedItemsInput.value = deletedItemsInput.value + "," + deletedItemId;
+  }
+
   repeatedItem.parentNode.removeChild(repeatedItem);
 }
 
@@ -100,9 +108,29 @@ function initRepeater(repeater) {
   for(let i = 0; i < inputs.length; i++)
   {
     let input = inputs[i];
-    let name = input.getAttribute('name');
-    input.setAttribute('name', '');
-    input.dataset.__repeater__name = name + '[]';
+
+    if(input.classList.contains('deleted_items_input')) {
+      continue;
+    }
+
+    // only set names of inputs which are children of this
+    // repeater and not the children of a nested repeater 
+    if(input.closest('.repeater') == repeater) {
+      
+      if( input.closest('.template') != null )  // inside template
+      {
+        let name = input.getAttribute('name');
+        input.setAttribute('name', '');
+        input.dataset.__repeater__name = name + '[]';
+      }
+      else
+      {
+        let name = input.getAttribute('name');
+        
+        input.setAttribute('name', name + '[]');
+      }
+
+    }
   }
 }
 
@@ -169,9 +197,32 @@ function removeSelectedImage(button) {
   formGroup.querySelector('input[type="hidden"]').value = '1';
 }
 
+function setIndexOnMultipleSelectsInRepeaters(form) {
+  let repeaters = form.querySelectorAll('.repeater');
+  for(let i = 0; i < repeaters.length; i++) {
+    let selects = repeaters[i].querySelectorAll('select[multiple]');
+    let index = 0;
+    for(let j = 0; j < selects.length; j++) {
+      if(selects[j].closest('.repeater') == repeaters[i]) {
+        let nameWithoutBrackets = selects[j].getAttribute('name');
+        if (nameWithoutBrackets) {
+          let bracketStart = nameWithoutBrackets.indexOf("[");
+          nameWithoutBrackets = nameWithoutBrackets.substring(0, bracketStart);
+  
+          let newName = nameWithoutBrackets + '[' + index + '][]';
+          selects[j].setAttribute('name', newName)
+          index++;
+        }
+      }
+    }
+  }
+}
+
 function submitForm(event) {
   event.preventDefault();
   let form = event.target;
+
+  setIndexOnMultipleSelectsInRepeaters(form);
 
   enableFromSubmitButton(form, false);
 

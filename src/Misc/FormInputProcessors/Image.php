@@ -9,11 +9,15 @@ class Image extends BaseInputProcessor{
     public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
     {
         $deleted_value = $repeater_index === null ? $request->{$name . '_deleted'} : $request->{$name . '_deleted'}[$repeater_index];
-        $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
+
+        $value = null;
+        if($request->has($name) && isset($request->{$name}[$repeater_index])) {
+            $value = $request->{$name}[$repeater_index];
+        }
 
         $is_image_deleted = $request->has($name . '_deleted') && $deleted_value == '1';
 
-        if ($request->has($name) && !$is_image_deleted) {
+        if ($value != null && !$is_image_deleted) {
                 
             // delete old picture
             Storage::delete($obj->{$name});

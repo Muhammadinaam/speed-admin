@@ -11,25 +11,41 @@ class Repeater extends BaseInputProcessor{
     {
         if(isset($form_item['children']))
         {
+            if($obj->getKey() == null) {
+                $obj->save();
+            }
+
             $relation_name = $form_item['relation_name'];
+            $foreign_key_name = $obj->{$relation_name}()->getForeignKeyName();
+            $local_key_name = $obj->{$relation_name}()->getLocalKeyName();
+
             for($i = 0; $i < count($request['__'.$form_item['id']]); $i++)
             {
-                $model = app()->bound($form_item['model']) ? app()->make($form_item['model']) : new $form_item['model']();
+                $id = $request['__'.$form_item['id']][$i];
+                $repeated_obj = app()->bound($form_item['model']) ? app()->make($form_item['model']) : new $form_item['model']();
 
+                if($id != -1) {
+                    $repeated_obj = $repeated_obj->where($repeated_obj->getKeyName(), $id)->first();
+                }
+
+                $repeated_obj->{$foreign_key_name} = $obj->getKey();
+
+                $form_item['children'] = FormHelper::orderFormItems($form_item['children']);
                 foreach ($form_item['children'] as $child_form_item)
                 {
-                    FormHelper::processFormItemRecursively($child_form_item, $model, $request, $i);
+                    FormHelper::processFormItemRecursively($child_form_item, $repeated_obj, $request, $i);
                 }
 
-                $foreign_key_name = $obj->{$relation_name}()->getForeignKeyName();
-
-                if($obj->id == null) {
-                    $obj->save();
+                if($repeated_obj->getKey() == null) {
+                    $repeated_obj->save();
                 }
+            }
 
-                $model->{$foreign_key_name} = $obj->id;
+            $deleted_items_input_name = '__'.$form_item['id'] . '_deleted_items';
+            if ($request->has($deleted_items_input_name)) {
+                $deleted_ids = explode(',', $request[$deleted_items_input_name]);
 
-                $model->save();
+                $repeated_obj->whereIn($repeated_obj->getKeyName(), $deleted_ids)->delete();
             }
         }
     }
