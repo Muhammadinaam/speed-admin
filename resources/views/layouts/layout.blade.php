@@ -39,7 +39,9 @@
     <!-- Main styles for this application-->
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/css/style.css')}}" rel="stylesheet">
 
+    <!-- select2 -->
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/css/select2.min.css')}}" rel="stylesheet">
+
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'flatpickr/css/fp.min.css')}}" rel="stylesheet">
 
     <!-- Global site tag (gtag.js) - Google Analytics-->

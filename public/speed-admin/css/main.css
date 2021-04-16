@@ -4,7 +4,7 @@ img[src=""] {
 
 .select2-container {
   width: 100% !important;
-  min-width: 200px !important;
+  /* min-width: 200px !important; */
 }
 
 td > .form-group > label {

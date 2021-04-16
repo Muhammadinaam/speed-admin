@@ -46,10 +46,38 @@
             </div>
         </form>
 
+        <div class="row mb-2">
+            <div class="col-md-6 input-group input-group-sm">
+                <select class="form-control">
+                    <option value="">---</option>
+                    @foreach($model->getGridActions() as $action)
+                    <option value="{{$action['id']}}">{{$action['title']}}</option>
+                    @endforeach
+                </select>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary">{{__('Apply bulk action on selected')}}</button>
+                </div>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary">{{__('Apply on all')}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="selected_items_container_{{$uniqid}}" class="mb-2">
+            <input type="hidden" name="selected_items_ids_{{$uniqid}}">
+            <textarea style="display:none;" class="form-control" readonly name="selected_items_texts_{{$uniqid}}"></textarea>
+        </div>
+
         <div class="table-responsive">
             <table id="table_{{$uniqid}}" class="table table-sm">
                 <thead>
                     <tr class="bg-dark">
+                        <th class="checkboxes">
+
+                        </th>
+                        <th class="radiobuttons">
+                            
+                        </th>
                         @foreach($model->getGridColumns() as $column)
                             <th style="white-space: nowrap;" data-id="{{ $column['id'] }}">
                                 {{ $column['title'] }}
@@ -223,6 +251,74 @@
     function toggleFilters_{{$uniqid}}(){
         document.querySelector('#form-options-{{$uniqid}} .filters').classList.toggle('d-none');
     }
+
+    function clearSelectedItems_{{$uniqid}}() {
+        let textInput = document.querySelector("[name='selected_items_texts_{{$uniqid}}']");
+        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
+        textInput.value = '';
+        idInput.value = '';
+    }
+
+    function addRemoveSelectedItems_{{$uniqid}}(isAdd, id, text) {
+        let SEPERATOR = ',';
+        let textInput = document.querySelector("[name='selected_items_texts_{{$uniqid}}']");
+        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
+
+        let idsArray = idInput.value ? idInput.value.split(SEPERATOR) : [];
+        let textsArray = idsArray.length == 0 ? [] : textInput.value.split(SEPERATOR);
+
+        if (isAdd) {
+            if (!idsArray.includes(id)) {
+                idsArray.push(id)
+                textsArray.push(text)
+            }
+        } else {
+            // remove
+            idsArray = idsArray.filter(x => x != id)
+            textsArray = textsArray.filter(x => x != text)
+        }
+
+        idInput.value = idsArray.join(SEPERATOR);
+        textInput.value = textsArray.join(SEPERATOR)
+    }
+
+    function updateSelection_{{$uniqid}}() {
+        allCheckboxes = document.querySelectorAll('#table_{{$uniqid}} .selectors');
+        allRadioButtons = document.querySelectorAll('#table_{{$uniqid}} .selectors');
+
+        let SEPERATOR = ',';
+        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
+        let idsArray = idInput.value.split(',');
+
+        for(let i = 0; i < allCheckboxes.length; i++) {
+            allCheckboxes[i].checked = false;
+            allRadioButtons[i].checked = false;
+        }
+
+        let selectorsCheckedCount = 0;
+        for(let i = 0; i < idsArray.length; i++) {
+            let query = '#table_{{$uniqid}} [data-id="'+idsArray[i]+'"].selectors';
+            let selectors = document.querySelectorAll(query);
+            for(let j = 0; j < selectors.length; j++) {
+                selectors[j].checked = true;
+                selectorsCheckedCount++;
+            }
+        }
+
+        document.querySelector("[name='selected_items_texts_{{$uniqid}}']").style.display = 
+            selectorsCheckedCount > 0 ? 'block' : 'none';
+    } 
+
+    function gridCheckboxClicked_{{$uniqid}}(checkbox, id, text) {
+        addRemoveSelectedItems_{{$uniqid}}(checkbox.checked, id, text);
+        updateSelection_{{$uniqid}}()
+    }
+
+    function gridRadioClicked_{{$uniqid}}(radio, id, text) {
+        clearSelectedItems_{{$uniqid}}()
+        addRemoveSelectedItems_{{$uniqid}}(radio.checked, id, text);
+        updateSelection_{{$uniqid}}()
+    }
     
     function getData_{{$uniqid}}() {
 
@@ -261,12 +357,19 @@
             let tableRows = '';
             for(let i = 0; i < items.length; i++) {
                 tableRows += '<tr>';
+
+                tableRows += `<td class="checkboxes">
+                    <input class="selectors" type="checkbox" data-id='`+items[i]['__id__']+`' onclick="gridCheckboxClicked_{{$uniqid}}(this, '`+items[i]['__id__']+`', '`+items[i]['__text__']+`')" />
+                </td>`;
+                tableRows += `<td class="radiobuttons">
+                    <input class="selectors" type="radio" data-id='`+items[i]['__id__']+`' name="radio_{{$uniqid}}" onclick="gridRadioClicked_{{$uniqid}}(this, '`+items[i]['__id__']+`', '`+items[i]['__text__']+`')" />
+                </td>`;
                 
                 let keys = Object.keys(items[i]);
 
                 for(let j = 0; j < keys.length; j++) {
                     let key = keys[j];
-                    if (key != '__id__') {
+                    if (key != '__id__' && key != '__text__') {
                         tableRows += '<td>'+items[i][key]+'</td>';
                     }
                 }
@@ -286,12 +389,19 @@
                 </button>`
                 @endif
 
-                tableRows += '<td>'+editButton+deleteButton+'</td>';
+                let otherActionButtons = '';
+                @foreach($model->getGridActions() as $action)
+                otherActionButtons += `{!! $action['button_html'] !!}`;
+                @endforeach
+
+                tableRows += '<td>'+otherActionButtons+editButton+deleteButton+'</td>';
 
                 tableRows += '</tr>';
             }
 
             tableBody.innerHTML = tableRows;
+
+            updateSelection_{{$uniqid}}()
 
             window.history.pushState("object or string", "Title", indexUrl);
         })

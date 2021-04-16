@@ -107,6 +107,7 @@ class GridHelper{
         foreach ($items as $index => $item) {
             $rendered_item = new \stdClass();
             $rendered_item->__id__ = $item->id;
+            $rendered_item->__text__ = $item->text;
             foreach ($model->getGridColumns() as $grid_column_index => $grid_column) {
 
                 $render_function = $grid_column['render_function'];

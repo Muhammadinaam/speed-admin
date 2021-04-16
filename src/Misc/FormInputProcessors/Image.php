@@ -10,10 +10,7 @@ class Image extends BaseInputProcessor{
     {
         $deleted_value = $repeater_index === null ? $request->{$name . '_deleted'} : $request->{$name . '_deleted'}[$repeater_index];
 
-        $value = null;
-        if($request->has($name) && isset($request->{$name}[$repeater_index])) {
-            $value = $request->{$name}[$repeater_index];
-        }
+        $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
 
         $is_image_deleted = $request->has($name . '_deleted') && $deleted_value == '1';
 

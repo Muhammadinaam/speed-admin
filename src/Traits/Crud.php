@@ -20,6 +20,7 @@ trait Crud{
 
     private $grid_columns = [];
     private $form_items_tree;
+    private $grid_actions = [];
 
     public function setSingularTitle($value)
     {
@@ -95,6 +96,23 @@ trait Crud{
                 array_splice( $this->grid_columns, $before_id_index, 0, $column );
             }
         }
+    }
+
+    public function addGridAction(array $action)
+    {
+        // check if id already exists
+        foreach($this->grid_actions as $grid_action) {
+            if($grid_action['id'] == $action['id']) {
+                throw new \Exception("Duplicate action id not allowed. id [".$action['id']."] already exists", 1);      
+            }
+        }
+
+        array_push($this->grid_actions, $action);
+    }
+
+    public function getGridActions()
+    {
+        return $this->grid_actions;
     }
 
     /**
