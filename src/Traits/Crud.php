@@ -115,6 +115,11 @@ trait Crud{
         return $this->grid_actions;
     }
 
+    public function getGridActionById($id)
+    {
+        return collect($this->grid_actions)->firstWhere('id', $id);
+    }
+
     /**
      * $column = [
      *      'id' => 'picture',

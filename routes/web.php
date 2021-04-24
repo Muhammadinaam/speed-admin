@@ -7,6 +7,7 @@ use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\AuthController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\LanguageController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\UserController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\SelectController;
+use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\GridController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::middleware(['web', 'admin_auth', 'language'])
 
     Route::get('/', function () {
         return view('speed-admin::layouts.layout');
-    });
+    })->name('base');
 
     Route::view(
         '/profile',
@@ -52,6 +53,8 @@ Route::middleware(['web', 'admin_auth', 'language'])
     Route::get('users-data', [UserController::class, 'getData'])->name('users.get-data');
 
     Route::get('select-model', [SelectController::class, 'selectModel'])->name('select.model');
+
+    Route::post('perform-grid-action', [GridController::class, 'performGridAction']);
 });
 
 Route::middleware(['web', 'language'])

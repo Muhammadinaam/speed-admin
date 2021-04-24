@@ -10,7 +10,7 @@
                 <div class="input-group input-group-sm" style="display: inline-flex; width: 250px">
                     <input form="form-options-{{ $uniqid }}" type="text" name="__search__" class="form-control" placeholder="click search button">
                     <div class="input-group-append">
-                        <button onclick="getData_{{$uniqid}}()" class="btn btn-outline-secondary" type="button">
+                        <button onclick="getGridData('{{$uniqid}}')" class="btn btn-outline-secondary" type="button">
                             Search
                         </button>
                     </div>
@@ -19,7 +19,7 @@
             <div class="col-md-4 text-{{ $is_rtl ? 'left' : 'right' }}">
 
 
-                <button class="btn btn-sm btn-info" onclick="toggleFilters_{{$uniqid}}()">
+                <button class="btn btn-sm btn-info" onclick="toggleGridFilters('{{$uniqid}}')">
                     <i class="cil-filter"></i> {{ __('Filter') }}
                 </button>
                 @if($model->_is_add_enabled)
@@ -48,17 +48,17 @@
 
         <div class="row mb-2">
             <div class="col-md-6 input-group input-group-sm">
-                <select class="form-control">
+                <select class="form-control" id="grid_action_{{$uniqid}}">
                     <option value="">---</option>
                     @foreach($model->getGridActions() as $action)
                     <option value="{{$action['id']}}">{{$action['title']}}</option>
                     @endforeach
                 </select>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary">{{__('Apply bulk action on selected')}}</button>
+                    <button type="button" onclick="gridActionSelectedBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply bulk action on selected')}}</button>
                 </div>
                 <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-secondary">{{__('Apply on all')}}</button>
+                    <button type="button" onclick="gridActionAllBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply on all')}}</button>
                 </div>
             </div>
         </div>
@@ -69,22 +69,51 @@
         </div>
 
         <div class="table-responsive">
-            <table id="table_{{$uniqid}}" class="table table-sm">
+
+            <?php
+            $other_action_buttons = '';
+            foreach($model->getGridActions() as $action) {
+                $other_action_buttons .= '<button type="button" '.
+                    'onclick="gridOtherActionButtonClicked(\''.$uniqid.'\', this, \''.$action['id'].'\')" '.
+                    'class="'.$action['button_classes'].'">' . 
+                    $action['button_inner_html'] . 
+                '</button>';
+            }
+            ?>
+            <div style="display: none;" id="other_actions_buttons_template_{{$uniqid}}">
+                {!! $other_action_buttons !!}
+            </div>
+
+            <table
+                data-model="{{urlencode(get_class($model))}}"
+                data-has_edit_permission="{{\SpeedAdminPermissions::hasPermission($model->_edit_permission_slug)}}"
+                data-has_delete_permission="{{\SpeedAdminPermissions::hasPermission($model->_delete_permission_slug)}}"
+                data-get_data_url="{{$get_data_url}}"
+                data-index_url="{{$index_url}}"
+                id="table_{{$uniqid}}" 
+                class="table table-sm">
                 <thead>
                     <tr class="bg-dark">
+                    
+                        @if(isset($show_check_boxes) && $show_check_boxes)
                         <th class="checkboxes">
 
                         </th>
+                        @endif
+
+                        @if(isset($show_radio_buttons) && $show_radio_buttons)
                         <th class="radiobuttons">
                             
                         </th>
+                        @endif
+
                         @foreach($model->getGridColumns() as $column)
                             <th style="white-space: nowrap;" data-id="{{ $column['id'] }}">
                                 {{ $column['title'] }}
                                 @if( isset($column['order_by']) )
                                 <button 
                                     class="btn-order btn btn-secondary btn-sm py-0 px-1" 
-                                    id="order_button_{{$column['id']}}_{{$uniqid}}" onclick='setOrder_{{$uniqid}}("{{$column['id']}}")'>
+                                    id="order_button_{{$column['id']}}_{{$uniqid}}" onclick='setGridOrder("{{$uniqid}}", "{{$column['id']}}")'>
                                         <span></span>
                                         <i class="fas fa-arrows-alt-v"></i>
                                 </button>
@@ -109,7 +138,7 @@
             </div>
             <div class="col-md-12">
                 <div class="row px-3">
-                    <select onchange="getData_{{$uniqid}}()" class="form-control-sm" name="per_page" form="form-options-{{$uniqid}}">
+                    <select onchange="getGridData('{{$uniqid}}')" class="form-control-sm" name="per_page" form="form-options-{{$uniqid}}">
                         @foreach([5, 10, 20, 30, 50, 100] as $per_page)
                         <option value="{{$per_page}}" 
                         {{request()->per_page == '' && $per_page == 10 ? 'selected' : request()->per_page == $per_page ? 'selected' : ''}}>
@@ -120,7 +149,7 @@
                     <span id="table-pagination-{{$uniqid}}">
                     </span>
                     <span>
-                        <button onclick="getData_{{$uniqid}}()" class="btn btn-outline-primary btn-sm">
+                        <button onclick="getGridData('{{$uniqid}}')" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-circle-notch"></i> {{__('Reload')}}
                         </button>
                     </span>
@@ -131,7 +160,7 @@
 </div>
 <script>
     ready(function(){
-        getData_{{$uniqid}}();
+        getGridData('{{$uniqid}}')
 
         document.addEventListener('click', function (event) {
 
@@ -142,274 +171,11 @@
                 // Log the clicked element in the console
                 let page = getParameterByNameFromUrl('page', event.target.href)
                 document.querySelector('#form-options-{{$uniqid}} [name="page"]').value = page;
-                getData_{{$uniqid}}();
+                getGridData('{{$uniqid}}');
             }
 
         }, false);
 
-        updateOrderButtonsUI_{{$uniqid}}()
+        updateGridOrderButtonsUI('{{$uniqid}}')
     })
-
-    function deleteItem_{{$uniqid}}(button, id) {
-        Swal.fire({
-            title: "{{__('Are you sure?')}}",
-            text: "{!! __('You won\'t be able to revert this!') !!}",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: "{{__('Yes, delete it!')}}"
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                axios.post("{{$index_url}}/" + id, {
-                    '_method': 'DELETE', 
-                    '_token': "{{@csrf_token()}}"
-                })
-                .catch(error => {
-                    handleAjaxError(error);
-                })
-                .then((response) => {
-                    data = response.data;
-                    Swal.fire(
-                    "",
-                    data.message,
-                    data.success ? 'success' : 'error'
-                    )
-
-                    getData_{{$uniqid}}()
-                })
-            }
-        })
-    }
-
-    function setOrder_{{$uniqid}}(fieldName) {
-        // update order field
-        let order = document.querySelector('#form-options-{{$uniqid}} [name="order"]').value;
-        let orderItems = order == '' ? [] :order.split(',');
-        let newOrderItems = [];
-
-        let alreadyExists = false;
-        for(let i = 0; i < orderItems.length; i++) {
-            let orderItemParts = orderItems[i].split(':');
-            let orderItemField = orderItemParts[0];
-            let orderItemAscOrDesc = orderItemParts[1];
-
-            if(orderItemField == fieldName) {
-                alreadyExists = true;
-
-                if(orderItemAscOrDesc == 'asc')
-                {
-                    orderItemAscOrDesc = 'desc';
-                    newOrderItems.push(orderItemField + ":" + orderItemAscOrDesc);
-                }
-            } else {
-                newOrderItems.push(orderItemField + ":" + orderItemAscOrDesc);
-            }
-        }
-
-        if(alreadyExists == false) {
-            newOrderItems.push(fieldName+":asc")
-        }
-        document.querySelector('#form-options-{{$uniqid}} [name="order"]').value = newOrderItems.join(',');
-
-        // update order buttons look
-        updateOrderButtonsUI_{{$uniqid}}();
-
-        // get data
-        getData_{{$uniqid}}()
-    }
-
-    function updateOrderButtonsUI_{{$uniqid}}() {
-
-        // reset all buttons
-        buttons = document.querySelectorAll('#table_{{$uniqid}} .btn-order')
-        for(let i = 0; i < buttons.length; i++) {
-            const button = buttons[i];
-            button.classList.remove('btn-info');
-            button.classList.add('btn-secondary');
-            button.querySelector('span').innerHTML = '';
-            button.querySelector('i').className = 'fas fa-arrows-alt-v';
-        }
-
-        let order = document.querySelector('#form-options-{{$uniqid}} [name="order"]').value;
-        let orderItems = order == '' ? [] :order.split(',');
-        for(let i = 0; i < orderItems.length; i++) {
-            let orderItem = orderItems[i];
-            let orderItemParts = orderItem.split(':');
-            let orderItemField = orderItemParts[0];
-            let orderItemAscOrDesc = orderItemParts[1];
-
-            let button = document.querySelector('#order_button_'+orderItemField+'_{{$uniqid}}');
-            button.classList.remove('btn-secondary');
-            button.classList.add('btn-info');
-            button.querySelector('span').innerHTML = i+1;
-            button.querySelector('i').className = orderItemAscOrDesc == 'asc' ? 'fas fa-arrow-up' : 'fas fa-arrow-down';
-        }
-    }
-
-    function toggleFilters_{{$uniqid}}(){
-        document.querySelector('#form-options-{{$uniqid}} .filters').classList.toggle('d-none');
-    }
-
-    function clearSelectedItems_{{$uniqid}}() {
-        let textInput = document.querySelector("[name='selected_items_texts_{{$uniqid}}']");
-        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
-        textInput.value = '';
-        idInput.value = '';
-    }
-
-    function addRemoveSelectedItems_{{$uniqid}}(isAdd, id, text) {
-        let SEPERATOR = ',';
-        let textInput = document.querySelector("[name='selected_items_texts_{{$uniqid}}']");
-        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
-
-        let idsArray = idInput.value ? idInput.value.split(SEPERATOR) : [];
-        let textsArray = idsArray.length == 0 ? [] : textInput.value.split(SEPERATOR);
-
-        if (isAdd) {
-            if (!idsArray.includes(id)) {
-                idsArray.push(id)
-                textsArray.push(text)
-            }
-        } else {
-            // remove
-            idsArray = idsArray.filter(x => x != id)
-            textsArray = textsArray.filter(x => x != text)
-        }
-
-        idInput.value = idsArray.join(SEPERATOR);
-        textInput.value = textsArray.join(SEPERATOR)
-    }
-
-    function updateSelection_{{$uniqid}}() {
-        allCheckboxes = document.querySelectorAll('#table_{{$uniqid}} .selectors');
-        allRadioButtons = document.querySelectorAll('#table_{{$uniqid}} .selectors');
-
-        let SEPERATOR = ',';
-        let idInput = document.querySelector("[name='selected_items_ids_{{$uniqid}}']");
-        let idsArray = idInput.value.split(',');
-
-        for(let i = 0; i < allCheckboxes.length; i++) {
-            allCheckboxes[i].checked = false;
-            allRadioButtons[i].checked = false;
-        }
-
-        let selectorsCheckedCount = 0;
-        for(let i = 0; i < idsArray.length; i++) {
-            let query = '#table_{{$uniqid}} [data-id="'+idsArray[i]+'"].selectors';
-            let selectors = document.querySelectorAll(query);
-            for(let j = 0; j < selectors.length; j++) {
-                selectors[j].checked = true;
-                selectorsCheckedCount++;
-            }
-        }
-
-        document.querySelector("[name='selected_items_texts_{{$uniqid}}']").style.display = 
-            selectorsCheckedCount > 0 ? 'block' : 'none';
-    } 
-
-    function gridCheckboxClicked_{{$uniqid}}(checkbox, id, text) {
-        addRemoveSelectedItems_{{$uniqid}}(checkbox.checked, id, text);
-        updateSelection_{{$uniqid}}()
-    }
-
-    function gridRadioClicked_{{$uniqid}}(radio, id, text) {
-        clearSelectedItems_{{$uniqid}}()
-        addRemoveSelectedItems_{{$uniqid}}(radio.checked, id, text);
-        updateSelection_{{$uniqid}}()
-    }
-    
-    function getData_{{$uniqid}}() {
-
-        document.getElementById("loader-{{$uniqid}}").style.display = 'block';
-        document.getElementById("table-body-{{$uniqid}}").innerHTML = '';
-        document.getElementById("table-pagination-info-{{$uniqid}}").innerHTML = '';
-
-        let getDataUrl = "{{$get_data_url}}"
-        let indexUrl = new URL("{{$index_url}}")
-        let url = new URL(getDataUrl);
-
-        var form = document.querySelector('#form-options-{{$uniqid}}');
-        var data = new FormData(form);
-
-        url.search = new URLSearchParams(data)
-        indexUrl.search = new URLSearchParams(data);
-
-        axios.get(url)
-        .then(response => {
-            let data = response.data;
-
-            let items = data.paginated_data.data;
-
-            let tableBody = document.getElementById("table-body-{{$uniqid}}");
-            let tablePagination = document.getElementById("table-pagination-{{$uniqid}}");
-
-            tablePagination.innerHTML = '';
-            tablePagination.innerHTML = data.links;
-            let pagination = document.querySelector("#table-pagination-{{$uniqid}} .pagination");
-            if(pagination) {
-                pagination.classList.add('pagination-sm');
-            }
-
-            document.getElementById("table-pagination-info-{{$uniqid}}").innerHTML = data.pagination_info;
-
-            let tableRows = '';
-            for(let i = 0; i < items.length; i++) {
-                tableRows += '<tr>';
-
-                tableRows += `<td class="checkboxes">
-                    <input class="selectors" type="checkbox" data-id='`+items[i]['__id__']+`' onclick="gridCheckboxClicked_{{$uniqid}}(this, '`+items[i]['__id__']+`', '`+items[i]['__text__']+`')" />
-                </td>`;
-                tableRows += `<td class="radiobuttons">
-                    <input class="selectors" type="radio" data-id='`+items[i]['__id__']+`' name="radio_{{$uniqid}}" onclick="gridRadioClicked_{{$uniqid}}(this, '`+items[i]['__id__']+`', '`+items[i]['__text__']+`')" />
-                </td>`;
-                
-                let keys = Object.keys(items[i]);
-
-                for(let j = 0; j < keys.length; j++) {
-                    let key = keys[j];
-                    if (key != '__id__' && key != '__text__') {
-                        tableRows += '<td>'+items[i][key]+'</td>';
-                    }
-                }
-
-                // action column
-                let editButton = '';
-                @if(\SpeedAdminPermissions::hasPermission($model->_edit_permission_slug))
-                editButton = `<a href="{{$index_url}}/`+items[i].__id__+`/edit" class="btn btn-sm btn-info" >
-                    <i class="fas fa-edit"></i>
-                </a>`
-                @endif
-
-                let deleteButton = '';
-                @if(\SpeedAdminPermissions::hasPermission($model->_delete_permission_slug))
-                deleteButton = `<button type="button" onclick="deleteItem_{{$uniqid}}(this, `+items[i].__id__+`)" class="btn btn-sm btn-danger" >
-                    <i class="fas fa-trash"></i>
-                </button>`
-                @endif
-
-                let otherActionButtons = '';
-                @foreach($model->getGridActions() as $action)
-                otherActionButtons += `{!! $action['button_html'] !!}`;
-                @endforeach
-
-                tableRows += '<td>'+otherActionButtons+editButton+deleteButton+'</td>';
-
-                tableRows += '</tr>';
-            }
-
-            tableBody.innerHTML = tableRows;
-
-            updateSelection_{{$uniqid}}()
-
-            window.history.pushState("object or string", "Title", indexUrl);
-        })
-        .catch(error => {
-            handleAjaxError(error)
-        })
-        .finally(() => {
-            document.getElementById("loader-{{$uniqid}}").style.display = 'none';
-        });
-    }
 </script>

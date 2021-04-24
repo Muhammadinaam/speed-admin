@@ -8,6 +8,7 @@
         'model' => $model,
         'index_url' => $index_url,
         'get_data_url' => $get_data_url,
+        'show_check_boxes' => true
     ])
     @endcomponent()
 

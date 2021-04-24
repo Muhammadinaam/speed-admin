@@ -41,6 +41,7 @@
 
     <!-- select2 -->
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'select2-4.0.13/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'select2-bootstrap4-theme.min.css')}}" rel="stylesheet">
 
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'flatpickr/css/fp.min.css')}}" rel="stylesheet">
 
@@ -66,11 +67,16 @@
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/css/main.css')}}" rel="stylesheet">
     
     <script>
+        window.adminBaseUrl = "{{route('admin.base')}}";
         window.adminLoginUrl = "{{route('admin.login')}}";
         window.ajaxError = "{{__('Error occurred while making request to server. Please try again.')}}"
         window.noPermissionMessage = "{!! __('You don\'t have permission to perform this operation') !!}";
         window.errorText = "{{__('Error')}}"
         window.successText = "{{__('Success')}}"
+        window.areYouSure = "{{__('Are you sure?')}}";
+        window.youCantUndoIt = "{!! __('You won\'t be able to revert this!') !!}";
+        window.yesIamSure = "{{__('Yes, I am sure.')}}";
+        window.csrfToken = "{{csrf_token()}}";
     </script>
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'jquery-3.5.1.min.js')}}"></script>
