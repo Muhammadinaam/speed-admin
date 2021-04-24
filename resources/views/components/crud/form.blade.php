@@ -3,7 +3,7 @@
 ?>
 <form
     id="form_{{$uniqid}}"
-    onsubmit="submitForm(event)"
+    onsubmit="speedAdmin.submitForm(event)"
     action="{{ isset($obj) ? $index_url . '/' . $obj->id : $index_url }}" 
     method="post" 
     data-uniqid="{{$uniqid}}">
@@ -51,13 +51,13 @@
 
     @if(!request()->has('dont_redirect_on_save'))
     <script>
-        ready(function(){
+        speedAdmin.ready(function(){
             form = document.querySelector('#form_{{$uniqid}}')
             form.addEventListener('saved', function(){
                 window.location.href = "{{$index_url}}"
             })
 
-            initializeUninitializedItems(form);
+            speedAdmin.initializeUninitializedItems(form);
         })
     </script>
     @endif

@@ -13,8 +13,8 @@
     <br>
     <label>{{ $form_item['label'] }}</label>
     <br>
-    <input type="file" class="" name="{{ $form_item['name'] }}" data-id="{{$form_item['id']}}" onchange="showSelectedImage(this);">
-    <button onclick="removeSelectedImage(this)" type="button" class="btn btn-sm btn-danger btn-remove mt-1 {{$is_image_set ? '' : 'd-none'}}">
+    <input type="file" class="" name="{{ $form_item['name'] }}" data-id="{{$form_item['id']}}" onchange="speedAdmin.showSelectedImage(this);">
+    <button onclick="speedAdmin.removeSelectedImage(this)" type="button" class="btn btn-sm btn-danger btn-remove mt-1 {{$is_image_set ? '' : 'd-none'}}">
         <i class="fas fa-trash"></i> {{__('Remove image')}}
     </button>
 </div>

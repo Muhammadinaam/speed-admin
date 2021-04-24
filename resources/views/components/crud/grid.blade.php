@@ -10,7 +10,7 @@
                 <div class="input-group input-group-sm" style="display: inline-flex; width: 250px">
                     <input form="form-options-{{ $uniqid }}" type="text" name="__search__" class="form-control" placeholder="click search button">
                     <div class="input-group-append">
-                        <button onclick="getGridData('{{$uniqid}}')" class="btn btn-outline-secondary" type="button">
+                        <button onclick="speedAdmin.getGridData('{{$uniqid}}')" class="btn btn-outline-secondary" type="button">
                             Search
                         </button>
                     </div>
@@ -19,7 +19,7 @@
             <div class="col-md-4 text-{{ $is_rtl ? 'left' : 'right' }}">
 
 
-                <button class="btn btn-sm btn-info" onclick="toggleGridFilters('{{$uniqid}}')">
+                <button class="btn btn-sm btn-info" onclick="speedAdmin.toggleGridFilters('{{$uniqid}}')">
                     <i class="cil-filter"></i> {{ __('Filter') }}
                 </button>
                 @if($model->_is_add_enabled)
@@ -55,10 +55,10 @@
                     @endforeach
                 </select>
                 <div class="input-group-append">
-                    <button type="button" onclick="gridActionSelectedBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply bulk action on selected')}}</button>
+                    <button type="button" onclick="speedAdmin.gridActionSelectedBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply bulk action on selected')}}</button>
                 </div>
                 <div class="input-group-append">
-                    <button type="button" onclick="gridActionAllBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply on all')}}</button>
+                    <button type="button" onclick="speedAdmin.gridActionAllBtnClicked('{{$uniqid}}')" class="btn btn-outline-secondary">{{__('Apply on all')}}</button>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
             $other_action_buttons = '';
             foreach($model->getGridActions() as $action) {
                 $other_action_buttons .= '<button type="button" '.
-                    'onclick="gridOtherActionButtonClicked(\''.$uniqid.'\', this, \''.$action['id'].'\')" '.
+                    'onclick="speedAdmin.gridOtherActionButtonClicked(\''.$uniqid.'\', this, \''.$action['id'].'\')" '.
                     'class="'.$action['button_classes'].'">' . 
                     $action['button_inner_html'] . 
                 '</button>';
@@ -113,7 +113,7 @@
                                 @if( isset($column['order_by']) )
                                 <button 
                                     class="btn-order btn btn-secondary btn-sm py-0 px-1" 
-                                    id="order_button_{{$column['id']}}_{{$uniqid}}" onclick='setGridOrder("{{$uniqid}}", "{{$column['id']}}")'>
+                                    id="order_button_{{$column['id']}}_{{$uniqid}}" onclick='speedAdmin.setGridOrder("{{$uniqid}}", "{{$column['id']}}")'>
                                         <span></span>
                                         <i class="fas fa-arrows-alt-v"></i>
                                 </button>
@@ -138,7 +138,7 @@
             </div>
             <div class="col-md-12">
                 <div class="row px-3">
-                    <select onchange="getGridData('{{$uniqid}}')" class="form-control-sm" name="per_page" form="form-options-{{$uniqid}}">
+                    <select onchange="speedAdmin.getGridData('{{$uniqid}}')" class="form-control-sm" name="per_page" form="form-options-{{$uniqid}}">
                         @foreach([5, 10, 20, 30, 50, 100] as $per_page)
                         <option value="{{$per_page}}" 
                         {{request()->per_page == '' && $per_page == 10 ? 'selected' : request()->per_page == $per_page ? 'selected' : ''}}>
@@ -149,7 +149,7 @@
                     <span id="table-pagination-{{$uniqid}}">
                     </span>
                     <span>
-                        <button onclick="getGridData('{{$uniqid}}')" class="btn btn-outline-primary btn-sm">
+                        <button onclick="speedAdmin.getGridData('{{$uniqid}}')" class="btn btn-outline-primary btn-sm">
                             <i class="fas fa-circle-notch"></i> {{__('Reload')}}
                         </button>
                     </span>
@@ -159,8 +159,8 @@
     </div>
 </div>
 <script>
-    ready(function(){
-        getGridData('{{$uniqid}}')
+    speedAdmin.ready(function(){
+        speedAdmin.getGridData('{{$uniqid}}')
 
         document.addEventListener('click', function (event) {
 
@@ -169,13 +169,13 @@
                 event.preventDefault();
 
                 // Log the clicked element in the console
-                let page = getParameterByNameFromUrl('page', event.target.href)
+                let page = speedAdmin.getParameterByNameFromUrl('page', event.target.href)
                 document.querySelector('#form-options-{{$uniqid}} [name="page"]').value = page;
-                getGridData('{{$uniqid}}');
+                speedAdmin.getGridData('{{$uniqid}}');
             }
 
         }, false);
 
-        updateGridOrderButtonsUI('{{$uniqid}}')
+        speedAdmin.updateGridOrderButtonsUI('{{$uniqid}}')
     })
 </script>

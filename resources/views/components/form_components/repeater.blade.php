@@ -41,7 +41,7 @@
                             </td>
                         @endforeach
                         <td>
-                            <button onclick="removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                            <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -73,7 +73,7 @@
                             </td>
                         @endforeach
                         <td>
-                            <button onclick="removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                            <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>
@@ -85,7 +85,7 @@
                 </tbody>
             </table>
 
-            <button onclick="addRepeatedItem(this)" type="button" class="btn btn-sm btn-info">
+            <button onclick="speedAdmin.addRepeatedItem(this)" type="button" class="btn btn-sm btn-info">
                 <i class="fas fa-plus"></i>
             </button>
         @endif
@@ -104,7 +104,7 @@
                     'obj' => null,
                 ])
                 @endcomponent
-                <button onclick="removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash"></i>
                 </button>
                 <hr>
@@ -123,7 +123,7 @@
                     'obj' => $repeated_item,
                 ])
                 @endcomponent
-                <button onclick="removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash"></i>
                 </button>
                 <hr>
@@ -133,7 +133,7 @@
 
             </div>
 
-            <button onclick="addRepeatedItem(this)" type="button" class="btn btn-sm btn-info">
+            <button onclick="speedAdmin.addRepeatedItem(this)" type="button" class="btn btn-sm btn-info">
                 <i class="fas fa-plus"></i>
             </button>
         @endif

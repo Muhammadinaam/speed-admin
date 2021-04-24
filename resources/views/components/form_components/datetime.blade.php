@@ -12,7 +12,7 @@
         value="{{isset($obj) ? $obj->{$form_item['name']} : ''}}">
 
     <script>
-    $(document).ready(function(){
+    speedAdmin.ready(function(){
         $('#datetime_{{$uniqid}}').flatpickr({
             enableTime: {{ $form_item['enable_time'] ? 'true' : 'false' }},
         })

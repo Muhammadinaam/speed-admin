@@ -1,5 +1,6 @@
 <?php
-$uniqid = uniqid()
+$uniqid = uniqid();
+$name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $form_item['name'];
 ?>
 <div class="form-group">
     <label>{{ $form_item['label'] }}</label>
@@ -7,7 +8,7 @@ $uniqid = uniqid()
         <div style="width: 85%;">
             <select
                 id="select_{{$uniqid}}"
-                name="{{ $form_item['name'] }}[]" 
+                name="{{ $name }}" 
                 class="form-control"
 
                 @if(isset($multiple) && $multiple == true)
