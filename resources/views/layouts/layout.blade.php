@@ -77,6 +77,8 @@
         window.youCantUndoIt = "{!! __('You won\'t be able to revert this!') !!}";
         window.yesIamSure = "{{__('Yes, I am sure.')}}";
         window.csrfToken = "{{csrf_token()}}";
+        window.addNew = "{{__('Add New')}}";
+        window.loading = "{{__('Loading...')}}";
     </script>
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'jquery-3.5.1.min.js')}}"></script>

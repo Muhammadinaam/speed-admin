@@ -618,7 +618,16 @@ speedAdmin = {
   },
   
   belongsToAddNewButtonClicked: function belongsToAddNewButtonClicked(uniqid) {
-    alert(uniqid)
+    let modalId = 'modal_' + uniqid;
+    speedAdmin.loadUrlInModal({
+      id: modalId,
+      url: 'http://localhost/success/backend/public/admin/productsss',
+      modalDialogClasses: 'modal-xl',
+      modalTitle: window.addNew,
+      closeModalCallback: () => {
+        alert("hello")
+      }
+    })
   },
   
   belongsToSelectFromTableButtonClicked: function belongsToSelectFromTableButtonClicked(uniqid) {
@@ -626,6 +635,75 @@ speedAdmin = {
   },
   
   loadUrlInModal: function loadUrlInModal(config) {
-  
+    let modalDiv = speedAdmin.createModal(config)
+    speedAdmin.openModal(config.id)
+    axios.get(config.url)
+      .then(response => {
+        modalDiv.querySelector('.modal-body').innerHTML = response.data;
+      })
+      .catch((error) => {
+        speedAdmin.handleAjaxError(error);
+        modalDiv.querySelector('.modal-body').innerHTML = window.ajaxError;
+      })
+  },
+
+  createModal: function createModal(config) {
+    // https://dev.to/ara225/how-to-use-bootstrap-modals-without-jquery-3475
+    let modelContainerDiv = document.createElement("div");
+    modelContainerDiv.setAttribute('id', config.id)
+    modelContainerDiv.innerHTML = `
+    <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
+    role="dialog">
+        <div class="modal-dialog ${config.modalDialogClasses}" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">${config.modalTitle}</h5>
+                    <button type="button" class="close" aria-label="Close" onclick="speedAdmin.closeModal('${config.id}')">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ${window.loading}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="speedAdmin.closeModal('${config.id}')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show" style="display: none;"></div>
+    `;
+
+    speedAdmin.closeModalCallbacks[config.id] = config.closeModalCallback;
+
+    document.body.appendChild(modelContainerDiv);
+    return modelContainerDiv;
+  },
+
+  openModal: function openModal(id) {
+    let modalDiv = document.getElementById(id);
+    modalDiv.querySelector(".modal-backdrop").style.display = "block"
+    modalDiv.querySelector(".modal").style.display = "block"
+    modalDiv.querySelector(".modal").classList.add("show");
+  },
+
+  closeModalCallbacks: {},
+
+  closeModal: function closeModal(id) {
+    let modalDiv = document.getElementById(id);
+    modalDiv.querySelector(".modal-backdrop").style.display = "none"
+    modalDiv.querySelector(".modal").style.display = "none"
+    modalDiv.querySelector(".modal").classList.remove("show");
+
+    
+
+    if(speedAdmin.closeModalCallbacks[id]) {
+      // https://stackoverflow.com/a/27746324/5013099
+      Promise.resolve(speedAdmin.closeModalCallbacks[id](modalDiv)).finally(() => {
+        modalDiv.parentNode.removeChild(modalDiv);
+      });
+    } else {
+      modalDiv.parentNode.removeChild(modalDiv);
+    }
   },
 }
