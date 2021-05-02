@@ -75,6 +75,14 @@ class FormHelper{
         }
     }
 
+    public static function validateAndSaveFormData($request, $model_obj, $id)
+    {
+        $validation_rules = FormHelper::getValidationRules($model_obj, $id);
+        $request->validate($validation_rules);
+        
+        return FormHelper::saveFormData($request, $model_obj, $id);
+    }
+
     public static function saveFormData($request, $model, $id)
     {
         try 

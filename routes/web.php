@@ -6,7 +6,7 @@ use Intervention\Image\Facades\Image;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\AuthController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\LanguageController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\UserController;
-use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\SelectController;
+use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\BelongsToController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\GridController;
 
 /*
@@ -52,9 +52,12 @@ Route::middleware(['web', 'admin_auth', 'language'])
     Route::resource('users', UserController::class);
     Route::get('users-data', [UserController::class, 'getData'])->name('users.get-data');
 
-    Route::get('select-model', [SelectController::class, 'selectModel'])->name('select.model');
+    Route::get('select-model', [BelongsToController::class, 'selectModel'])->name('select.model');
 
     Route::post('perform-grid-action', [GridController::class, 'performGridAction']);
+
+    Route::get('show-add-new-form', [BelongsToController::class, 'showAddNewForm'])->name('show-add-new-form');
+    Route::post('save-data-of-add-new-form', [BelongsToController::class, 'saveDataOfAddNewForm'])->name('save-data-of-add-new-form');
 });
 
 Route::middleware(['web', 'language'])

@@ -10,80 +10,82 @@
     @if($form_item['table_view'])
 
         @if(isset($form_item['children']))
-            <table class="table table-sm">
-                <thead>
-                    @foreach($form_item['children'] as $child)
-                    <th>{{$child['label']}}</th>
-                    @endforeach
-                    <th></th>
-                </thead>
-                <tbody class="repeated-items-container">
-                    <tr style="display: none;" class="template repeated-item">
-                    
-                    <!-- hidden input for id (primary key) of repeated item -->
-                    <input type="hidden" class="id_input" name="__{{$form_item['id']}}" value="-1">
-                    
-                    @if(isset($form_item['children']))
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
                         @foreach($form_item['children'] as $child)
-                            <?php
-                            $view_path = isset($child['view_path']) ? 
-                                $child['view_path'] : 
-                                'speed-admin::components.form_components.' . $child['type'];
-
-                            $rendered_view = view($view_path, [
-                                'model' => $model,
-                                'form_item' => $child,
-                                'obj' => null,
-                            ])->render();
-                            ?>
-                            <td>
-                                {!! $rendered_view !!}
-                            </td>
+                        <th>{{$child['label']}}</th>
                         @endforeach
-                        <td>
-                            <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    @endif
-                    </tr>
+                        <th></th>
+                    </thead>
+                    <tbody class="repeated-items-container">
+                        <tr style="display: none;" class="template repeated-item">
+                        
+                        <!-- hidden input for id (primary key) of repeated item -->
+                        <input type="hidden" class="id_input" name="__{{$form_item['id']}}" value="-1">
+                        
+                        @if(isset($form_item['children']))
+                            @foreach($form_item['children'] as $child)
+                                <?php
+                                $view_path = isset($child['view_path']) ? 
+                                    $child['view_path'] : 
+                                    'speed-admin::components.form_components.' . $child['type'];
 
-                    @if(isset($obj) && $obj != null && $obj->{$form_item['relation_name']} != null && count($obj->{$form_item['relation_name']}) > 0)
-                    @foreach($obj->{$form_item['relation_name']} as $repeated_item)
-                    <tr class="repeated-item">
-                    
-                    <!-- hidden input for id (primary key) of repeated item -->
-                    <input type="hidden" class="id_input" name="__{{$form_item['id']}}" value="{{$repeated_item->getKey()}}">
-                    
-                    @if(isset($form_item['children']))
-                        @foreach($form_item['children'] as $child)
-                            <?php
-                            $view_path = isset($child['view_path']) ? 
-                                $child['view_path'] : 
-                                'speed-admin::components.form_components.' . $child['type'];
-                            
-                            $rendered_view = view($view_path, [
-                                'model' => $model,
-                                'form_item' => $child,
-                                'obj' => $repeated_item,
-                            ])->render();
-                            ?>
+                                $rendered_view = view($view_path, [
+                                    'model' => $model,
+                                    'form_item' => $child,
+                                    'obj' => null,
+                                ])->render();
+                                ?>
+                                <td>
+                                    {!! $rendered_view !!}
+                                </td>
+                            @endforeach
                             <td>
-                                {!! $rendered_view !!}
+                                <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
-                        @endforeach
-                        <td>
-                            <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    @endif
-                    </tr>
-                    @endforeach
-                    @endif
+                        @endif
+                        </tr>
 
-                </tbody>
-            </table>
+                        @if(isset($obj) && $obj != null && $obj->{$form_item['relation_name']} != null && count($obj->{$form_item['relation_name']}) > 0)
+                        @foreach($obj->{$form_item['relation_name']} as $repeated_item)
+                        <tr class="repeated-item">
+                        
+                        <!-- hidden input for id (primary key) of repeated item -->
+                        <input type="hidden" class="id_input" name="__{{$form_item['id']}}" value="{{$repeated_item->getKey()}}">
+                        
+                        @if(isset($form_item['children']))
+                            @foreach($form_item['children'] as $child)
+                                <?php
+                                $view_path = isset($child['view_path']) ? 
+                                    $child['view_path'] : 
+                                    'speed-admin::components.form_components.' . $child['type'];
+                                
+                                $rendered_view = view($view_path, [
+                                    'model' => $model,
+                                    'form_item' => $child,
+                                    'obj' => $repeated_item,
+                                ])->render();
+                                ?>
+                                <td>
+                                    {!! $rendered_view !!}
+                                </td>
+                            @endforeach
+                            <td>
+                                <button onclick="speedAdmin.removeRepeatedItem(this)" type="button" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        @endif
+                        </tr>
+                        @endforeach
+                        @endif
+
+                    </tbody>
+                </table>
+            </div>
 
             <button onclick="speedAdmin.addRepeatedItem(this)" type="button" class="btn btn-sm btn-info">
                 <i class="fas fa-plus"></i>

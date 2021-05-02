@@ -26,8 +26,13 @@ speedAdmin = {
   },
   
   handleAjaxError: function handleAjaxError(error) {
+    if (!error.response) {
+      console.error(error);
+      alert(window.errorText);
+      return;
+    }
+
     if (error.response.status === 422) {
-  
   
       //process validation errors here.
       errors = error.response.data.errors; //this will get the errors response data.
@@ -131,37 +136,27 @@ speedAdmin = {
     }
   },
   
-  initBelongsTo: function initBelongsTo(input) {
-    $(input).select2({
-      theme: 'bootstrap4',
-      allowClear: true,
-      placeholder: '...',
-      ajax: {
-        url: input.dataset.url,
-        dataType: 'json',
-        data: function (params) {
-          var query = {
-            model: input.dataset.model,
-            main_model: input.dataset.main_model,
-            form_item_id: input.dataset.form_item_id,
-            dataset: JSON.stringify(input.dataset)
-          }
-          return query
-        }
-      }
-    });
-  },
-  
-  initializeUninitializedItems: function initializeUninitializedItems(form) {
-    items = form.querySelectorAll('[data-initialized="false"]:not(.template *)');
+  initializeUninitializedItems: function initializeUninitializedItems(parent) {
+    items = parent.querySelectorAll('[data-initialized="false"]:not(.template *)');
   
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
   
       let initializeFunctionName = item.dataset.initialize_function_name;
 
-      console.log(initializeFunctionName)
-      speedAdmin[initializeFunctionName](item)
+      let func = speedAdmin[initializeFunctionName];
+      if (!func) {
+        func = window[initializeFunctionName];
+      }
+
+      if (!func) {
+        // https://stackoverflow.com/a/40634765/5013099
+        const getValue = (object, keys) => keys.split('.').reduce((o, k) => (o || {})[k], object);
+
+        func = getValue(window, initializeFunctionName);
+      }
+
+      func(item)
   
       item.dataset.initialized = true;
     }
@@ -225,6 +220,12 @@ speedAdmin = {
     speedAdmin.enableFromSubmitButton(form, false);
   
     let formData = new FormData(form);
+    
+    let model = form.dataset['model'];
+    if(model) {
+      formData.append('_model_', model);
+    }
+
     let ajaxOptions = {
       data: formData,
       method: form.getAttribute('method'),
@@ -244,7 +245,7 @@ speedAdmin = {
         }).then(() => {
           if (data.success) {
             const event = new CustomEvent('saved', {
-              obj: data.obj
+              detail: data.obj
             });
             form.dispatchEvent(event);
           }
@@ -615,95 +616,5 @@ speedAdmin = {
     let grid_action_select = document.getElementById(`grid_action_${uniqid}`);
     let actionId = grid_action_select.value;
     return { model, actionId };
-  },
-  
-  belongsToAddNewButtonClicked: function belongsToAddNewButtonClicked(uniqid) {
-    let modalId = 'modal_' + uniqid;
-    speedAdmin.loadUrlInModal({
-      id: modalId,
-      url: 'http://localhost/success/backend/public/admin/productsss',
-      modalDialogClasses: 'modal-xl',
-      modalTitle: window.addNew,
-      closeModalCallback: () => {
-        alert("hello")
-      }
-    })
-  },
-  
-  belongsToSelectFromTableButtonClicked: function belongsToSelectFromTableButtonClicked(uniqid) {
-    alert(uniqid)
-  },
-  
-  loadUrlInModal: function loadUrlInModal(config) {
-    let modalDiv = speedAdmin.createModal(config)
-    speedAdmin.openModal(config.id)
-    axios.get(config.url)
-      .then(response => {
-        modalDiv.querySelector('.modal-body').innerHTML = response.data;
-      })
-      .catch((error) => {
-        speedAdmin.handleAjaxError(error);
-        modalDiv.querySelector('.modal-body').innerHTML = window.ajaxError;
-      })
-  },
-
-  createModal: function createModal(config) {
-    // https://dev.to/ara225/how-to-use-bootstrap-modals-without-jquery-3475
-    let modelContainerDiv = document.createElement("div");
-    modelContainerDiv.setAttribute('id', config.id)
-    modelContainerDiv.innerHTML = `
-    <div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
-    role="dialog">
-        <div class="modal-dialog ${config.modalDialogClasses}" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">${config.modalTitle}</h5>
-                    <button type="button" class="close" aria-label="Close" onclick="speedAdmin.closeModal('${config.id}')">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ${window.loading}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="speedAdmin.closeModal('${config.id}')">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-backdrop fade show" style="display: none;"></div>
-    `;
-
-    speedAdmin.closeModalCallbacks[config.id] = config.closeModalCallback;
-
-    document.body.appendChild(modelContainerDiv);
-    return modelContainerDiv;
-  },
-
-  openModal: function openModal(id) {
-    let modalDiv = document.getElementById(id);
-    modalDiv.querySelector(".modal-backdrop").style.display = "block"
-    modalDiv.querySelector(".modal").style.display = "block"
-    modalDiv.querySelector(".modal").classList.add("show");
-  },
-
-  closeModalCallbacks: {},
-
-  closeModal: function closeModal(id) {
-    let modalDiv = document.getElementById(id);
-    modalDiv.querySelector(".modal-backdrop").style.display = "none"
-    modalDiv.querySelector(".modal").style.display = "none"
-    modalDiv.querySelector(".modal").classList.remove("show");
-
-    
-
-    if(speedAdmin.closeModalCallbacks[id]) {
-      // https://stackoverflow.com/a/27746324/5013099
-      Promise.resolve(speedAdmin.closeModalCallbacks[id](modalDiv)).finally(() => {
-        modalDiv.parentNode.removeChild(modalDiv);
-      });
-    } else {
-      modalDiv.parentNode.removeChild(modalDiv);
-    }
   },
 }

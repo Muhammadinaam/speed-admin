@@ -67,8 +67,13 @@
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/css/main.css')}}" rel="stylesheet">
     
     <script>
+
+        // route paths for js files
+        window.showAddNewFormRoute = "{{route('admin.show-add-new-form')}}";
         window.adminBaseUrl = "{{route('admin.base')}}";
         window.adminLoginUrl = "{{route('admin.login')}}";
+
+        // translations for js files
         window.ajaxError = "{{__('Error occurred while making request to server. Please try again.')}}"
         window.noPermissionMessage = "{!! __('You don\'t have permission to perform this operation') !!}";
         window.errorText = "{{__('Error')}}"
@@ -86,6 +91,8 @@
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'axios-0.21.1.min.js')}}"></script>
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/belongs_to.js')}}"></script>
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/model.js')}}"></script>
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'flatpickr/js/fp.min.js')}}"></script>
 

@@ -35,7 +35,7 @@ class SpeedAdminBaseController extends BaseController
 
     public function create(Request $request)
     {
-        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->_add_permission_slug);
+        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->getAddPermissionSlug());
         return view('speed-admin::crud.create-edit', [
             'model' => $this->model_obj,
             'index_url' => url($this->index_url),
@@ -44,7 +44,7 @@ class SpeedAdminBaseController extends BaseController
 
     public function edit(Request $request, $id)
     {
-        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->_edit_permission_slug);
+        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->getEditPermissionSlug());
         return view('speed-admin::crud.create-edit', [
             'model' => $this->model_obj,
             'obj' => $this->model_obj->find($id),
@@ -54,27 +54,19 @@ class SpeedAdminBaseController extends BaseController
 
     public function store(Request $request)
     {
-        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->_add_permission_slug);
-        return $this->saveData($request, null);
+        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->getAddPermissionSlug());
+        return FormHelper::validateAndSaveFormData($request, $this->model_obj, null);
     }
 
     public function update(Request $request, $id)
     {
-        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->_edit_permission_slug);
-        return $this->saveData($request, $id);
-    }
-    
-    private function saveData($request, $id)
-    {
-        $validation_rules = FormHelper::getValidationRules($this->model_obj, $id);
-        $request->validate($validation_rules);
-        
-        return FormHelper::saveFormData($request, $this->model_obj, $id);
+        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->getEditPermissionSlug());
+        return FormHelper::validateAndSaveFormData($request, $this->model_obj, $id);
     }
 
     public function destroy(Request $request, $id)
     {
-        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->_delete_permission_slug);
+        \SpeedAdminPermissions::abortIfDontHavePermission($this->model_obj->getDeletePermissionSlug());
 
         $this->model_obj->where('id', $id)->delete();
 

@@ -4,8 +4,9 @@ namespace MuhammadInaamMunir\SpeedAdmin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use MuhammadInaamMunir\SpeedAdmin\Misc\FormHelper;
 
-class SelectController extends BaseController
+class BelongsToController extends BaseController
 {
     public function selectModel(Request $request)
     {
@@ -30,5 +31,26 @@ class SelectController extends BaseController
         return [
             'results' => $data
         ];
+    }
+
+    public function showAddNewForm()
+    {
+        $model_name = urldecode(request()->model);
+        $model = app()->bound($model_name) ? app()->make($model_name) : new $model_name();
+
+        return view('speed-admin::add-new', [
+            'model' => $model,
+            'index_url' => route('admin.save-data-of-add-new-form'),
+            'show_list_button' => false
+        ]);
+    }
+
+    public function saveDataOfAddNewForm(Request $request)
+    {
+        $model_name = urldecode(request()->_model_);
+        $model = app()->bound($model_name) ? app()->make($model_name) : new $model_name();
+
+        \SpeedAdminPermissions::abortIfDontHavePermission($model->getAddPermissionSlug());
+        return FormHelper::validateAndSaveFormData($request, $model, null);
     }
 }

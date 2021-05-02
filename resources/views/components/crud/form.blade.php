@@ -6,7 +6,8 @@
     onsubmit="speedAdmin.submitForm(event)"
     action="{{ isset($obj) ? $index_url . '/' . $obj->id : $index_url }}" 
     method="post" 
-    data-uniqid="{{$uniqid}}">
+    data-uniqid="{{$uniqid}}"
+    data-model="{{get_class($model)}}">
 
     @csrf
 
@@ -23,8 +24,11 @@
                 @if(isset($index_url))
                 <div
                     class="col text-{{ $is_rtl ? 'left' : 'right' }}">
-                    @if($model->_is_add_enabled)
-                        @if(\SpeedAdminPermissions::hasPermission($model->_list_permission_slug))
+                    <?php
+                        $show_list_button = isset($show_list_button) ? $show_list_button : true; // default true
+                    ?>
+                    @if($show_list_button)
+                        @if(\SpeedAdminPermissions::hasPermission($model->getListPermissionSlug()))
                         <a class="btn btn-sm btn-primary" href="{{ $index_url }}">
                             <i class="fas fa-list"></i> {{ __('List') }}
                         </a>
@@ -50,15 +54,18 @@
     </div>
 
     @if(!request()->has('dont_redirect_on_save'))
-    <script>
+    <script>  
         speedAdmin.ready(function(){
             form = document.querySelector('#form_{{$uniqid}}')
             form.addEventListener('saved', function(){
                 window.location.href = "{{$index_url}}"
             })
-
-            speedAdmin.initializeUninitializedItems(form);
         })
     </script>
     @endif
+    <script>
+        speedAdmin.ready(function(){
+            speedAdmin.initializeUninitializedItems(form);
+        })
+    </script>
 </form>

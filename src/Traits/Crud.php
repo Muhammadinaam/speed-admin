@@ -8,15 +8,11 @@ trait Crud{
 
     private $singular_title = null;
     private $plural_title = null;
+    private $permission_slug = null;
 
     public $_is_add_enabled = true;
     public $_is_edit_enabled = true;
     public $_is_delete_enabled = true;
-
-    public $_list_permission_slug = '';
-    public $_add_permission_slug = '';
-    public $_edit_permission_slug = '';
-    public $_delete_permission_slug = '';
 
     private $grid_columns = [];
     private $form_items_tree;
@@ -30,6 +26,31 @@ trait Crud{
     public function setPluralTitle($value)
     {
         $this->plural_title = $value;
+    }
+
+    public function setPermissionSlug($value)
+    {
+        $this->permission_slug = $value;
+    }
+
+    public function getAddPermissionSlug()
+    {
+        return $this->permission_slug . '_add';
+    }
+
+    public function getEditPermissionSlug()
+    {
+        return $this->permission_slug . '_edit';
+    }
+
+    public function getListPermissionSlug()
+    {
+        return $this->permission_slug . '_list';
+    }
+
+    public function getDeletePermissionSlug()
+    {
+        return $this->permission_slug . '_delete';
     }
 
     public function getSingularTitle()

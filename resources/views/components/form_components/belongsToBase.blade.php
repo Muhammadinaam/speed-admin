@@ -17,7 +17,7 @@ $name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $for
 
                 data-id="{{ $form_item['id'] }}" 
                 data-initialized="false"
-                data-initialize_function_name="initBelongsTo"
+                data-initialize_function_name="speedAdminBelongsTo.initBelongsTo"
                 data-url="{{ route('admin.select.model') }}"
                 data-model="{{urlencode($form_item['model'])}}"
                 data-main_model="{{urlencode(get_class($model))}}"
