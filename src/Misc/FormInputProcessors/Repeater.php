@@ -22,7 +22,7 @@ class Repeater extends BaseInputProcessor{
             for($i = 0; $i < count($request['__'.$form_item['id']]); $i++)
             {
                 $id = $request['__'.$form_item['id']][$i];
-                $repeated_obj = app()->bound($form_item['model']) ? app()->make($form_item['model']) : new $form_item['model']();
+                $repeated_obj = \SpeedAdminHelpers::getModelInstance($form_item['model']);
 
                 if($id != -1) {
                     $repeated_obj = $repeated_obj->where($repeated_obj->getKeyName(), $id)->first();

@@ -16,7 +16,7 @@ class GridController extends BaseController
         $ids = request()->ids;
         $model_class_name = urldecode(request()->model);
 
-        $model = app()->bound($model_class_name) ? app()->make($model_class_name) : new $model_class_name();
+        $model = \SpeedAdminHelpers::getModelInstance($model_class_name);
 
         $action = $model->getGridActionById($action_id);
 

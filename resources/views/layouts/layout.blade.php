@@ -65,6 +65,8 @@
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'fontawesome-free-5.15.2-web/css/all.css')}}" rel="stylesheet">
 
     <link href="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/css/main.css')}}" rel="stylesheet">
+
+    <link href="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/css/belongs_to.css')}}" rel="stylesheet">
     
     <script>
 

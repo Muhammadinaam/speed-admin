@@ -28,7 +28,7 @@
                         $show_list_button = isset($show_list_button) ? $show_list_button : true; // default true
                     ?>
                     @if($show_list_button)
-                        @if(\SpeedAdminPermissions::hasPermission($model->getListPermissionSlug()))
+                        @if(\SpeedAdminHelpers::hasPermission($model->getListPermissionSlug()))
                         <a class="btn btn-sm btn-primary" href="{{ $index_url }}">
                             <i class="fas fa-list"></i> {{ __('List') }}
                         </a>

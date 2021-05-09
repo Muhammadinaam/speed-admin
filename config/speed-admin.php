@@ -19,5 +19,7 @@ return [
     ],
 
     'footer_right_html' => 'Powered by&nbsp;<a href="#">Speed Admin</a>',
-    'footer_left_html' => '<a href="#">CoreUI</a> © 2021 Speed Admin.'
+    'footer_left_html' => '<a href="#">CoreUI</a> © 2021 Speed Admin.',
+
+    'user_primary_key_type' => 'integer'    // 'integer' or 'uuid'
 ];

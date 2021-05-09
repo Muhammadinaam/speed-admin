@@ -69,7 +69,7 @@ class GridHelper{
                     return $c['id'] == $column_id;
                 });
 
-                $query->orderBy($column['order_by'], $asc_or_desc);
+                $query = $query->orderBy($column['order_by'], $asc_or_desc);
             }
         }
 

@@ -46,6 +46,7 @@ speedAdminBelongsTo = {
   },
   
   belongsToSelectFromTableButtonClicked: function belongsToSelectFromTableButtonClicked(uniqid) {
-    alert(uniqid)
+    // alert(uniqid)
+    alert("this feature will be available soon")
   },
 }

@@ -13,8 +13,8 @@ class BelongsToController extends BaseController
         $model_class_name = urldecode($request->model);
         $main_model_class_name = urldecode($request->main_model);
 
-        $model = app()->bound($model_class_name) ? app()->make($model_class_name) : new $model_class_name();
-        $main_model = app()->bound($main_model_class_name) ? app()->make($main_model_class_name) : new $main_model_class_name();
+        $model = \SpeedAdminHelpers::getModelInstance($model_class_name);
+        $main_model = \SpeedAdminHelpers::getModelInstance($main_model_class_name);
 
         $query = $model;
 
@@ -36,7 +36,9 @@ class BelongsToController extends BaseController
     public function showAddNewForm()
     {
         $model_name = urldecode(request()->model);
-        $model = app()->bound($model_name) ? app()->make($model_name) : new $model_name();
+        $model = \SpeedAdminHelpers::getModelInstance($model_name);
+
+        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionSlug());
 
         return view('speed-admin::add-new', [
             'model' => $model,
@@ -48,9 +50,9 @@ class BelongsToController extends BaseController
     public function saveDataOfAddNewForm(Request $request)
     {
         $model_name = urldecode(request()->_model_);
-        $model = app()->bound($model_name) ? app()->make($model_name) : new $model_name();
+        $model = \SpeedAdminHelpers::getModelInstance($model_name);
 
-        \SpeedAdminPermissions::abortIfDontHavePermission($model->getAddPermissionSlug());
+        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionSlug());
         return FormHelper::validateAndSaveFormData($request, $model, null);
     }
 }

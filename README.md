@@ -19,4 +19,19 @@ php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProv
 
 ## Add alias in app.php:
 
-'SpeedAdminPermissions' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminPermissionsFacade::class,
+'SpeedAdminHelpers' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminHelpersFacade::class,
+
+## Run following commands
+
+`
+php artisan config:cache
+php artisan config:clear
+php artisan clear-compiled
+composer dump autoload
+`
+
+## Run following command to create admin user
+
+`
+php artisan speed-admin:create-admin-user
+`
