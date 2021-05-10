@@ -155,6 +155,7 @@ class User extends BaseUser{
             'label' => __('Password'),
             'name' => 'password',
             'update_help' => __('Leave empty if you don\'t want to change password'),
+            'dont_update_if_empty' => true,
             'password_confirmation_options' => [
                 'show' => true,
                 'label' => __('Password Confirmation')

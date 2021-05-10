@@ -8,7 +8,12 @@ class Password extends BaseInputProcessor{
     {
         if($request->has($name)) {
             $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
-            $obj->{$name} = $request->has($name) ? bcrypt($value) : $empty_value;
+            if ( isset($form_item['dont_update_if_empty']) && $form_item['dont_update_if_empty'] && ($value == null || $value == '') )
+            {
+                return;
+            }
+
+            $obj->{$name} = $value != null && $value != '' ? bcrypt($value) : $value;
         }
     }
 }
