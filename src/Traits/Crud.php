@@ -169,4 +169,9 @@ trait Crud{
         return $this->form_items_tree->getFlatTreeArray();
     }
 
+    public function getAppends()
+    {
+        return $this->getArrayableAppends();
+    }
+
 }

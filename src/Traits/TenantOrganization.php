@@ -17,7 +17,8 @@ trait TenantOrganization
             if (\SpeedAdminHelpers::userHasAccessToAllTenantOrganizations($user)) {
                 return;
             }
-            $builder->where('tenant_organization_id', '=', $current_user->tenant_organization_id);
+            $main_table_name = $builder->getModel()->getTable();
+            $builder->where($main_table_name . '.tenant_organization_id', '=', $user->tenant_organization_id);
         });
     }
 

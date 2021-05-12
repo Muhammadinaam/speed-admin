@@ -11,6 +11,8 @@ use Illuminate\Validation\ValidationException;
 class User extends BaseUser{
     
     use Crud, TenantOrganization;
+    
+    protected $appends = ['text'];
 
     public function __construct()
     {
@@ -53,7 +55,7 @@ class User extends BaseUser{
             'render_function' => function ($user) {
                 $html = '';
                 foreach ($user->roles as $role) {
-                    $html .= '<span class="badge badge-primary p-1 m-1">'.$role->name.'</span>';
+                    $html .= '<span class="badge badge-primary p-1 m-1">'.$role->text.'</span>';
                 }
                 return $html;
             }
@@ -228,7 +230,7 @@ class User extends BaseUser{
                 'users.is_superadmin',
                 'users.is_tenant_organization_admin',
                 'users.is_active',
-                'tenant_organizations.name as tenant_organizations_name'
+                'tenant_organizations.name as tenant_organizations_name',
             ])
             ->groupBy(
                 'users.id',

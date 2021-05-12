@@ -20,6 +20,7 @@ class GridHelper{
         }
 
         $items = $paginated_data->getCollection();
+        $items = GridHelper::addAppendedColumns($items, $model);
         GridHelper::renderColumns($items, $model);
         $paginated_data->setCollection($items);
 
@@ -106,6 +107,17 @@ class GridHelper{
     {
         foreach ($items as $index => $item) {
             $rendered_item = new \stdClass();
+
+            if($item->id == null)
+            {
+                throw new \Exception("'id' column not found. Please add 'id' column to select part of your query", 1);
+            }
+
+            if($item->text == null)
+            {
+                throw new \Exception("'text' attribute not found. Please add getTextArribute() to your model: " . get_class($model), 1);
+            }
+
             $rendered_item->__id__ = $item->id;
             $rendered_item->__text__ = $item->text;
             foreach ($model->getGridColumns() as $grid_column_index => $grid_column) {
@@ -116,5 +128,25 @@ class GridHelper{
 
             $items[$index] = $rendered_item;
         }
+    }
+
+    private static function addAppendedColumns($items, $model)
+    {
+        $appends = $model->getAppends();
+        
+        $objects = $model->whereIn($model->getKeyName(), $items->pluck(['id']))->get();
+        $items = $items->toArray();
+        
+        foreach ($objects as $index => $object) {
+            foreach ($appends as $append) {
+                $items[$index][$append] = $object->{$append};
+            }
+        }
+
+        $items = json_encode($items);
+        $items = json_decode($items);
+        $items = collect($items);
+
+        return $items;
     }
 }

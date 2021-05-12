@@ -93,6 +93,7 @@ class Role extends Model{
     {
         $query = $this->with(['tenantOrganization'])
             ->select([
+                'roles.id',
                 'roles.name',
                 'roles.level'
             ]);
