@@ -63,7 +63,8 @@ trait TenantOrganization
 
     public function addTenantOrganizationColumnToQuery($query)
     {
-        $query->leftJoin('tenant_organizations', 'tenant_organizations.id', '=', 'users.tenant_organization_id')
+        $main_table_name = $query->getModel()->getTable();
+        $query->leftJoin('tenant_organizations', 'tenant_organizations.id', '=', $main_table_name . '.tenant_organization_id')
             ->addSelect('tenant_organizations.name as tenant_organization_name');
 
         return $query;

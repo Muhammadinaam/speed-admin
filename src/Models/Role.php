@@ -91,7 +91,11 @@ class Role extends Model{
 
     public function getGridQuery($request)
     {
-        $query = $this;
+        $query = $this->with(['tenantOrganization'])
+            ->select([
+                'roles.name',
+                'roles.level'
+            ]);
 
         $query = $this->addTenantOrganizationColumnToQuery($query);
 
