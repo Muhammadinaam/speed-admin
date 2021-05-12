@@ -8,7 +8,7 @@ trait Crud{
 
     private $singular_title = null;
     private $plural_title = null;
-    private $permission_slug = null;
+    private $permission_id = null;
 
     public $_is_add_enabled = true;
     public $_is_edit_enabled = true;
@@ -28,29 +28,29 @@ trait Crud{
         $this->plural_title = $value;
     }
 
-    public function setPermissionSlug($value)
+    public function setPermissionId($value)
     {
-        $this->permission_slug = $value;
+        $this->permission_id = $value;
     }
 
-    public function getAddPermissionSlug()
+    public function getAddPermissionId()
     {
-        return $this->permission_slug . '_add';
+        return $this->permission_id . '_add';
     }
 
-    public function getEditPermissionSlug()
+    public function getEditPermissionId()
     {
-        return $this->permission_slug . '_edit';
+        return $this->permission_id . '_edit';
     }
 
-    public function getListPermissionSlug()
+    public function getListPermissionId()
     {
-        return $this->permission_slug . '_list';
+        return $this->permission_id . '_list';
     }
 
-    public function getDeletePermissionSlug()
+    public function getDeletePermissionId()
     {
-        return $this->permission_slug . '_delete';
+        return $this->permission_id . '_delete';
     }
 
     public function getSingularTitle()

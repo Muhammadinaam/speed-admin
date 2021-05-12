@@ -6,21 +6,21 @@ use Illuminate\Support\Facades\Facade;
 
 class SpeedAdminHelpers
 {
-    public function userHasPermission($user_id, $permission_slug)
+    public function userHasPermission($user_id, $permission_id)
     {
         return true;
     }
 
-    public function hasPermission($permission_slug)
+    public function hasPermission($permission_id)
     {
         if(\Auth::check()) {
-            return SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $permission_slug);
+            return SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $permission_id);
         }
     }
 
-    public function abortIfDontHavePermission($permission_slug)
+    public function abortIfDontHavePermission($permission_id)
     {
-        if (! SpeedAdminHelpers::hasPermission($permission_slug) )
+        if (! SpeedAdminHelpers::hasPermission($permission_id) )
         {
             abort(403);
         }

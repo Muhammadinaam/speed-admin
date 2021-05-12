@@ -6,6 +6,7 @@ use App\Models\User as BaseUser;
 use MuhammadInaamMunir\SpeedAdmin\Traits\Crud;
 use MuhammadInaamMunir\SpeedAdmin\Traits\TenantOrganization;
 use MuhammadInaamMunir\SpeedAdmin\Misc\GridHelper;
+use Illuminate\Validation\ValidationException;
 
 class User extends BaseUser{
     
@@ -17,7 +18,7 @@ class User extends BaseUser{
 
         $this->setSingularTitle('User');
         $this->setPluralTitle('Users');
-        $this->setPermissionSlug('user');
+        $this->setPermissionId('user');
 
         $this->addGridColumn([
             'id' => 'picture', 
@@ -33,7 +34,7 @@ class User extends BaseUser{
             'order_by' => 'users.name', 
             'search_by' => 'users.name', 
             'render_function' => function ($user) {
-                return $user->name;
+                return $user->user_name;
             }
         ]);
         $this->addGridColumn([
@@ -216,7 +217,56 @@ class User extends BaseUser{
 
     public function getGridQuery($request)
     {
-        return $this;
+        $query = $this->with(['roles', 'tenantOrganization'])
+            ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
+            ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
+            ->select([
+                'users.id',
+                'users.picture',
+                'users.name as user_name',
+                'users.email',
+                'users.is_superadmin',
+                'users.is_tenant_organization_admin',
+                'users.is_active',
+                'tenant_organizations.name as tenant_organizations_name'
+            ])
+            ->groupBy(
+                'users.id',
+                'users.picture',
+                'users.name',
+                'users.email',
+                'users.is_superadmin',
+                'users.is_tenant_organization_admin',
+                'users.is_active',
+                'tenant_organizations.name'
+            );
+
+        $query = $this->addTenantOrganizationColumnToQuery($query);
+
+        return $query;
+    }
+
+    public function beforeSave($request, $model, $id)
+    {
+        $tenant_organization_id = $request->tenant_organization;
+        $roles_ids = $request->roles;
+
+        $roles = Role::whereIn('id', $roles_ids)->get();
+
+        $is_tenant_org_of_roles_and_user_same = true;
+        foreach ($roles as $role) {
+            if ($role->tenant_organization_id != $tenant_organization_id)
+            {
+                $is_tenant_org_of_roles_and_user_same = false;
+                break;
+            }
+        }
+
+        if ( ! $is_tenant_org_of_roles_and_user_same) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'roles' => __('Tenant organization of roles is not same as tenant organization of user')
+            ]);
+        }
     }
 
     // relations

@@ -19,7 +19,7 @@ class TenantOrganization extends Model{
 
         $this->setSingularTitle('Tenant Organization');
         $this->setPluralTitle('Tenant Organizations');
-        $this->setPermissionSlug('tenant-organizations');
+        $this->setPermissionId('tenant-organizations');
 
         $this->addGridColumn([
             'id' => 'name', 

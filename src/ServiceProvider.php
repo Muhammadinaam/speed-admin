@@ -15,6 +15,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->setMenu();
+        $this->addPermissions();
 
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('admin_auth', AdminAuth::class);
@@ -72,9 +73,33 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new SpeedAdminModelsRegistery();
         });
 
+        $this->app->singleton('speed-admin-permissions', function() {
+            return new SpeedAdminPermissions();
+        });
+
+        $this->app->singleton('speed-admin-settings', function() {
+            return new SpeedAdminSettings();
+        });
+
         \SpeedAdminHelpers::setModelRegistry(
             \App\Models\User::class, 
             \MuhammadInaamMunir\SpeedAdmin\Models\User::class
+        );
+    }
+
+    private function addPermissions()
+    {
+        $permissions = $this->app->make('speed-admin-permissions');
+
+        $permissions->addPermission('Administration', 'General', 'can-access-admin-panel', 'Can access admin panel');
+
+        $permissions->addModelPermissions(
+            'Administration',
+            \MuhammadInaamMunir\SpeedAdmin\Models\User::class,
+            true,
+            true,
+            true,
+            true
         );
     }
 

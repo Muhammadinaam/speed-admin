@@ -28,8 +28,8 @@ trait TenantOrganization
             'title' => __('Tenant Organization'), 
             'order_by' => 'tenant_organizations.name', 
             'search_by' => 'tenant_organizations.name', 
-            'render_function' => function ($user) {
-                return $user->tenantOrganization != null ? $user->tenantOrganization->name : '';
+            'render_function' => function ($obj) {
+                return $obj->tenant_organization_name != null ? $obj->tenant_organization_name : '';
             }
         ]);
     }
@@ -59,5 +59,13 @@ trait TenantOrganization
     public function tenantOrganization()
     {
         return $this->belongsTo(\MuhammadInaamMunir\SpeedAdmin\Models\TenantOrganization::class);
+    }
+
+    public function addTenantOrganizationColumnToQuery($query)
+    {
+        $query->leftJoin('tenant_organizations', 'tenant_organizations.id', '=', 'users.tenant_organization_id')
+            ->addSelect('tenant_organizations.name as tenant_organization_name');
+
+        return $query;
     }
 }

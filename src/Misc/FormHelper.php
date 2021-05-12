@@ -89,6 +89,11 @@ class FormHelper{
         {
             \DB::beginTransaction();
 
+            if (method_exists($model, 'beforeSave')) 
+            {
+                $model->beforeSave($request, $model, $id);
+            }
+
             $obj = $id != null ? $model->find($id) : $model;
     
             $form_items = $model->getFormItems();
@@ -99,11 +104,21 @@ class FormHelper{
             }
     
             $obj->save();
+
+            if (method_exists($model, 'afterSave')) 
+            {
+                $model->afterSave($request, $model, $id);
+            }
+
             \DB::commit();
 
             return ['success' => true, 'message' => __('Saved successfully'), 'obj' => $obj];
 
-        } catch (\Exception $ex) {
+        }
+        catch(\Illuminate\Validation\ValidationException $validationException) {
+            throw $validationException;
+        }
+        catch (\Exception $ex) {
             \DB::rollBack();
             Log::error($ex);
             return [

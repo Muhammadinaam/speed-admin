@@ -23,7 +23,7 @@
                     <i class="cil-filter"></i> {{ __('Filter') }}
                 </button>
                 @if($model->_is_add_enabled)
-                    @if(\SpeedAdminHelpers::hasPermission($model->getAddPermissionSlug()))
+                    @if(\SpeedAdminHelpers::hasPermission($model->getAddPermissionId()))
                     <a class="btn btn-sm btn-primary" href="{{ $index_url . '/create' }}">
                         <i class="cil-plus"></i> {{ __('Add new') }}
                     </a>
@@ -86,8 +86,8 @@
 
             <table
                 data-model="{{urlencode(get_class($model))}}"
-                data-has_edit_permission="{{\SpeedAdminHelpers::hasPermission($model->getEditPermissionSlug())}}"
-                data-has_delete_permission="{{\SpeedAdminHelpers::hasPermission($model->getDeletePermissionSlug())}}"
+                data-has_edit_permission="{{\SpeedAdminHelpers::hasPermission($model->getEditPermissionId())}}"
+                data-has_delete_permission="{{\SpeedAdminHelpers::hasPermission($model->getDeletePermissionId())}}"
                 data-get_data_url="{{$get_data_url}}"
                 data-index_url="{{$index_url}}"
                 id="table_{{$uniqid}}" 

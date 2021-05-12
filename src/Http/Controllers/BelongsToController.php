@@ -38,7 +38,7 @@ class BelongsToController extends BaseController
         $model_name = urldecode(request()->model);
         $model = \SpeedAdminHelpers::getModelInstance($model_name);
 
-        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionSlug());
+        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionId());
 
         return view('speed-admin::add-new', [
             'model' => $model,
@@ -52,7 +52,7 @@ class BelongsToController extends BaseController
         $model_name = urldecode(request()->_model_);
         $model = \SpeedAdminHelpers::getModelInstance($model_name);
 
-        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionSlug());
+        \SpeedAdminHelpers::abortIfDontHavePermission($model->getAddPermissionId());
         return FormHelper::validateAndSaveFormData($request, $model, null);
     }
 }

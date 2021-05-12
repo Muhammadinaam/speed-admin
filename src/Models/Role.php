@@ -20,7 +20,7 @@ class Role extends Model{
 
         $this->setSingularTitle('Role');
         $this->setPluralTitle('Roles');
-        $this->setPermissionSlug('role');
+        $this->setPermissionId('role');
 
         $this->addGridColumn([
             'id' => 'name', 
@@ -79,11 +79,22 @@ class Role extends Model{
 
     public function getTextAttribute()
     {
-        return $this->name;
+        $tenant_org_name = '';
+
+        if(\SpeedAdminHelpers::userHasAccessToAllTenantOrganizations(\Auth::user()))
+        {
+            $tenant_org_name = $this->tenantOrganization != null ? ' [' .$this->tenantOrganization->name. ']' : ''; 
+        }
+
+        return $this->name . $tenant_org_name;
     }
 
     public function getGridQuery($request)
     {
-        return $this;
+        $query = $this;
+
+        $query = $this->addTenantOrganizationColumnToQuery($query);
+
+        return $query;
     }
 }
