@@ -7,18 +7,24 @@ class BaseInputProcessor{
     public function process($form_item, $obj, $request, $repeater_index)
     {
         $name = isset($form_item['name']) ? $form_item['name'] : null;
-        $is_relation_field = $name == null ? false : str_contains($name, '.');
+        
+        $this->setTranslations($obj, $name, $request);
 
-        if (!$is_relation_field) {
-            $this->processNonRelationField($form_item, $obj, $request, $name, $repeater_index);
-        }
-        else
+        $this->processInput($form_item, $obj, $request, $name, $repeater_index);
+    }
+
+    private function setTranslations($obj, $name, $request)
+    {
+        if($obj->translatable && in_array($name, $obj->translatable))
         {
-            $this->processRelationField($form_item, $obj, $request, $name, $repeater_index);
+            foreach(config('speed-admin.additional_model_locales') as $locale)
+            {
+                $obj->setTranslation($name, $locale['locale'], $request[$name . '_' . $locale['locale']]);
+            }
         }
     }
 
-    public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
+    public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
         if($name == null) {
             return;
@@ -27,11 +33,5 @@ class BaseInputProcessor{
         $empty_value = $form_item['type'] == 'checkbox' ? false : null;
         $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
         $obj->{$name} = $request->has($name) ? $value : $empty_value;
-    }
-
-    public function processRelationField($form_item, $obj, $request, $name, $repeater_index)
-    {
-        throw new \Exception("To be implemented", 1);
-        
     }
 }

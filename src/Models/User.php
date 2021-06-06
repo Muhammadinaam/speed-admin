@@ -72,15 +72,17 @@ class User extends BaseUser{
 
         $this->addTenantOrganizationGridColumn();
 
-        $this->addGridColumn([
-            'id' => 'is_tenant_organization_admin', 
-            'title' => __('Tenant Organization Admin'), 
-            'order_by' => 'users.is_tenant_organization_admin', 
-            'search_by' => 'users.is_tenant_organization_admin', 
-            'render_function' => function ($user) {
-                return GridHelper::renderBoolean($user->is_tenant_organization_admin);
-            }
-        ]);
+        if(config('speed-admin.enable_tenant_organization_feature')) {
+            $this->addGridColumn([
+                'id' => 'is_tenant_organization_admin', 
+                'title' => __('Tenant Organization Admin'), 
+                'order_by' => 'users.is_tenant_organization_admin', 
+                'search_by' => 'users.is_tenant_organization_admin', 
+                'render_function' => function ($user) {
+                    return GridHelper::renderBoolean($user->is_tenant_organization_admin);
+                }
+            ]);
+        }
 
         $this->addGridColumn([
             'id' => 'is_active', 
@@ -183,17 +185,19 @@ class User extends BaseUser{
 
         $this->addTenantOrganizationSelectorFormItem('right-col');
 
-        $this->addFormItem([
-            'id' => 'is_tenant_organization_admin',
-            'parent_id' => 'right-col',
-            'type' => 'checkbox',
-            'label' => __('Tenant Organization Admin'),
-            'name' => 'is_tenant_organization_admin',
-            'is_visible' => function() {
-                $user = \SpeedAdminHelpers::currentUser();
-                return \SpeedAdminHelpers::userHasAccessToAllTenantOrganizations($user);
-            }
-        ]);
+        if(config('speed-admin.enable_tenant_organization_feature')) {
+            $this->addFormItem([
+                'id' => 'is_tenant_organization_admin',
+                'parent_id' => 'right-col',
+                'type' => 'checkbox',
+                'label' => __('Tenant Organization Admin'),
+                'name' => 'is_tenant_organization_admin',
+                'is_visible' => function() {
+                    $user = \SpeedAdminHelpers::currentUser();
+                    return \SpeedAdminHelpers::userHasAccessToAllTenantOrganizations($user);
+                }
+            ]);
+        }
 
         $this->addFormItem([
             'id' => 'is_superadmin',
@@ -250,8 +254,18 @@ class User extends BaseUser{
 
     public function beforeSave($request, $model, $id)
     {
+        $this->roleTenantAndUserTenantShouldBeSame($request, $model, $id);
+    }
+
+    private function roleTenantAndUserTenantShouldBeSame($request, $model, $id)
+    {
         $tenant_organization_id = $request->tenant_organization;
         $roles_ids = $request->roles;
+
+        if ($roles_ids == null)
+        {
+            return;
+        }
 
         $roles = Role::whereIn('id', $roles_ids)->get();
 

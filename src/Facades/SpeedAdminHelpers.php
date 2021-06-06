@@ -26,6 +26,11 @@ class SpeedAdminHelpers
         }
     }
 
+    public function abortIfDontHavePermissionByTenant($obj)
+    {
+        return $obj->tenant_organization_id == \Auth::user()->tenant_organization_id;
+    }
+
     public function userHasAccessToAllTenantOrganizations($user)
     {
         return $user->is_superadmin || $user->tenant_organization_id == null;
@@ -77,5 +82,33 @@ class SpeedAdminHelpers
     public function getModelInstance($model_class)
     {
         return app()->make('speed-admin-models-registry')->getModelInstance($model_class);
+    }
+
+    public function getLocaleSuffixAndValue($data)
+    {
+        $locale_suffix = '';
+        $value = '';
+        $obj = $data['obj'];
+        $locale = $data['locale'];
+        $form_item = $data['form_item'];
+
+        if($obj != null)
+        {
+            $value = $obj->translatable ? 
+                $obj->getTranslation($form_item['name'], config('speed-admin.default_model_locale')) : 
+                $obj->{$form_item['name']};
+        }
+
+        if($locale != null)
+        {
+            $locale_suffix = '_'.$locale;
+
+            if(isset($obj))
+            {
+                $value = $obj->getTranslation($form_item['name'], $locale);
+            }
+        }
+
+        return compact(['locale_suffix', 'value']);
     }
 }

@@ -26,6 +26,22 @@ class SpeedAdminPermissions{
         ]);
     }
 
+    public function getPermissionLabel($permission_id)
+    {
+        $permissions_collection = collect($this->permissions);
+
+        $permission = $permissions_collection->first(function($permission, $index) use ($permission_id) {
+            return $permission['permission_id'] == $permission_id;
+        });
+
+        if($permission != null)
+        {
+            return $permission['permission_label'];
+        }
+
+        return '';
+    }
+
     public function addModelPermissions($group, $model_class_name, $add, $edit, $delete, $list)
     {
         $model = \SpeedAdminHelpers::getModelInstance($model_class_name);

@@ -19,7 +19,15 @@ return [
     ],
 
     'footer_right_html' => 'Powered by&nbsp;<a href="#">Speed Admin</a>',
-    'footer_left_html' => '<a href="#">CoreUI</a> © 2021 Speed Admin.',
+    'footer_left_html' => '<a href="#">CoreUI</a> © Speed Admin.',
 
-    'user_primary_key_type' => 'integer'    // 'integer' or 'uuid'
+    'user_primary_key_type' => 'integer',    // 'integer' or 'uuid'
+
+    'enable_tenant_organization_feature' => false,
+
+    'default_model_locale' => 'en',
+    'additional_model_locales' => [
+        ['name' => 'Urdu', 'locale' => 'ur'],
+        ['name' => 'Arabic', 'locale' => 'ar'],
+    ]
 ];

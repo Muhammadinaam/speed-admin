@@ -14,11 +14,12 @@ class SpeedAdminBaseController extends BaseController
 
     protected $index_url = 'please-set-index_url-variable-in-controller';
 
+    
     public function __construct()
     {
         $this->index_url = str_replace('admin', config('speed-admin.admin_url'), $this->index_url);
         $this->model_obj = \SpeedAdminHelpers::getModelInstance($this->model);;
-    }    
+    }
 
     public function index(Request $request)
     {
@@ -45,10 +46,12 @@ class SpeedAdminBaseController extends BaseController
 
     public function edit(Request $request, $id)
     {
+        $obj = $this->model_obj->find($id);
+        \SpeedAdminHelpers::abortIfDontHavePermissionByTenant($obj);
         \SpeedAdminHelpers::abortIfDontHavePermission($this->model_obj->getEditPermissionId());
         return view('speed-admin::crud.create-edit', [
             'model' => $this->model_obj,
-            'obj' => $this->model_obj->find($id),
+            'obj' => $obj,
             'index_url' => url($this->index_url),
         ]);
     }
@@ -61,12 +64,16 @@ class SpeedAdminBaseController extends BaseController
 
     public function update(Request $request, $id)
     {
+        $obj = $this->model_obj->find($id);
+        \SpeedAdminHelpers::abortIfDontHavePermissionByTenant($obj);
         \SpeedAdminHelpers::abortIfDontHavePermission($this->model_obj->getEditPermissionId());
         return FormHelper::validateAndSaveFormData($request, $this->model_obj, $id);
     }
 
     public function destroy(Request $request, $id)
     {
+        $obj = $this->model_obj->find($id);
+        \SpeedAdminHelpers::abortIfDontHavePermissionByTenant($obj);
         \SpeedAdminHelpers::abortIfDontHavePermission($this->model_obj->getDeletePermissionId());
 
         $this->model_obj->where('id', $id)->delete();

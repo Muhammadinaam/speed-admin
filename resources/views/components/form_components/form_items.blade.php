@@ -14,6 +14,7 @@
             'model' => $model,
             'form_item' => $form_item,
             'obj' => isset($obj) ? $obj : null,
+            'locale' => isset($locale) ? $locale : null
         ])
         @endcomponent
     @endif

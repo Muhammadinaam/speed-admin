@@ -115,15 +115,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'permission' => null 
         ]);
 
-        $menu->addMenu('side-bar', [
-            'id' => 'tenant-organizations-list',
-            'parent_id' => 'administration',
-            'before_id' => null,
-            'title' => __('Tenant Organizations'),
-            'icon' => 'cil-speedometer',
-            'permission' => 'tenant-organization-list',
-            'href' => url(config('speed-admin.admin_url')) . '/tenant-organizations',
-        ]);
+        if(config('speed-admin.enable_tenant_organization_feature'))
+        {
+            $menu->addMenu('side-bar', [
+                'id' => 'tenant-organizations-list',
+                'parent_id' => 'administration',
+                'before_id' => null,
+                'title' => __('Tenant Organizations'),
+                'icon' => 'cil-speedometer',
+                'permission' => 'tenant-organization-list',
+                'href' => url(config('speed-admin.admin_url')) . '/tenant-organizations',
+            ]);
+        }
 
         $menu->addMenu('side-bar', [
             'id' => 'users-list',
@@ -145,6 +148,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'href' => url(config('speed-admin.admin_url')) . '/roles',
         ]);
 
+        // TODO
+        /*
         $menu->addMenu('side-bar', [
             'id' => 'settings',
             'parent_id' => 'administration',
@@ -164,5 +169,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'permission' => 'manage-applications',
             'href' => url(config('speed-admin.admin_url')) . '/applications',
         ]);
+        */
     }
 }

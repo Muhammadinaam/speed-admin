@@ -27,6 +27,7 @@
                     <?php
                         $show_list_button = isset($show_list_button) ? $show_list_button : true; // default true
                     ?>
+
                     @if($show_list_button)
                         @if(\SpeedAdminHelpers::hasPermission($model->getListPermissionId()))
                         <a class="btn btn-sm btn-primary" href="{{ $index_url }}">
@@ -34,17 +35,27 @@
                         </a>
                         @endif
                     @endif
+
                 </div>
                 @endif
             </div>
         </div>
         <div class="card-body p-2">
+
             @component('speed-admin::components.form_components.form_items', [
                 'model' => $model,
                 'form_items' => $model->getFormItems(),
                 'obj' => isset($obj) ? $obj : null,
             ])
             @endcomponent
+
+            @component('speed-admin::components.form_components.translations_form_items', [
+                'model' => $model,
+                'obj' => isset($obj) ? $obj : null,
+                'uniqid' => $uniqid
+            ])
+            @endcomponent
+
         </div>
         <div class="card-footer p-2">
             <button type="submit" class="btn btn-primary">

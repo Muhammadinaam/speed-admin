@@ -151,6 +151,8 @@
                 <!-- TODO: top menu here -->
             </ul>
             <ul class="c-header-nav {{$is_rtl ? 'ml-4 mr-auto' : 'ml-auto mr-4'}}">
+                
+                <!--
                 <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
                         <svg class="c-icon">
                             <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-bell')}}"></use>
@@ -163,6 +165,7 @@
                         <svg class="c-icon">
                             <use xlink:href="{{asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-envelope-open')}}"></use>
                         </svg></a></li>
+                -->
                 @component('speed-admin::components.lang_selector')
                 @endcomponent
                 <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#"

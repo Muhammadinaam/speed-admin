@@ -33,12 +33,17 @@ class Role extends Model{
         ]);
 
         $this->addGridColumn([
-            'id' => 'level', 
-            'title' => __('Level'),
-            'order_by' => 'roles.level', 
-            'search_by' => 'roles.level', 
+            'id' => 'permissions', 
+            'title' => __('Permissions'),
             'render_function' => function ($role) {
-                return $role->level;
+                $html = '';
+                foreach ($role->permissions as $permission) {
+                    $speed_admin_permissions = app()->make('speed-admin-permissions');
+                    $html .= '<span class="badge badge-primary p-1 m-1">' . 
+                    $speed_admin_permissions->getPermissionLabel($permission->permission_id) . 
+                    '</span>';
+                }
+                return $html;
             }
         ]);
 
@@ -53,21 +58,13 @@ class Role extends Model{
             'name' => 'name'
         ]);
 
-        $this->addFormItem([
-            'id' => 'level',
-            'parent_id' => null,
-            'type' => 'decimal',
-            'validation_rules' => ['level' => 'required|integer'],
-            'label' => __('Level'),
-            'name' => 'level'
-        ]);
-
         $this->addTenantOrganizationSelectorFormItem(null);
 
         $this->addFormItem([
             'id' => 'permissions',
             'parent_id' => null,
             'type' => 'custom',
+            'input_processing_requires_model_save' => true,
             'view_path' => 'speed-admin::components.form_components.permissions',
             'input_processor_classpath' => 'MuhammadInaamMunir\SpeedAdmin\Misc\FormInputProcessors\Permission',
             'options' => [
@@ -91,15 +88,21 @@ class Role extends Model{
 
     public function getGridQuery($request)
     {
-        $query = $this->with(['tenantOrganization'])
+        $query = $this->with(['permissions', 'tenantOrganization'])
             ->select([
                 'roles.id',
-                'roles.name',
-                'roles.level'
+                'roles.name'
             ]);
 
         $query = $this->addTenantOrganizationColumnToQuery($query);
 
         return $query;
+    }
+
+    public function permissions()
+    {
+        return $this->hasMany(
+            \MuhammadInaamMunir\SpeedAdmin\Models\PermissionRole::class
+        );
     }
 }

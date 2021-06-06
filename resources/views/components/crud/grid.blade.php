@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="card-body p-2">
-        <form id="form-options-{{ $uniqid }}">
+        <form id="form-options-{{ $uniqid }}" onsubmit="event.preventDefault(); speedAdmin.getGridData('{{$uniqid}}')">
             <input type="hidden" name="page" value="{{request()->page}}">
             <input type="hidden" name="order" value="{{request()->order}}">
 

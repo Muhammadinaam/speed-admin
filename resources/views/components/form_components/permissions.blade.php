@@ -21,7 +21,21 @@
                 <tr>
                     <td style="text-indent: 40px;">{{$sub_grouped_permission['permission_label']}}</td>
                     <td>
+
+                        <?php
+                            $checked = false;
+                            if(isset($obj) && $obj->permissions != null)
+                            {
+                                $found_permission = $obj->permissions->first(function($p) use ($sub_grouped_permission) {
+                                    return $p->permission_id == $sub_grouped_permission['permission_id'];
+                                });
+
+                                $checked = $found_permission != null;
+                            }
+                        ?>
+
                         <input type="checkbox" 
+                            {{$checked ? 'checked' : ''}}
                             name="permissions[{{$sub_grouped_permission['permission_id']}}]" 
                             id="{{$sub_grouped_permission['permission_id']}}"
                             value="1">

@@ -616,5 +616,5 @@ speedAdmin = {
     let grid_action_select = document.getElementById(`grid_action_${uniqid}`);
     let actionId = grid_action_select.value;
     return { model, actionId };
-  },
+  }
 }

@@ -38,9 +38,19 @@ trait Crud{
         return $this->permission_id . '_add';
     }
 
+    public function hasAddPermission()
+    {
+        return \SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $this->getAddPermissionId());
+    }
+
     public function getEditPermissionId()
     {
         return $this->permission_id . '_edit';
+    }
+
+    public function hasEditPermission()
+    {
+        return \SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $this->getEditPermissionId());
     }
 
     public function getListPermissionId()
@@ -48,9 +58,19 @@ trait Crud{
         return $this->permission_id . '_list';
     }
 
+    public function hasListPermission()
+    {
+        return \SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $this->getListPermissionId());
+    }
+
     public function getDeletePermissionId()
     {
         return $this->permission_id . '_delete';
+    }
+
+    public function hasDeletePermission()
+    {
+        return \SpeedAdminHelpers::userHasPermission(\Auth::user()->id, $this->getDeletePermissionId());
     }
 
     public function getSingularTitle()

@@ -54,8 +54,11 @@ Route::middleware(['web', 'admin_auth', 'language'])
     Route::resource('users', UserController::class);
     Route::get('users-data', [UserController::class, 'getData'])->name('users.get-data');
 
-    Route::resource('tenant-organizations', TenantOrganizationController::class);
-    Route::get('tenant-organizations-data', [TenantOrganizationController::class, 'getData'])->name('tenant-organizations.get-data');
+    if(config('speed-admin.enable_tenant_organization_feature'))
+    {
+        Route::resource('tenant-organizations', TenantOrganizationController::class);
+        Route::get('tenant-organizations-data', [TenantOrganizationController::class, 'getData'])->name('tenant-organizations.get-data');
+    }
 
     Route::resource('roles', RoleController::class);
     Route::get('roles-data', [RoleController::class, 'getData'])->name('roles.get-data');

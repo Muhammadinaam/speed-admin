@@ -7,7 +7,7 @@ use MuhammadInaamMunir\SpeedAdmin\Misc\FormHelper;
 
 class Repeater extends BaseInputProcessor{
 
-    public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
+    public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
         if(isset($form_item['children']))
         {

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BelongsToMany extends BaseInputProcessor{
 
-    public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
+    public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
         if($request->has($name)) {
             $relation_name = $form_item['relation_name'];

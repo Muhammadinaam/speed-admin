@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Image extends BaseInputProcessor{
 
-    public function processNonRelationField($form_item, $obj, $request, $name, $repeater_index)
+    public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
         $deleted_value = $repeater_index === null ? $request->{$name . '_deleted'} : $request->{$name . '_deleted'}[$repeater_index];
 

@@ -35,3 +35,8 @@ composer dump autoload
 `
 php artisan speed-admin:create-admin-user
 `
+
+## Thanks to follwoing packages
+
+spatie/laravel-translatable
+coreui

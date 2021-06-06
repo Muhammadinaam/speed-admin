@@ -16,7 +16,6 @@ class CreateTableRoles extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->integer('level');
             SpeedAdminHelpers::createTenantOrganizationForeignKey($table);
             $table->timestamps();
             SpeedAdminHelpers::createdByUpdatedByMigrations($table);

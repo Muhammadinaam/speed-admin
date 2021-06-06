@@ -15,3 +15,20 @@ td > .form-group {
   margin: 0;
   padding: 0;
 }
+
+
+
+/* chevron down */
+.trans-container [data-toggle="collapse"]::after,
+.trans-container [aria-expanded=false]::after {
+  content: "\f13a";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+/* chevron up */
+.trans-container [aria-expanded=true]::after {
+  content: "\f139";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
