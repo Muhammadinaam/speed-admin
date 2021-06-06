@@ -1,4 +1,17 @@
 speedAdmin = {
+
+  // this function sets innerhtml and also executes scripts
+  // https://stackoverflow.com/a/47614491/5013099
+  setInnerHTML: function(elm, html) {
+    elm.innerHTML = html;
+    Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes)
+        .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  },
   getParameterByNameFromUrl: function getParameterByNameFromUrl(name, url) {
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),

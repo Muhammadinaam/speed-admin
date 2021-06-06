@@ -7,6 +7,11 @@ class BaseInputProcessor{
     public function process($form_item, $obj, $request, $repeater_index)
     {
         $name = isset($form_item['name']) ? $form_item['name'] : null;
+
+        if(isset($form_item['display_only']) && $form_item['display_only']) {
+            // don't process
+            return;
+        }
         
         $this->setTranslations($obj, $name, $request);
 

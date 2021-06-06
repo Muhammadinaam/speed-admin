@@ -113,10 +113,11 @@ class GridHelper{
                 throw new \Exception("'id' column not found. Please add 'id' column to select part of your query", 1);
             }
 
-            // if($item->text == null)
-            // {
-            //     throw new \Exception("'text' attribute not found. Please add getTextArribute() to your model: " . get_class($model), 1);
-            // }
+            if( !property_exists($item, 'text'))
+            {
+                throw new \Exception(
+                    "'text' attribute not found. Please add getTextArribute() and add appends ('protected \$appends = ['text'];') to your model: " . get_class($model), 1);
+            }
 
             $rendered_item->__id__ = $item->id;
             $rendered_item->__text__ = $item->text;

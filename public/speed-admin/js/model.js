@@ -4,7 +4,10 @@ speedAdminModel = {
     speedAdminModel.openModal(config.id)
     axios.get(config.url)
       .then(response => {
-        modalDiv.querySelector('.modal-body').innerHTML = response.data;
+        
+        let modelBody = modalDiv.querySelector('.modal-body');
+        speedAdmin.setInnerHTML(modelBody, response.data)
+
         speedAdmin.initializeUninitializedItems(modalDiv);
 
         if (config.urlLoadedCallback) {

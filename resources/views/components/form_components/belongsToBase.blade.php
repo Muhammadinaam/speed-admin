@@ -7,7 +7,6 @@ $name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $for
     <div style="display: flex; min-width: 200px; align-items: flex-start;">
         <div style="width: 85%;">
             <select
-                id="select_{{$uniqid}}"
                 name="{{ $name }}" 
                 class="form-control"
 
@@ -26,12 +25,16 @@ $name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $for
                 @if(isset($multiple) && $multiple == true)
                     @if( isset($obj) && $obj->{$form_item['relation_name']} != null && count($obj->{$form_item['relation_name']}) > 0 )
                         @foreach($obj->{$form_item['relation_name']} as $related_item)
-                        <option value="{{$related_item->id}}" selected>{{$related_item->text}}</option>    
+                        <option value="{{$related_item->id}}" selected data-data="{{ json_encode($related_item) }}">
+                            {{$related_item->text}}
+                        </option>    
                         @endforeach
                     @endif
                 @else
                     @if( isset($obj) && $obj->{$form_item['relation_name']} != null )
-                    <option value="{{$obj->{$form_item['relation_name']}->id}}">{{$obj->{$form_item['relation_name']}->text}}</option>
+                    <option value="{{$obj->{$form_item['relation_name']}->id}}" data-data="{{ json_encode($obj->{$form_item['relation_name']}) }}">
+                        {{$obj->{$form_item['relation_name']}->text}}
+                    </option>
                     @endif
                 @endif
 

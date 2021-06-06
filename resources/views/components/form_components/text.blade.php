@@ -16,5 +16,6 @@
         class="form-control" 
         name="{{ $form_item['name'] }}{{$locale_suffix}}" 
         data-id="{{ $form_item['id'] }}{{$locale_suffix}}"
-        value="{{$value}}">
+        value="{{$value}}"
+        {{isset($form_item['readonly']) && $form_item['readonly'] ? 'readonly' : '' }}>
 </div>

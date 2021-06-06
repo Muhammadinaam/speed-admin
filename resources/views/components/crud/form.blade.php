@@ -76,6 +76,7 @@
     @endif
     <script>
         speedAdmin.ready(function(){
+            form = document.querySelector('#form_{{$uniqid}}')
             speedAdmin.initializeUninitializedItems(form);
         })
     </script>

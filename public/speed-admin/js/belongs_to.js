@@ -20,15 +20,15 @@ speedAdminBelongsTo = {
     });
   },
 
-  belongsToAddNewButtonClicked: function belongsToAddNewButtonClicked(uniqid) {
-    let modalId = 'modal_' + uniqid;
+  belongsToAddNewButtonClicked: function belongsToAddNewButtonClicked(btn) {
+    let modalId = 'modal_' + new Date().valueOf();
 
-    let select = document.getElementById(`select_${uniqid}`);
+    let select = btn.closest('div').querySelector('select');
     let dataModelName = select.dataset['model'];
 
     speedAdminModel.loadUrlInModal({
       id: modalId,
-      url: window.showAddNewFormRoute + '?model=' + dataModelName,
+      url: window.showAddNewFormRoute + '?dont_redirect_on_save=1&model=' + dataModelName,
       modalDialogClasses: 'modal-xl',
       modalTitle: window.addNew,
       closeModalCallback: () => {
@@ -37,7 +37,17 @@ speedAdminBelongsTo = {
         let form = modalDiv.querySelector('form');
         form.addEventListener('saved', function(e) {
           console.log(e.detail);
-          select.append(new Option(e.detail.text, e.detail.id, false, true))
+          $(select)
+            .append(new Option(e.detail.text, e.detail.id, false, true))
+            .trigger('change')
+
+          $(select).trigger({
+            type: 'select2:select',
+            params: {
+                data: e.detail
+            }
+          });
+
           let modalDivId = form.closest('.model-container').getAttribute('id')
           speedAdminModel.closeModal(modalDivId);
         })
@@ -45,8 +55,7 @@ speedAdminBelongsTo = {
     })
   },
   
-  belongsToSelectFromTableButtonClicked: function belongsToSelectFromTableButtonClicked(uniqid) {
-    // alert(uniqid)
+  belongsToSelectFromTableButtonClicked: function belongsToSelectFromTableButtonClicked(btn) {
     alert("this feature will be available soon")
   },
 }
