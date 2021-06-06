@@ -11,7 +11,7 @@
 
         @if(isset($form_item['children']))
             <div class="table-responsive">
-                <table class="table table-sm">
+                <table class="table table-sm {{$form_item['id']}}">
                     <thead>
                         @foreach($form_item['children'] as $child)
                         <th>{{$child['label']}}</th>
@@ -94,7 +94,7 @@
 
     @else
         @if(isset($form_item['children']))
-            <div class="repeated-items-container">
+            <div class="repeated-items-container {{$form_item['id']}}">
                 <div style="display: none;" class="template repeated-item">
 
                 <!-- hidden input for id (primary key) of repeated item -->
