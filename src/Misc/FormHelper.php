@@ -121,6 +121,11 @@ class FormHelper{
         catch (\Exception $ex) {
             \DB::rollBack();
             Log::error($ex);
+
+            if (env('APP_DEBUG')) {
+                throw $ex;
+            }
+
             return [
                 'success' => false, 
                 'message' => __('Error occurred while trying to save data')

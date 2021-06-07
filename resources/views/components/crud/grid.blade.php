@@ -50,6 +50,7 @@
             <div class="col-md-6 input-group input-group-sm">
                 <select class="form-control" id="grid_action_{{$uniqid}}">
                     <option value="">---</option>
+                    <option value="delete">{{__('Delete')}}</option>
                     @foreach($model->getGridActions() as $action)
                     <option value="{{$action['id']}}">{{$action['title']}}</option>
                     @endforeach

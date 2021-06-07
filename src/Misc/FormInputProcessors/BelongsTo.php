@@ -4,7 +4,7 @@ namespace MuhammadInaamMunir\SpeedAdmin\Misc\FormInputProcessors;
 
 use Illuminate\Support\Facades\Storage;
 
-class BelongsTo extends BaseInputProcessor{
+class BelongsTo extends BelongsToBase{
 
     public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
@@ -14,6 +14,9 @@ class BelongsTo extends BaseInputProcessor{
     
             $foreign_key_name = $obj->{$relation_name}()->getForeignKeyName();
             $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
+
+            $this->checkWhereCondition($model, $value, $form_item, $repeater_index);
+
             $obj->{$foreign_key_name} = $value;
         }
     }
