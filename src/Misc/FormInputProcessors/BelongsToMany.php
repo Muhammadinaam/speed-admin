@@ -12,7 +12,12 @@ class BelongsToMany extends BaseInputProcessor{
             $relation_name = $form_item['relation_name'];
             $model = \SpeedAdminHelpers::getModelInstance($form_item['model']);
 
-            $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
+            $value = null;
+            if ($repeater_index === null) {
+                $value = $request->{$name};
+            } else if (isset($request->{$name}[$repeater_index])) {
+                $value = $request->{$name}[$repeater_index];
+            }
             
             if($obj->getKey() == null) {
                 $obj->save();
