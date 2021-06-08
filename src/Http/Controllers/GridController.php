@@ -9,8 +9,8 @@ class GridController extends BaseController
 {
     public function performGridAction()
     {
+        // TODO
         throw new \Exception("Add permission checking code here", 1);
-        
 
         $action_id = request()->action_id;
         $ids = request()->ids;

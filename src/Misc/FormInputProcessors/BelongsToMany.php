@@ -19,8 +19,10 @@ class BelongsToMany extends BelongsToBase{
                 $value = $request->{$name}[$repeater_index];
             }
 
-            foreach($value as $val) {
-                $this->checkWhereCondition($model, $val, $form_item, $repeater_index);
+            if ($value !== null) {
+                foreach($value as $val) {
+                    $this->checkWhereCondition($model, $val, $form_item, $repeater_index);
+                }
             }
             
             if($obj->getKey() == null) {
