@@ -19,9 +19,10 @@
             <div class="col-md-4 text-{{ $is_rtl ? 'left' : 'right' }}">
 
 
-                <button class="btn btn-sm btn-info" onclick="speedAdmin.toggleGridFilters('{{$uniqid}}')">
+                <!-- <button class="btn btn-sm btn-info" onclick="speedAdmin.toggleGridFilters('{{$uniqid}}')">
                     <i class="cil-filter"></i> {{ __('Filter') }}
-                </button>
+                </button> -->
+
                 @if($model->_is_add_enabled)
                     @if(\SpeedAdminHelpers::hasPermission($model->getAddPermissionId()))
                     <a class="btn btn-sm btn-primary" href="{{ $index_url . '/create' }}">
@@ -50,7 +51,7 @@
             <div class="col-md-6 input-group input-group-sm">
                 <select class="form-control" id="grid_action_{{$uniqid}}">
                     <option value="">---</option>
-                    <option value="delete">{{__('Delete')}}</option>
+                    <option value="__delete__">{{__('Delete')}}</option>
                     @foreach($model->getGridActions() as $action)
                     <option value="{{$action['id']}}">{{$action['title']}}</option>
                     @endforeach

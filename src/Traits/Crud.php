@@ -33,9 +33,23 @@ trait Crud{
         $this->permission_id = $value;
     }
 
+    public function getPermissionId()
+    {
+        if ($this->permission_id == null) {
+            $short_class_name = strtolower(preg_replace('/^(\w+\\\)*/', '', __CLASS__));
+            throw new \Exception(
+                'Set permission_id in model\'s ['.__CLASS__.'] constructor. '.
+                'Example: $this->setPermissionId(\''.$short_class_name.'\');',
+                1
+            );
+            
+        }
+        return $this->permission_id;
+    }
+
     public function getAddPermissionId()
     {
-        return $this->permission_id . '_add';
+        return $this->getPermissionId() . '_add';
     }
 
     public function hasAddPermission()
@@ -45,7 +59,7 @@ trait Crud{
 
     public function getEditPermissionId()
     {
-        return $this->permission_id . '_edit';
+        return $this->getPermissionId() . '_edit';
     }
 
     public function hasEditPermission()
@@ -55,7 +69,7 @@ trait Crud{
 
     public function getListPermissionId()
     {
-        return $this->permission_id . '_list';
+        return $this->getPermissionId() . '_list';
     }
 
     public function hasListPermission()
@@ -65,7 +79,7 @@ trait Crud{
 
     public function getDeletePermissionId()
     {
-        return $this->permission_id . '_delete';
+        return $this->getPermissionId() . '_delete';
     }
 
     public function hasDeletePermission()
