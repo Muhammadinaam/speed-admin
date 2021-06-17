@@ -21,11 +21,16 @@ class AuthController extends BaseController
      */
     public function authenticate(Request $request)
     {
+        $redirect_after_login = $request->redirect_after_login;
         $credentials = $request->only('email', 'password');
         $credentials['is_active'] = 1;
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            if($redirect_after_login != '') {
+                return redirect()->to($redirect_after_login);
+            }
 
             return redirect()->intended('/' . config('speed-admin.admin_url'));
         }

@@ -25,7 +25,7 @@
                                 <div class="input-group-prepend"><span class="input-group-text">
                                         <svg class="c-icon">
                                             <use
-                                                xlink:href="{{ asset(config('speed-admin.coreui_assets_path').'vendors/@coreui/icons/svg/free.svg#cil-user') }}">
+                                                xlink:href="{{ asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#cil-user') }}">
                                             </use>
                                         </svg></span></div>
                                 <input class="form-control" name="email" type="text" placeholder="Email">

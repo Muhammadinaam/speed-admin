@@ -16,7 +16,11 @@ class AddAdminColumnsToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('picture')->nullable();
             $table->boolean('is_superadmin')->default(false);
+            SpeedAdminHelpers::createTenantOrganizationForeignKey($table);
+            $table->boolean('is_tenant_organization_admin')->default(false);
             $table->boolean('is_active')->default(true);
+
+            SpeedAdminHelpers::createdByUpdatedByMigrations($table);
         });
     }
 

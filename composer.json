@@ -1,6 +1,6 @@
 {
   "name": "muhammad-inaam-munir/speed-admin",
-  "description": "A speed admin",
+  "description": "Admin panel for laravel. Quickly build admin like applications",
   "license": "MIT",
   "keywords": [
     "speed",
@@ -9,14 +9,14 @@
   "type": "library",
   "authors": [
     {
-      "name": "",
-      "email": ""
+      "name": "Muhammad Inaam Munir",
+      "email": "minaammunir@gmail.com"
     }
   ],
   "require": {
     "php": ">=7.2",
     "illuminate/support": "^6.0|^7.0|^8.0",
-    "infyomlabs/laravel-ui-adminlte": "^1.0"
+    "spatie/laravel-translatable": "^4.6.0"
   },
   "require-dev": {
     "orchestra/testbench": "^4.0|^5.0|^6.0",
