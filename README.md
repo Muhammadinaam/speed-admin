@@ -1,6 +1,6 @@
 # Speed Admin
 
-A rapid application development framework for Laravel.
+A rapid application development framework for Laravel. Documentation: [https://minaammunir.gitbook.io/speed-admin/](https://minaammunir.gitbook.io/speed-admin/)
 
 ## Installation
 
