@@ -4,6 +4,8 @@ description: A rapid application development framework for Laravel 8+.
 
 # Speed Admin
 
+![Easy to create datatables \(grid\)](.gitbook/assets/grid_pic.png)
+
 ## Documentation
 
 [https://minaammunir.gitbook.io/speed-admin/](https://minaammunir.gitbook.io/speed-admin/)
