@@ -36,9 +36,7 @@ class Repeater extends BaseInputProcessor{
                     FormHelper::processFormItemRecursively($child_form_item, $repeated_obj, $request, $i);
                 }
 
-                if($repeated_obj->getKey() == null) {
-                    $repeated_obj->save();
-                }
+                $repeated_obj->save();
             }
 
             $deleted_items_input_name = '__'.$form_item['id'] . '_deleted_items';

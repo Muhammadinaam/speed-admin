@@ -9,14 +9,9 @@ class BelongsTo extends BelongsToBase{
     public function processInput($form_item, $obj, $request, $name, $repeater_index)
     {
         if($request->has($name)) {
-            $relation_name = $form_item['relation_name'];
-            $model = \SpeedAdminHelpers::getModelInstance($form_item['model']);
-    
+            list($relation_name, $value) = $this->getAndValidateValue($form_item, $repeater_index, $request, $name);
+            
             $foreign_key_name = $obj->{$relation_name}()->getForeignKeyName();
-            $value = $repeater_index === null ? $request->{$name} : $request->{$name}[$repeater_index];
-
-            $this->checkWhereCondition($model, $value, $form_item, $repeater_index);
-
             $obj->{$foreign_key_name} = $value;
         }
     }

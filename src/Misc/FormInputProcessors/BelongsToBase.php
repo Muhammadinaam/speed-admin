@@ -23,7 +23,7 @@ class BelongsToBase extends BaseInputProcessor{
                 $form_item['name'] . ": " . __('Selection not valid.');
         
             if ($repeater_index !== null) {
-                $message .= __('Row Number: ') . $repeater_index + 1;
+                $message .= __('Row Number: ') . ($repeater_index + 1);
             }
         
             $error_messages_array = [];
@@ -35,5 +35,30 @@ class BelongsToBase extends BaseInputProcessor{
             );
             throw $error;
         }
+    }
+
+    protected function getAndValidateValue($form_item, $repeater_index, $request, $name)
+    {
+        $relation_name = $form_item['relation_name'];
+        $model = \SpeedAdminHelpers::getModelInstance($form_item['model']);
+        
+        $value = null;
+        if ($repeater_index === null) {
+            $value = $request->{$name};
+        } else if (isset($request->{$name}[$repeater_index])) {
+            $value = $request->{$name}[$repeater_index];
+        }
+        
+        if ($value !== null) {
+            if (is_array($value)) {
+                foreach($value as $val) {
+                    $this->checkWhereCondition($model, $val, $form_item, $repeater_index);
+                }
+            } else {
+                $this->checkWhereCondition($model, $value, $form_item, $repeater_index);
+            }
+        }
+
+        return array($relation_name, $value);
     }
 }

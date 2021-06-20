@@ -203,24 +203,27 @@ speedAdmin = {
     formGroup.querySelector('input[type="hidden"]').value = '1';
   },
   
-  setIndexOnMultipleSelectsInRepeaters: function setIndexOnMultipleSelectsInRepeaters(form) {
+  setIndexOnFieldsInRepeaters: function setIndexOnFieldsInRepeaters(form) {
     let repeaters = form.querySelectorAll('.repeater');
     for (let i = 0; i < repeaters.length; i++) {
-      let selects = repeaters[i].querySelectorAll('select[multiple]');
-      let index = 0;
-      for (let j = 0; j < selects.length; j++) {
-        if (selects[j].closest('.repeater') == repeaters[i]) {
-          let nameWithoutBrackets = selects[j].getAttribute('name');
-          if (nameWithoutBrackets) {
-            let bracketStart = nameWithoutBrackets.indexOf("[");
-            nameWithoutBrackets = nameWithoutBrackets.substring(0, bracketStart);
-  
-            let newName = nameWithoutBrackets + '[' + index + '][]';
-            selects[j].setAttribute('name', newName)
-            index++;
+      let repeatedItems = repeaters[i].querySelectorAll('.repeated-item:not(.template)');
+
+      for (let repeatedItemIndex = 0; repeatedItemIndex < repeatedItems.length; repeatedItemIndex++) {
+
+        let inputs = repeatedItems[repeatedItemIndex].querySelectorAll('select,input');
+        for (let j = 0; j < inputs.length; j++) {
+          if (inputs[j].closest('.repeater') == repeaters[i]) {
+            let nameWithBrackets = inputs[j].getAttribute('name');
+            if (nameWithBrackets) {
+              const regex = /\[.*?\]/;  // regex to replace first occurance of [] or [1] or [2], [...]
+              let newName = nameWithBrackets.replace(regex, '[' + repeatedItemIndex + ']');
+              
+              inputs[j].setAttribute('name', newName)
+            }
           }
         }
       }
+
     }
   },
   
@@ -228,7 +231,7 @@ speedAdmin = {
     event.preventDefault();
     let form = event.target;
   
-    speedAdmin.setIndexOnMultipleSelectsInRepeaters(form);
+    speedAdmin.setIndexOnFieldsInRepeaters(form);
   
     speedAdmin.enableFromSubmitButton(form, false);
   
@@ -237,6 +240,16 @@ speedAdmin = {
     let model = form.dataset['model'];
     if(model) {
       formData.append('_model_', model);
+    }
+
+    // select fields don't send value if null,
+    // this creates problem when select field is in repeater
+    // as it misses the array index
+    let fields = form.querySelectorAll('select')
+    for(let i = 0; i < fields.length; i++) {
+      if (!fields[i].value) {
+        formData.append(fields[i].getAttribute('name'), '');
+      }
     }
 
     let ajaxOptions = {
