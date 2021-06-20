@@ -1,6 +1,6 @@
 # Speed Admin
 
-A rapid application development framework for Laravel. 
+A rapid application development framework for Laravel 8+. 
 
 ## Documentation
 
@@ -20,19 +20,33 @@ composer require muhammad-inaam-munir/speed-admin
 php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProvider"
 ```
 
-## Add alias in app.php:
+### Add alias in app.php:
 
-'SpeedAdminHelpers' =&gt; MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminHelpersFacade::class,
+```bash
+'SpeedAdminHelpers' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminHelpersFacade::class,
+```
 
-## Run following commands
+### Run following commands
 
-`php artisan config:cache php artisan config:clear php artisan clear-compiled composer dump autoload`
+```bash
+php artisan config:cache
+php artisan config:clear
+php artisan clear-compiled
+composer dump autoload
+```
 
-## Run following command to create admin user
+### Run the following command to create the admin user
 
-`php artisan speed-admin:create-admin-user`
+```bash
+php artisan speed-admin:create-admin-user
+```
 
-## Thanks to follwoing packages
+## Credits: thanks to the following packages
 
-spatie/laravel-translatable coreui
+* spatie/laravel-translatable
+* coreui
+
+## License
+
+MIT
 
