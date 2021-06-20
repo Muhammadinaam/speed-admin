@@ -24,7 +24,7 @@ php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProv
 
 ### Add alias in app.php:
 
-```bash
+```php
 'SpeedAdminHelpers' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminHelpersFacade::class,
 ```
 
