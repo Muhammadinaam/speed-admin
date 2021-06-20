@@ -1,6 +1,8 @@
-# Speed Admin
+---
+description: A rapid application development framework for Laravel 8+.
+---
 
-A rapid application development framework for Laravel 8+. 
+# Speed Admin
 
 ## Documentation
 
