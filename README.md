@@ -4,7 +4,13 @@ description: A rapid application development framework for Laravel 8+.
 
 # Speed Admin
 
+Easy to create data tables \(grid\)
+
 ![Easy to create datatables \(grid\)](.gitbook/assets/grid_pic.png)
+
+Easy to add Forms with **translations support**
+
+![Easy to add Forms with translations support](.gitbook/assets/form_pic.png)
 
 ## Documentation
 
