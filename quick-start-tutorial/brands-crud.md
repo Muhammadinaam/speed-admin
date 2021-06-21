@@ -6,7 +6,7 @@ In root folder of your project, run the following command in the terminal to cre
 php artisan make:model Brand -m
 ```
 
-Update migration file as shown below to add database columns for `image, name and is_active` . Notice \(ADD THIS CODE\) comment below
+Update migration file as shown below to add database columns for `image, name and is_active` . Notice \(ADD THIS CODE\) comment below:
 
 {% tabs %}
 {% tab title="PHP" %}

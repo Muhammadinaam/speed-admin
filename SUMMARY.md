@@ -1,9 +1,6 @@
 # Table of contents
 
 * [Speed Admin](README.md)
-* [Untitled](untitled.md)
-
-## docs
 
 ## Quick Start \(Tutorial\)
 
