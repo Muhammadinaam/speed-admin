@@ -39,7 +39,10 @@
     "laravel": {
       "providers": [
         "MuhammadInaamMunir\\SpeedAdmin\\ServiceProvider"
-      ]
+      ],
+      "aliases": {
+        "SpeedAdminHelpers": "MuhammadInaamMunir\\SpeedAdmin\\Facades\\SpeedAdminHelpersFacade"
+      }
     }
   },
   "config": {
