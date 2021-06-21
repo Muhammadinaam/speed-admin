@@ -81,7 +81,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new SpeedAdminSettings();
         });
 
-        \SpeedAdminHelpers::setModelRegistry(
+        SpeedAdminHelpers::setModelRegistry(
             \App\Models\User::class, 
             \MuhammadInaamMunir\SpeedAdmin\Models\User::class
         );
