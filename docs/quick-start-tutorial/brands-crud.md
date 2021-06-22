@@ -6,17 +6,34 @@ In root folder of your project, run the following command in the terminal to cre
 php artisan make:model Brand -m
 ```
 
-Update migration file as shown below to add database columns for `image, name and is_active` . Add following code in `up()` function.
+Add the following code to the `up()` function of the `brands` table migration file.
 
-{% tabs %}
-{% tab title="PHP" %}
 ```php
-$table->string('image')->nullable();
-$table->string('name')->unique();
-$table->boolean('is_active')->default(true);
-SpeedAdminHelpers::createdByUpdatedByMigrations($table);
-            
+...
+
+public function up()
+{
+    Schema::create('brands', function (Blueprint $table) {
+        
+        $table->id();
+        $table->timestamps();
+        
+        // column to store image path
+        $table->string('image')->nullable();
+        
+        // column to store brand name
+        $table->string('name')->unique();
+        
+        // column to specify if brand is active or not
+        $table->boolean('is_active')->default(true);
+        
+        // columns for storing created_by, updated_by, craeted_at 
+        // and updated_at
+        SpeedAdminHelpers::createdByUpdatedByMigrations($table);
+    });
+}
+...
 ```
-{% endtab %}
-{% endtabs %}
+
+Run command `php artisan migrate` to create the "brands" database table.
 
