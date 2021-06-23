@@ -101,6 +101,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             true,
             true
         );
+
+        $permissions->addModelPermissions(
+            'Administration',
+            \MuhammadInaamMunir\SpeedAdmin\Models\Role::class,
+            true,
+            true,
+            true,
+            true
+        );
     }
 
     private function setMenu()
