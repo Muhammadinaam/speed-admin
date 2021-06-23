@@ -1,6 +1,6 @@
 # Speed Admin
 
-**A rapid application development framework** for Laravel 8+. It has built in Users Management with Roles and Permissions. It speeds up the development of CRUD functionality \(adding data tables and forms\).
+**A rapid application development framework** for Laravel 8+. It has built-in Users Management with Roles and Permissions. It speeds up the development of CRUD functionality \(adding data tables and forms\).
 
 Easy to create data tables \(grid\)
 
@@ -37,17 +37,24 @@ php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProv
 ### Run following commands
 
 ```bash
+php artisan migrate
 php artisan config:cache
 php artisan config:clear
 php artisan clear-compiled
-composer dump autoload
+composer dump-autoload
 ```
 
 ### Run the following command to create the admin user
 
+Following command will create admin user username: **admin@admin.com** and password: **admin**.
+
 ```bash
 php artisan speed-admin:create-admin-user
 ```
+
+### Visit admin page:
+
+Visit `http://localhost:8000/admin` if you are running server through `php artisan serve` or you can directly visit `http://localhost/project_folder/public/admin`. Use the above credentials to log in.
 
 ## Credits: thanks to the following packages
 
