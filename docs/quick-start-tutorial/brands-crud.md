@@ -279,3 +279,75 @@ Now you can click on "Brands" menu to see Grid for Brand entity:
 
 ![](../.gitbook/assets/brands-grid.png)
 
+## Add Brand Form fields
+
+Add the following code to **addFormFields\(\)** function in **Brand.php \(model\).** All  following code is easy to understand.
+
+```php
+public function addFormFields()
+{
+    // bootstrap row (optional)
+    $this->addFormItem([
+        'id' => 'main-row',
+        'type' => 'div',
+        'class' => 'row'
+    ]);
+
+    // bootstrap column (optional)
+    // this column will be shown on left side and
+    // it will show image field
+    $this->addFormItem([
+        'id' => 'left-col',
+        'parent_id' => 'main-row',
+        'type' => 'div',
+        'class' => 'col-md-4'
+    ]);
+
+    // bootstrap column (optional)
+    // this column will be shown on right side and
+    // it will show fields other than image
+    $this->addFormItem([
+        'id' => 'right-col',
+        'parent_id' => 'main-row',
+        'type' => 'div',
+        'class' => 'col-md-8'
+    ]);
+
+    // image field
+    $this->addFormItem([
+        'id' => 'image',
+        'parent_id' => 'left-col',
+        'type' => 'image',
+        'label' => __('Image'),
+        'name' => 'image',
+        'upload_path' => 'brands',
+        'validation_rules' => ['image' => 'required|image|max:2048'],
+    ]);
+
+    // name field
+    $this->addFormItem([
+        'id' => 'name',
+        'parent_id' => 'right-col',
+        'type' => 'text',
+        'validation_rules' => ['name' => 'required|unique:brands,name,{{$id}}'],
+        'label' => __('Name'),
+        'name' => 'name'
+    ]);
+
+    // is_active field
+    $this->addFormItem([
+        'id' => 'is_active',
+        'parent_id' => 'right-col',
+        'type' => 'checkbox',
+        'label' => __('Active'),
+        'name' => 'is_active',
+    ]);
+}
+```
+
+Now click on "Add New" button in brands page or visit **localhost:8000/admin/brands/create**. You can see the following form:
+
+![Brands Form](../.gitbook/assets/brands-form.png)
+
+
+
