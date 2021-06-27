@@ -16,19 +16,19 @@ Add the following code to the `up()` function of the `brands` table migration fi
 public function up()
 {
     Schema::create('brands', function (Blueprint $table) {
-        
+
         $table->id();
         $table->timestamps();
-        
+
         // column to store image path
         $table->string('image')->nullable();
-        
+
         // column to store brand name
         $table->string('name')->unique();
-        
+
         // column to specify if brand is active or not
         $table->boolean('is_active')->default(true);
-        
+
         // columns for storing created_by, updated_by, craeted_at 
         // and updated_at
         SpeedAdminHelpers::createdByUpdatedByMigrations($table);
@@ -106,7 +106,6 @@ class Brand extends Model
         // we will add code of this function in next part of documentation
     }
 }
-
 ```
 
 ## Add columns for Grid \(datatable\):
@@ -148,7 +147,7 @@ Add the following code in the **boot\(\)** function in **AppServiceProvider.php*
 public function boot()
 {
     ...
-    
+
     // this function will add permissions
     // define this function below
     $this->addPermissions();
@@ -202,7 +201,6 @@ class BrandController extends SpeedAdminBaseController
     protected $model = Brand::class;
     protected $index_url = 'admin/brands';
 }
-
 ```
 {% endcode %}
 
@@ -216,14 +214,14 @@ public function boot()
     ...
     ...
     ...
-    
+
     $this->setMenu();
 }
 
 private function setMenu()
 {
     $menu = $this->app->make('speed-admin-menu');
-    
+
     // add parent menu
     $menu->addMenu('side-bar', [
         'id' => 'orders-management',
@@ -270,7 +268,7 @@ Route::middleware(['web', 'admin_auth', 'language'])
     // Brand Routes    
     Route::resource('brands', BrandController::class);
     Route::get('brands-data', [BrandController::class, 'getData']);
-    
+
 });
 ```
 {% endcode %}
@@ -281,7 +279,7 @@ Now you can click on "Brands" menu to see Grid for Brand entity:
 
 ## Add Brand Form fields
 
-Add the following code to **addFormFields\(\)** function in **Brand.php \(model\).** All  following code is easy to understand.
+Add the following code to **addFormFields\(\)** function in **Brand.php \(model\).** All following code is easy to understand.
 
 ```php
 public function addFormFields()
@@ -329,7 +327,20 @@ public function addFormFields()
         'id' => 'name',
         'parent_id' => 'right-col',
         'type' => 'text',
-        'validation_rules' => ['name' => 'required|unique:brands,name,{{$id}}'],
+        
+        // Please note
+        // for complext validation rules, you can use function which
+        // returns validations rules array
+        'validation_rules' => function($params) {
+            if (isset($params['id']) && $params['id'] != null) {
+                // ignore id when editing
+                return ['name' => 'required|unique:brands,name,' . $params['id']];
+            } else {
+                return ['name' => 'required|unique:brands,name'];
+            }
+        },
+        
+        
         'label' => __('Name'),
         'name' => 'name'
     ]);
@@ -348,6 +359,4 @@ public function addFormFields()
 Now click on "Add New" button in brands page or visit **localhost:8000/admin/brands/create**. You can see the following form:
 
 ![Brands Form](../.gitbook/assets/brands-form.png)
-
-
 
