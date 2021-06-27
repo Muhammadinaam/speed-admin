@@ -27,13 +27,22 @@ class FormHelper{
         
         $children = isset($form_item['children']) ? $form_item['children'] : null;
 
+        $validation_rules_func_or_array = null;
         $validation_rules_array = [];
         if(isset($form_item['validation_rules'])) {
-            $validation_rules_array = $form_item['validation_rules'];
+            $validation_rules_func_or_array = $form_item['validation_rules'];
         }
 
         if(isset($form_item['update_validation_rules']) && $id != null) {
-            $validation_rules_array = $form_item['update_validation_rules'];
+            $validation_rules_func_or_array = $form_item['update_validation_rules'];
+        }
+
+        if (is_array($validation_rules_func_or_array)) {
+            $validation_rules_array = $validation_rules_func_or_array;
+        }
+
+        if (is_callable($validation_rules_func_or_array)) {
+            $validation_rules_array = $validation_rules_func_or_array(['id' => $id]);
         }
 
         foreach($validation_rules_array as $name => $validation_rule) 
