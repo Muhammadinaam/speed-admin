@@ -10,3 +10,7 @@
 * [Products CRUD](quick-start-tutorial/products-crud.md)
 * [Orders CRUD](quick-start-tutorial/orders-crud.md)
 
+## Miscellaneous
+
+* [How to add controller](miscellaneous/how-to-add-controller.md)
+
