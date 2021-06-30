@@ -44,3 +44,24 @@ public function up()
     });
 }
 ```
+
+## Add relations in Product Model
+
+{% code title="Product.php" %}
+```php
+public function brand()
+{
+    return $this->belongsTo(Brand::class);
+}
+
+public function categories()
+{
+    return $this->belongsToMany(Category::class);
+}
+```
+{% endcode %}
+
+## Add getGridQuery\($request\) function to product model
+
+xdfsdf
+

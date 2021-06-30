@@ -327,7 +327,7 @@ public function addFormFields()
         'id' => 'name',
         'parent_id' => 'right-col',
         'type' => 'text',
-        
+
         // Please note
         // for complext validation rules, you can use function which
         // returns validations rules array
@@ -339,8 +339,8 @@ public function addFormFields()
                 return ['name' => 'required|unique:brands,name'];
             }
         },
-        
-        
+
+
         'label' => __('Name'),
         'name' => 'name'
     ]);
