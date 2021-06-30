@@ -8,4 +8,5 @@
 * [Brands CRUD](quick-start-tutorial/brands-crud.md)
 * [Categories CRUD](quick-start-tutorial/categories-crud.md)
 * [Products CRUD](quick-start-tutorial/products-crud.md)
+* [Orders CRUD](quick-start-tutorial/orders-crud.md)
 
