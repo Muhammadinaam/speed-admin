@@ -30,7 +30,7 @@ composer require muhammad-inaam-munir/speed-admin
 php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProvider"
 ```
 
-### Add alias in app.php:
+### Add alias in app.php (optional):
 
 ```php
 'SpeedAdminHelpers' => MuhammadInaamMunir\SpeedAdmin\Facades\SpeedAdminHelpersFacade::class,
