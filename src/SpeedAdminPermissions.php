@@ -46,6 +46,17 @@ class SpeedAdminPermissions{
     {
         $model = \SpeedAdminHelpers::getModelInstance($model_class_name);
 
+        if ( ! method_exists($model, 'getPluralTitle') || ! method_exists($model, 'getAddPermissionId') ) 
+        {
+            throw new \Exception(
+                "Please add Crud Trait [\MuhammadInaamMunir\SpeedAdmin\Traits\Crud] " .
+                "to your model: [". get_class($model) ."]. Crud trait is required for " .
+                "adding permission through function [addModelPermissions].",
+                1
+            );
+            
+        }
+
         if ($add)
         {
             $this->addPermission($group, $model->getPluralTitle(), $model->getAddPermissionId(), 'Add ' . $model->getPluralTitle());
