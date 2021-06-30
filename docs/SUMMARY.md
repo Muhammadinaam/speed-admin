@@ -13,4 +13,5 @@
 ## Miscellaneous
 
 * [How to add controller](miscellaneous/how-to-add-controller.md)
+* [How to add routes](miscellaneous/how-to-add-routes.md)
 
