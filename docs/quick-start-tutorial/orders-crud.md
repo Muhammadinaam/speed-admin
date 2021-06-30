@@ -12,6 +12,8 @@ All other things \(Adding controller, routes, etc are the same as explained in B
 
 All other fields are simple. Please note how we added the repeater field \(id = order\_lines\). All the repeater fields \(product, quantity, price, taxes, total\) have their parent\_id set to the id of repeater i.e. **`order_lines`**
 
+Also, note that we added custom HTML for showing order TOTALS.
+
 {% code title="File: App/Models/Order.php" %}
 ```php
 ...
@@ -163,9 +165,188 @@ public function addFormFields()
         'display_only' => true,
         'name' => 'total'
     ]);
+    
+
+    // ADD SOME CUSTOM HTML
+    // This html is for showing order TOTALS    
+    $this->addFormItem([
+        'id' => 'order_totals',
+        'parent_id' => null,
+        'type' => 'html',
+        'html' => <<<EOL
+        <hr>
+        <div class="row">
+            <div class="col-md-6 offset-md-6">
+
+                <table class="table totals">
+                    <tbody>
+                        <tr>
+                            <td>Excluding Tax</td>
+                            <td><input class="form-control excluding-tax" readonly></td>
+                        </tr>
+
+                        <tr>
+                            <td>Taxes</td>
+                            <td><input class="form-control taxes" readonly></td>
+                        </tr>
+
+                        <tr>
+                            <td>Total</td>
+                            <td><input class="form-control total" readonly></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        EOL
+    ]);
+    
 }
 
 ...
 ```
 {% endcode %}
+
+## Add Javascript
+
+Adding javascript to forms is simple. Please see the following sample code
+
+{% tabs %}
+{% tab title="SAMPLE: how to add javascript" %}
+```php
+public function __construct()
+{
+    ...
+    
+    $this->addJavascript()
+    
+    ...
+}
+
+public function addJavascript()
+{
+    $this->addFormItem([
+        'id' => 'some_script_id',
+        'parent_id' => null,
+        'type' => 'html',
+        'html' => <<<EOL
+        <script>
+        
+        (function () {
+        
+            // This is current form object
+            let form = document.currentScript.closest('form');
+            
+            // ADD YOUR SCRIPT HERE
+
+        })();
+
+        </script>
+        EOL
+    ]);
+}
+```
+{% endtab %}
+{% endtabs %}
+
+### Following is the actual javascript for Orders Form
+
+```php
+public function __construct()
+{
+    ...
+    
+    $this->addJavascript()
+    
+    ...
+}
+
+public function addJavascript()
+{
+    $this->addFormItem([
+        'id' => 'order_lines_script',
+        'parent_id' => null,
+        'type' => 'html',
+        'html' => <<<EOL
+        <script>
+        
+        (function () {
+            let form = document.currentScript.closest('form');
+
+            // SCRIPT CODE STARTS HERE
+            
+            $(form).on('select2:select', function (e) {
+                let input = e.target
+                var data = e.params.data;
+
+                if( input.name.startsWith('product[') )
+                {
+                    let priceInput = $(input).closest('tr').find('[name^="price["]');
+                    priceInput.val(data.price);
+                }
+            });
+
+            $(form).on('select2:clear', function (e) {
+                let input = e.target
+                if(input.name.startsWith('product[') )
+                {
+                    let priceInput = $(input).closest('tr').find('[name^="price["]');
+                    priceInput.val(0);
+                }
+            });
+
+            function calculateOrderTotals(orderForm){
+
+                var taxesGrandTotal = 0;
+                var grandTotal = 0;
+
+                var trs = orderForm.querySelectorAll('table.order_lines tbody tr:not(.template)');
+                for(var i = 0; i < trs.length; i++)
+                {
+                    var tr = trs[i];
+                    var priceInput = tr.querySelector('[name^="price["]')
+                    var price = priceInput ? priceInput.value : 0;
+                    var quantityInput = tr.querySelector('[name^="quantity["]');
+                    var quantity = quantityInput ? quantityInput.value : 0;
+                    var beforeTax = price * quantity;
+
+                    var taxes = $(tr).find('[name^="taxes["]').select2('data');
+                    var calculatedTax = 0;
+                    
+                    if (taxes) {
+                        for(var j = 0; j < taxes.length; j++)
+                        {
+                            var tax = taxes[j];
+                            calculatedTax += beforeTax * tax.rate / 100;
+                        }
+                    }
+
+                    taxesGrandTotal += calculatedTax;
+                    grandTotal += beforeTax + calculatedTax;
+                    tr.querySelector('[name^="total["]').value = beforeTax + calculatedTax;
+                }
+
+                document.querySelector('table.totals .excluding-tax').value = grandTotal - taxesGrandTotal;
+                document.querySelector('table.totals .taxes').value = taxesGrandTotal;
+                document.querySelector('table.totals .total').value = grandTotal;
+            }
+
+            var intervalId = setInterval(() => {
+                if (!document.body.contains(form))
+                {
+                    clearInterval(intervalId);
+                }
+                calculateOrderTotals(form);
+            }, 1000);
+            
+            // SCRIPT CODE ENDS HERE
+
+        })();
+
+        </script>
+        EOL
+    ]);
+}
+```
 
