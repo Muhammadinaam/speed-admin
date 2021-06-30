@@ -2,6 +2,12 @@
 
 Everything is the same as creating CRUD for Brands except few things. We will only discuss **NEW** things here.
 
+{% hint style="info" %}
+
+
+All other things \(Adding controller, routes, etc are the same as explained in Brands CRUD tutorial\)
+{% endhint %}
+
 ## Database migration for products table:
 
 ```php
