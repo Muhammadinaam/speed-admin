@@ -15,6 +15,10 @@ class BelongsToMany extends BelongsToBase{
                 $obj->save();
             }
 
+            $value = array_filter($value, function($item) {
+                return $item != null;
+            });
+
             $obj->{$relation_name}()->sync($value);
         }
     }
