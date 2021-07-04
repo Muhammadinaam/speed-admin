@@ -27,4 +27,5 @@
 * [datetime](fields/datetime.md)
 * [textarea](fields/textarea.md)
 * [repeater](fields/repeater.md)
+* [html](fields/html.md)
 
