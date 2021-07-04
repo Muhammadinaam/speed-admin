@@ -29,3 +29,7 @@ It is very easy to add complex forms by just specifying a list of fields in the 
 
 ![](.gitbook/assets/orders_form.gif)
 
+## Translatable Fields
+
+![](.gitbook/assets/form_pic.png)
+
