@@ -3,8 +3,6 @@
 Everything is the same as creating CRUD for Brands except few things. We will only discuss **NEW** things here.
 
 {% hint style="info" %}
-
-
 All other things \(Adding controller, routes, etc are the same as explained in Brands CRUD tutorial\)
 {% endhint %}
 
@@ -81,8 +79,7 @@ As shown in the image above, in the products grid \(datatable\) we want to show 
 * Categories count
 * Active
 
-We also want to make sure that we can **search** products by brand\_name or categories names. To do this, we need to modify our query. Our getGridQuery\(\) function will look like following.   
-
+We also want to make sure that we can **search** products by brand\_name or categories names. To do this, we need to modify our query. Our getGridQuery\(\) function will look like following.
 
 {% code title="File: Product.php" %}
 ```php
@@ -126,9 +123,9 @@ public function getGridQuery($request)
 public function __construct()
 {
     ...
-    
+
     $this->addGridColumns();
-    
+
     ...
 }
 
@@ -216,9 +213,9 @@ All fields are the same as shown in Brands CRUD tutorial except for the followin
 public function __construct()
 {
     ...
-    
+
     $this->addFormFields();
-    
+
     ...
 }
 

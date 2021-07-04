@@ -21,9 +21,9 @@ Also, note that we added custom HTML for showing order TOTALS.
 public function __construct()
 {
     ...
-    
+
     $this->addFormFields()
-    
+
     ...
 }
 
@@ -165,7 +165,7 @@ public function addFormFields()
         'display_only' => true,
         'name' => 'total'
     ]);
-    
+
 
     // ADD SOME CUSTOM HTML
     // This html is for showing order TOTALS    
@@ -201,7 +201,7 @@ public function addFormFields()
         </div>
         EOL
     ]);
-    
+
 }
 
 ...
@@ -218,9 +218,9 @@ Adding javascript to forms is simple. Please see the following sample code
 public function __construct()
 {
     ...
-    
+
     $this->addJavascript()
-    
+
     ...
 }
 
@@ -232,12 +232,12 @@ public function addJavascript()
         'type' => 'html',
         'html' => <<<EOL
         <script>
-        
+
         (function () {
-        
+
             // This is current form object
             let form = document.currentScript.closest('form');
-            
+
             // ADD YOUR SCRIPT HERE
 
         })();
@@ -256,9 +256,9 @@ public function addJavascript()
 public function __construct()
 {
     ...
-    
+
     $this->addJavascript()
-    
+
     ...
 }
 
@@ -270,12 +270,12 @@ public function addJavascript()
         'type' => 'html',
         'html' => <<<EOL
         <script>
-        
+
         (function () {
             let form = document.currentScript.closest('form');
 
             // SCRIPT CODE STARTS HERE
-            
+
             $(form).on('select2:select', function (e) {
                 let input = e.target
                 var data = e.params.data;
@@ -313,7 +313,7 @@ public function addJavascript()
 
                     var taxes = $(tr).find('[name^="taxes["]').select2('data');
                     var calculatedTax = 0;
-                    
+
                     if (taxes) {
                         for(var j = 0; j < taxes.length; j++)
                         {
@@ -339,7 +339,7 @@ public function addJavascript()
                 }
                 calculateOrderTotals(form);
             }, 1000);
-            
+
             // SCRIPT CODE ENDS HERE
 
         })();
