@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Speed Admin](README.md)
+* [Features](features.md)
 
 ## Quick Start \(Tutorial\)
 
