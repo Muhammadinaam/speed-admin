@@ -143,7 +143,7 @@
                     <select onchange="speedAdmin.getGridData('{{$uniqid}}')" class="form-control-sm" name="per_page" form="form-options-{{$uniqid}}">
                         @foreach([5, 10, 20, 30, 50, 100] as $per_page)
                         <option value="{{$per_page}}" 
-                        {{request()->per_page == '' && $per_page == 10 ? 'selected' : request()->per_page == $per_page ? 'selected' : ''}}>
+                        {{request()->per_page == '' && $per_page == 10 ? 'selected' : (request()->per_page == $per_page ? 'selected' : '')}}>
                             {{__(':count per page', ['count' => $per_page])}}
                         </option>
                         @endforeach
