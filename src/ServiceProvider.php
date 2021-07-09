@@ -23,15 +23,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->publishes([
             self::CONFIG_PATH => config_path('speed-admin.php'),
-        ], 'config');
+        ], 'speed-admin-config');
 
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/speed-admin'),
-        ], 'public');
+        ], 'speed-admin-public');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'speed-admin');
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/speed-admin'),
+        ], 'speed-admin-views');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
@@ -40,7 +44,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->publishes([
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/speed-admin'),
-        ]);
+        ], 'speed-admin-lang');
 
         // Register the command if we are using the application via the CLI
         if ($this->app->runningInConsole()) {
