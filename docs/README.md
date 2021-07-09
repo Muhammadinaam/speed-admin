@@ -20,10 +20,11 @@ Install via composer
 composer require muhammad-inaam-munir/speed-admin
 ```
 
-### Publish package assets
+### Publish package config file and assets
 
 ```bash
-php artisan vendor:publish --provider="MuhammadInaamMunir\SpeedAdmin\ServiceProvider"
+php artisan vendor:publish --tag=speed-admin-config
+php artisan vendor:publish --tag=speed-admin-public
 ```
 
 ### Add alias in app.php \(Optional\):
@@ -44,7 +45,7 @@ composer dump-autoload
 
 ### Run the following command to create the admin user
 
-Following command will create admin user username: **admin@admin.com** and password: **admin**.
+The following command will create admin user username: **admin@admin.com** and password: **admin**.
 
 ```bash
 php artisan speed-admin:create-admin-user

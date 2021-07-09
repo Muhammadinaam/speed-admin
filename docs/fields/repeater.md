@@ -10,7 +10,6 @@ The "repeater" field supports two types of view: 1. table, 2. non-table
 
 ```php
 'table_view' => true
-
 ```
 
 ![repeater field](../.gitbook/assets/repeater-field.png)

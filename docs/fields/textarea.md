@@ -15,5 +15,3 @@ $this->addFormItem([
 ]);
 ```
 
-
-
