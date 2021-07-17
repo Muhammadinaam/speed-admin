@@ -10,7 +10,7 @@ use MuhammadInaamMunir\SpeedAdmin\Misc\FormHelper;
 class SpeedAdminBaseController extends BaseController
 {
     protected $model = null;
-    private $model_obj = null;
+    protected $model_obj = null;
 
     protected $index_url = 'please-set-index_url-variable-in-controller';
 
