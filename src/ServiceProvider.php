@@ -96,6 +96,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $permissions = $this->app->make('speed-admin-permissions');
 
         $permissions->addPermission('Administration', 'General', 'can-access-admin-panel', 'Can access admin panel');
+        $permissions->addPermission('Administration', 'General', 'can-manage-settings', 'Can manage settings');
 
         $permissions->addModelPermissions(
             'Administration',
@@ -124,7 +125,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'parent_id' => null,
             'before_id' => null,
             'title' => __('Administration'),
-            'icon' => 'cil-speedometer',
+            'icon' => 'cil-institution',
             'permission' => null 
         ]);
 
@@ -135,7 +136,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 'parent_id' => 'administration',
                 'before_id' => null,
                 'title' => __('Tenant Organizations'),
-                'icon' => 'cil-speedometer',
+                'icon' => 'cil-house',
                 'permission' => 'tenant-organization-list',
                 'href' => url(config('speed-admin.admin_url')) . '/tenant-organizations',
             ]);
@@ -146,7 +147,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'parent_id' => 'administration',
             'before_id' => null,
             'title' => __('Users'),
-            'icon' => 'cil-speedometer',
+            'icon' => 'cil-user',
             'permission' => 'user-list',
             'href' => url(config('speed-admin.admin_url')) . '/users',
         ]);
@@ -156,9 +157,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'parent_id' => 'administration',
             'before_id' => null,
             'title' => __('Roles'),
-            'icon' => 'cil-speedometer',
+            'icon' => 'cil-user',
             'permission' => 'role-list',
             'href' => url(config('speed-admin.admin_url')) . '/roles',
+        ]);
+
+        $menu->addMenu('side-bar', [
+            'id' => 'settings',
+            'parent_id' => 'administration',
+            'before_id' => null,
+            'title' => __('Settings'),
+            'icon' => 'cil-settings',
+            'permission' => 'can-manage-settings',
+            'href' => url(config('speed-admin.admin_url')) . '/settings',
         ]);
 
         // TODO
