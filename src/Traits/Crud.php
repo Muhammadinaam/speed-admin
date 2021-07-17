@@ -195,12 +195,15 @@ trait Crud{
 
     public function getFormItems()
     {
-        return $this->form_items_tree->getTree();
+        return $this->form_items_tree != null ? 
+            $this->form_items_tree->getTree() :
+            [];
     }
 
     public function getFormItemsFlat()
     {
-        return $this->form_items_tree->getFlatTreeArray();
+        return $this->form_items_tree != null ? 
+            $this->form_items_tree->getFlatTreeArray() : [];
     }
 
     public function getAppends()
