@@ -3,6 +3,7 @@
 namespace MuhammadInaamMunir\SpeedAdmin\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use MuhammadInaamMunir\SpeedAdmin\Models\Setting;
 
 class SpeedAdminHelpers
 {
@@ -110,5 +111,17 @@ class SpeedAdminHelpers
         }
 
         return compact(['locale_suffix', 'value']);
+    }
+
+    public function setSettingModelRegistry($new_setting_model_class)
+    {
+        $modelsRegistry = app()->make('speed-admin-models-registry');
+
+        $modelsRegistry->setRegistry(Setting::class, $new_setting_model_class);
+    }
+
+    public function getSettingModel()
+    {
+        return $this->getModelInstance(Setting::class);
     }
 }

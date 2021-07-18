@@ -29,5 +29,6 @@ return [
     'additional_model_locales' => [
         ['name' => 'Urdu', 'locale' => 'ur'],
         ['name' => 'Arabic', 'locale' => 'ar'],
-    ]
+    ],
+    'settings_enabled' => false
 ];

@@ -71,8 +71,11 @@ Route::middleware(['web', 'admin_auth', 'language'])
     Route::get('show-add-new-form', [BelongsToController::class, 'showAddNewForm'])->name('show-add-new-form');
     Route::post('save-data-of-add-new-form', [BelongsToController::class, 'saveDataOfAddNewForm'])->name('save-data-of-add-new-form');
 
-    Route::get('settings', [SettingController::class, 'editSettings']);
-    Route::put('settings', [SettingController::class, 'updateSettings']);
+    if(config('speed-admin.settings_enabled'))
+    {
+        Route::get('settings', [SettingController::class, 'editSettings']);
+        Route::put('settings/{id}', [SettingController::class, 'updateSettings']);
+    }
 });
 
 Route::middleware(['web', 'language'])

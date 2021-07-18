@@ -4,6 +4,7 @@ namespace MuhammadInaamMunir\SpeedAdmin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \MuhammadInaamMunir\SpeedAdmin\Models\Setting;
+use MuhammadInaamMunir\SpeedAdmin\Misc\FormHelper;
 
 class SettingController extends SpeedAdminBaseController
 {
@@ -12,7 +13,7 @@ class SettingController extends SpeedAdminBaseController
 
     public function editSettings()
     {
-        // \SpeedAdminHelpers::abortIfDontHavePermission($this->model_obj->getEditPermissionId());
+        \SpeedAdminHelpers::abortIfDontHavePermission('can-manage-settings');
         $obj = $this->model_obj->firstOrNew();
         try {
             $obj->save();
@@ -32,8 +33,10 @@ class SettingController extends SpeedAdminBaseController
         ]);
     }
 
-    public function updateSettings()
+    public function updateSettings(Request $request, $id)
     {
-        return 'hello';
+        \SpeedAdminHelpers::abortIfDontHavePermission('can-manage-settings');
+        $obj = $this->model_obj->find($id);
+        return FormHelper::validateAndSaveFormData($request, $this->model_obj, $id);
     }
 }

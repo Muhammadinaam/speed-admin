@@ -18,7 +18,7 @@ class SpeedAdminBaseController extends BaseController
     public function __construct()
     {
         $this->index_url = str_replace('admin', config('speed-admin.admin_url'), $this->index_url);
-        $this->model_obj = \SpeedAdminHelpers::getModelInstance($this->model);;
+        $this->model_obj = \SpeedAdminHelpers::getModelInstance($this->model);
     }
 
     public function index(Request $request)

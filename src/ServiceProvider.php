@@ -96,7 +96,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $permissions = $this->app->make('speed-admin-permissions');
 
         $permissions->addPermission('Administration', 'General', 'can-access-admin-panel', 'Can access admin panel');
-        $permissions->addPermission('Administration', 'General', 'can-manage-settings', 'Can manage settings');
+        
+        if(config('speed-admin.settings_enabled'))
+        {
+            $permissions->addPermission('Administration', 'General', 'can-manage-settings', 'Can manage settings');
+        }
 
         $permissions->addModelPermissions(
             'Administration',
@@ -162,15 +166,18 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             'href' => url(config('speed-admin.admin_url')) . '/roles',
         ]);
 
-        $menu->addMenu('side-bar', [
-            'id' => 'settings',
-            'parent_id' => 'administration',
-            'before_id' => null,
-            'title' => __('Settings'),
-            'icon' => 'cil-settings',
-            'permission' => 'can-manage-settings',
-            'href' => url(config('speed-admin.admin_url')) . '/settings',
-        ]);
+        if(config('speed-admin.settings_enabled'))
+        {
+            $menu->addMenu('side-bar', [
+                'id' => 'settings',
+                'parent_id' => 'administration',
+                'before_id' => null,
+                'title' => __('Settings'),
+                'icon' => 'cil-settings',
+                'permission' => 'can-manage-settings',
+                'href' => url(config('speed-admin.admin_url')) . '/settings',
+            ]);
+        }
 
         // TODO
         /*
