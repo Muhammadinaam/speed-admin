@@ -16,6 +16,10 @@
 
 * [How to add controller](miscellaneous/how-to-add-controller.md)
 * [How to add routes](miscellaneous/how-to-add-routes.md)
+* [How to add translatable fields to forms](miscellaneous/how-to-add-translatable-fields-to-forms.md)
+* [How to override model and add / remove form fields or grid columns](miscellaneous/how-to-override-model-and-add-remove-form-fields-or-grid-columns.md)
+* [Settings Management](miscellaneous/settings-management.md)
+* [How to add custom actions](miscellaneous/how-to-add-custom-actions.md)
 
 ## Fields
 
@@ -29,4 +33,5 @@
 * [textarea](fields/textarea.md)
 * [repeater](fields/repeater.md)
 * [html](fields/html.md)
+* [Custom Field](fields/custom-field.md)
 
