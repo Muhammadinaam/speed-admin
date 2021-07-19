@@ -73,8 +73,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return new SpeedAdminMenu();
         });
 
-        $this->app->singleton('speed-admin-models-registry', function() {
-            return new SpeedAdminModelsRegistery();
+        $this->app->singleton('speed-admin-models-register', function() {
+            return new SpeedAdminModelsRegister();
         });
 
         $this->app->singleton('speed-admin-permissions', function() {
@@ -84,11 +84,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton('speed-admin-settings', function() {
             return new SpeedAdminSettings();
         });
-
-        \SpeedAdminHelpers::setModelRegistry(
-            \App\Models\User::class, 
-            \MuhammadInaamMunir\SpeedAdmin\Models\User::class
-        );
     }
 
     private function addPermissions()

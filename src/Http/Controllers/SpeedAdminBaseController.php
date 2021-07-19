@@ -21,6 +21,11 @@ class SpeedAdminBaseController extends BaseController
         $this->model_obj = \SpeedAdminHelpers::getModelInstance($this->model);
     }
 
+    public function getModelClassName()
+    {
+        return $this->model;
+    }
+
     public function index(Request $request)
     {
         return view('speed-admin::crud.index', [

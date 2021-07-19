@@ -70,19 +70,9 @@ class SpeedAdminHelpers
         }
     }
 
-    public function setModelRegistry($model_class, $new_model_class)
-    {
-        app()->make('speed-admin-models-registry')->setRegistry($model_class, $new_model_class);
-    }
-
-    public function getModelRegistry($model_class)
-    {
-        return app()->make('speed-admin-models-registry')->getRegistry($model_class);
-    }
-
     public function getModelInstance($model_class)
     {
-        return app()->make('speed-admin-models-registry')->getModelInstance($model_class);
+        return app()->make('speed-admin-models-register')->getModelInstance($model_class);
     }
 
     public function getLocaleSuffixAndValue($data)
@@ -113,15 +103,26 @@ class SpeedAdminHelpers
         return compact(['locale_suffix', 'value']);
     }
 
-    public function setSettingModelRegistry($new_setting_model_class)
+    public function registerModelChildClass($model_class, $model_child_class)
     {
-        $modelsRegistry = app()->make('speed-admin-models-registry');
+        return app()->make('speed-admin-models-register')
+            ->registerModelChildClass($model_class, $model_child_class);
+    }
 
-        $modelsRegistry->setRegistry(Setting::class, $new_setting_model_class);
+    public function getModelChildClasses($model_class)
+    {
+        return app()->make('speed-admin-models-register')
+            ->getModelChildClasses($model_class);
     }
 
     public function getSettingModel()
     {
         return $this->getModelInstance(Setting::class);
+    }
+
+    public function getLatestParentClass($parent_class, $namespace, $current_class_name, $latest_parent_class_alias_name)
+    {
+        app()->make('speed-admin-models-register')
+            ->getLatestParentClass($parent_class, $namespace, $current_class_name, $latest_parent_class_alias_name);
     }
 }
