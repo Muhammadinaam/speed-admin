@@ -10,6 +10,12 @@
 
 ![Roles Form](.gitbook/assets/roles-form.png)
 
+## Manage Settings
+
+You can add custom settings for your application. See the following image for example, in this example, we are managing website slider images and website announcement.
+
+![](.gitbook/assets/settings.png)
+
 ## Easily add Grids
 
 It is very easy to add Grids with the following features:

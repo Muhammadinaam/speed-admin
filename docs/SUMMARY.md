@@ -2,6 +2,7 @@
 
 * [Speed Admin](README.md)
 * [Features](features.md)
+* [Change logs](change-logs.md)
 
 ## Quick Start \(Tutorial\)
 
