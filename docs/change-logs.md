@@ -4,7 +4,7 @@
 
 ### Added
 
-* Settings management
+* [Settings management](features.md#manage-settings)
 
 ### Fixed
 
