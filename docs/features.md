@@ -20,6 +20,12 @@ You can add custom settings for your application. See the following image for ex
 
 ![](.gitbook/assets/settings.png)
 
+## Multi-Tenant support \(same database\)
+
+{% page-ref page="miscellaneous/how-to-use-multi-tenant-feature.md" %}
+
+
+
 ## Easily add Grids
 
 It is very easy to add Grids with the following features:
