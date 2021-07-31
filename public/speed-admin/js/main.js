@@ -644,3 +644,15 @@ speedAdmin = {
     return { model, actionId };
   }
 }
+
+speedAdminDateTime = {
+  initDateTime: function initDateTime(input) {
+    $(input).flatpickr({
+      enableTime: input.dataset.enable_time,
+      noCalendar: input.dataset.no_calendar,
+      altInput: true,
+      altFormat: input.dataset.alt_format,
+      dateFormat: 'Y-m-d H:i:S',
+    })
+  }
+}
