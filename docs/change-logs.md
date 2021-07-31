@@ -4,15 +4,16 @@
 
 ### Added
 
-* [Settings management](features.md#manage-settings)
+* [Select Field](fields/select.md)
+* Added facility to specify default value for input fields
 
 ### Fixed
 
-* Fixed icons for "Users", "Roles" and "Administration"
+* Fix some minor bugs
 
 ### Changed
 
-* Improved model inheritance logic
+* Nested repeater not allowed any more
 
 ## v1.1.0
 
@@ -27,6 +28,4 @@
 ### Changed
 
 * Improved model inheritance logic
-
-
 

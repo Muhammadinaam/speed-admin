@@ -35,5 +35,6 @@
 * [textarea](fields/textarea.md)
 * [repeater](fields/repeater.md)
 * [html](fields/html.md)
+* [select](fields/select.md)
 * [Custom Field](fields/custom-field.md)
 

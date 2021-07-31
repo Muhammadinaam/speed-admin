@@ -14,5 +14,3 @@ Suppose you are making an "HR Management" system. Then you can edit the config f
 'footer_left_html' => '<a href="#">Your Company</a> © Your Company.',
 ```
 
-
-
