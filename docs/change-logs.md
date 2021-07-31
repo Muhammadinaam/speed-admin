@@ -1,5 +1,22 @@
 # Change logs
 
+## v1.2.0
+
+### Added
+
+* Added (nwidart) Applications/Modules management system 
+* Added facility to use font-awesome icons in menus
+
+### Fixed
+
+* Fix some minor bugs
+
+### Changed
+
+* Nothing
+
+
+
 ## v1.1.01
 
 ### Added
@@ -14,6 +31,8 @@
 ### Changed
 
 * Nested repeater not allowed any more
+
+
 
 ## v1.1.0
 
