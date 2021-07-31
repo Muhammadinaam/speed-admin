@@ -1,6 +1,7 @@
 <?php
 $uniqid = uniqid();
 $name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $form_item['name'];
+
 ?>
 <div class="form-group">
     <label>{{ $form_item['label'] }}</label>
@@ -29,11 +30,21 @@ $name = isset($multiple) && $multiple == true ? $form_item['name'] . '[]' : $for
                             {{$related_item->text}}
                         </option>    
                         @endforeach
+                    @elseif(isset($form_item['default']))
+                        @foreach($form_item['default'] as $related_item)
+                        <option value="{{$related_item->id}}" selected data-data="{{ json_encode($related_item) }}">
+                            {{$related_item->text}}
+                        </option>    
+                        @endforeach
                     @endif
                 @else
                     @if( isset($obj) && $obj->{$form_item['relation_name']} != null )
                     <option value="{{$obj->{$form_item['relation_name']}->id}}" data-data="{{ json_encode($obj->{$form_item['relation_name']}) }}">
                         {{$obj->{$form_item['relation_name']}->text}}
+                    </option>
+                    @elseif ( isset($form_item['default']) )
+                    <option value="{{$form_item['default']->id}}" data-data="{{ json_encode($form_item['default']) }}">
+                        {{$form_item['default']->text}}
                     </option>
                     @endif
                 @endif
