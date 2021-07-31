@@ -17,6 +17,7 @@
 * [How to change "Speed Admin" title and other information](miscellaneous/how-to-change-speed-admin-title-and-other-information.md)
 * [How to add controller](miscellaneous/how-to-add-controller.md)
 * [How to add routes](miscellaneous/how-to-add-routes.md)
+* [How to add Modules/Applications](miscellaneous/how-to-add-modules-applications.md)
 * [How to add translatable fields to forms](miscellaneous/how-to-add-translatable-fields-to-forms.md)
 * [How to override model and add / remove form fields or grid columns](miscellaneous/how-to-override-model-and-add-remove-form-fields-or-grid-columns.md)
 * [Settings Management](miscellaneous/settings-management.md)
