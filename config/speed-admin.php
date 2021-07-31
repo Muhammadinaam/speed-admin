@@ -34,5 +34,6 @@ return [
     'date_format' => 'd-M-Y',
     'time_format' => 'H:i',
 
-    'settings_enabled' => false
+    'settings_enabled' => false,
+    'applications_enabled' => true,
 ];

@@ -97,6 +97,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             $permissions->addPermission('Administration', 'General', 'can-manage-settings', 'Can manage settings');
         }
 
+        if(config('speed-admin.applications_enabled'))
+        {
+            $permissions->addPermission('Administration', 'General', 'can-manage-applications', 'Can manage applications');
+        }
+
         $permissions->addModelPermissions(
             'Administration',
             \MuhammadInaamMunir\SpeedAdmin\Models\User::class,
@@ -174,27 +179,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             ]);
         }
 
-        // TODO
-        /*
-        $menu->addMenu('side-bar', [
-            'id' => 'settings',
-            'parent_id' => 'administration',
-            'before_id' => null,
-            'title' => __('Settings'),
-            'icon' => 'cil-speedometer',
-            'permission' => 'edit-settings',
-            'href' => url(config('speed-admin.admin_url')) . '/settings',
-        ]);
-
         $menu->addMenu('side-bar', [
             'id' => 'applications',
             'parent_id' => 'administration',
             'before_id' => null,
-            'title' => __('Applications'),
-            'icon' => 'cil-speedometer',
-            'permission' => 'manage-applications',
-            'href' => url(config('speed-admin.admin_url')) . '/applications',
+            'title' => __('System Applications'),
+            'icon' => 'cil-developer-board',
+            'fa_icon' => 'fa-boxes',
+            'permission' => 'can-manage-applications',
+            'href' => url(config('speed-admin.admin_url')) . '/system-applications',
         ]);
-        */
     }
 }

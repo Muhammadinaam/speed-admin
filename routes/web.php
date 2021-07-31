@@ -11,6 +11,7 @@ use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\BelongsToController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\GridController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\TenantOrganizationController;
 use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\SettingController;
+use MuhammadInaamMunir\SpeedAdmin\Http\Controllers\ApplicationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,12 @@ Route::middleware(['web', 'admin_auth', 'language'])
     {
         Route::get('settings', [SettingController::class, 'editSettings']);
         Route::put('settings/{id}', [SettingController::class, 'updateSettings']);
+    }
+
+    if(config('speed-admin.applications_enabled'))
+    {
+        Route::get('system-applications', [ApplicationController::class, 'index'])->name('system-applications');
+        Route::post('system-applications/{application_name}/change-status', [ApplicationController::class, 'changeStatus'])->name('system-applications.change-status');
     }
 });
 
