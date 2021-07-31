@@ -62,6 +62,7 @@ Visit `http://localhost:8000/admin` if you are running server through `php artis
 
 * spatie/laravel-translatable
 * coreui
+* https://github.com/nWidart/laravel-modules
 
 ## License
 
