@@ -100,6 +100,11 @@ class SpeedAdminHelpers
             }
         }
 
+        if ($locale == null && $obj == null && isset($form_item['default']))
+        {
+            $value = $form_item['default'];
+        }
+
         return compact(['locale_suffix', 'value']);
     }
 

@@ -71,7 +71,7 @@ class Tree{
     private function getChildrenRecursively(string $parent_id) {
         $children = [];
         foreach ($this->item_array as $array_index => $item_item) {
-            if ($item_item['parent_id'] == $parent_id) {
+            if (isset($item_item['parent_id']) && $item_item['parent_id'] == $parent_id) {
                 unset($this->item_array[$array_index]);
                 $item_children = $this->getChildrenRecursively($item_item['id']);
                 if(count($item_children) > 0) {
