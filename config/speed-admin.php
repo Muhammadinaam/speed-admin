@@ -30,5 +30,9 @@ return [
         ['name' => 'Urdu', 'locale' => 'ur'],
         ['name' => 'Arabic', 'locale' => 'ar'],
     ],
+
+    'date_format' => 'd-M-Y',
+    'time_format' => 'H:i',
+
     'settings_enabled' => false
 ];
