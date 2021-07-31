@@ -1,4 +1,15 @@
-
+<?php
+    $has_nested_repeater = false;
+    if(isset($form_item['children']))
+    {
+        foreach ($form_item['children'] as $child) {
+            if ($child['type'] == 'repeater') {
+                $has_nested_repeater = true;
+            }
+        }
+    }
+?>
+@if( ! $has_nested_repeater)
 <div class="repeater" data-id="{{$form_item['id']}}" data-initialized="false"
         data-initialize_function_name="initRepeater">
     
@@ -143,3 +154,6 @@
 
     
 </div>
+@else
+<h3 class="text-danger">Error: nested repeaters are not allowed</h3>
+@endif
