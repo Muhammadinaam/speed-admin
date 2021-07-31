@@ -1,10 +1,6 @@
 # repeater
 
 {% hint style="info" %}
-The "repeater" field supports another "repeater" inside it.
-{% endhint %}
-
-{% hint style="info" %}
 The "repeater" field supports two types of view: 1. table, 2. non-table
 {% endhint %}
 
@@ -14,9 +10,7 @@ The "repeater" field supports two types of view: 1. table, 2. non-table
 
 ![repeater field](../.gitbook/assets/repeater-field.png)
 
-![](../.gitbook/assets/repeater-inside-repeater.png)
-
-Code starting at line 3 is creating a repeater field. Then code starting from line 15 is adding fields inside the repeater. At line 71, we are adding another repeater.
+Code starting at line 3 is creating a repeater field.
 
 ```php
 /////////////////////////////////////
@@ -85,29 +79,6 @@ $this->addFormItem([
     'label' => __('Taxes'),
     'name' => 'taxes',
     'show_add_new_button' => true,
-]);
-
-/////////////////////////////////
-// another reapeater inside main repeater
-$this->addFormItem([
-     'id' => 'order_lines_instructions',
-     'parent_id' => 'order_lines',
-     'type' => 'repeater',
-     'relation_name' => 'instructions',
-     'model' => '\App\Models\OrderLineInstruction',
-     'label' => __('Order Line Instructions'),
-     'table_view' => false,
-]);
-
-$this->addFormItem([
-    'id' => 'instruction',
-    'parent_id' => 'order_lines_instructions',
-    'type' => 'text',
-    'validation_rules' => [
-        'instruction' => 'required|array'
-    ],
-    'label' => __('Instructions'),
-    'name' => 'instruction'
 ]);
 
 $this->addFormItem([

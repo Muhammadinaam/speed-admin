@@ -37,7 +37,7 @@ It is very easy to add Grids with the following features:
 
 It is very easy to add complex forms by just specifying a list of fields in the model.
 
-> ### Speed-admin also supports "repeater" field. Also it supports repeater inside repeater.
+> ### Speed-admin also supports "repeater" field.
 
 ![](.gitbook/assets/orders_form.gif)
 
