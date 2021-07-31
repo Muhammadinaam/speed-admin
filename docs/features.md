@@ -18,6 +18,14 @@ You can add custom settings for your application. See the following image for ex
 
 ![](.gitbook/assets/settings.png)
 
+## Applications/Modules management
+
+{% hint style="info" %}
+Now we can make divide our application in smaller applications / modules which we can enable or disable from "Applications Management" page shown below:
+{% endhint %}
+
+![](.gitbook/assets/applications-management.png)
+
 ## Multi-Tenant support \(same database\)
 
 {% page-ref page="miscellaneous/how-to-use-multi-tenant-feature.md" %}

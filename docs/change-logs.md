@@ -4,7 +4,7 @@
 
 ### Added
 
-* Added (nwidart) Applications/Modules management system 
+* Added \(nwidart\) Applications/Modules management system 
 * Added facility to use font-awesome icons in menus
 
 ### Fixed
@@ -14,8 +14,6 @@
 ### Changed
 
 * Nothing
-
-
 
 ## v1.1.01
 
@@ -31,8 +29,6 @@
 ### Changed
 
 * Nested repeater not allowed any more
-
-
 
 ## v1.1.0
 

@@ -43,6 +43,25 @@ php artisan clear-compiled
 composer dump-autoload
 ```
 
+### Autoloading Applications/Modules \(nwidart/modules\)
+
+Update composer.json to autoload modules. Add `"Modules\": "Modules/"` as shown below in psr-4.
+
+{% code title="composer.json" %}
+```bash
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      
+      
+      "Modules\\": "Modules/"
+    }
+  }
+}
+```
+{% endcode %}
+
 ### Run the following command to create the admin user
 
 The following command will create admin user username: **admin@admin.com** and password: **admin**.
