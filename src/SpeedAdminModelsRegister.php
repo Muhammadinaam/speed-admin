@@ -5,6 +5,7 @@ namespace MuhammadInaamMunir\SpeedAdmin;
 class SpeedAdminModelsRegister {
 
     private $register = [];
+    public $model_operations = [];
 
     public function registerModelChildClass($model_class, $model_child_class)
     {
@@ -54,5 +55,91 @@ class SpeedAdminModelsRegister {
     public function getModelChildClasses($model_class)
     {
         return isset($this->register[$model_class]) ? $this->register[$model_class] : [];
+    }
+
+    private function initModelOperations($model_class)
+    {
+        if( !isset($this->model_operations[$model_class]) )
+        {
+            $this->model_operations[$model_class] = [];
+        }
+    }
+
+    public function addGridColumn($model_class, $column)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'add',
+                'type' => 'grid_column',
+                'value' => $column
+            ]
+        );
+    }
+
+    public function removeGridColumn($model_class, $id)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'remove',
+                'type' => 'grid_column',
+                'value' => $id
+            ]
+        );
+    }
+
+    public function addGridAction($model_class, $action)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'add',
+                'type' => 'grid_action',
+                'value' => $action
+            ]
+        );
+    }
+
+    public function removeGridAction($model_class, $id)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'remove',
+                'type' => 'grid_action',
+                'value' => $id
+            ]
+        );
+    }
+
+    public function addFormItem($model_class, $form_item)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'add',
+                'type' => 'form_item',
+                'value' => $form_item
+            ]
+        );
+    }
+
+    public function removeFormItem($model_class, $id)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'remove',
+                'type' => 'form_item',
+                'value' => $id
+            ]
+        );
     }
 }

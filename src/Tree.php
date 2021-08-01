@@ -5,6 +5,17 @@ namespace MuhammadInaamMunir\SpeedAdmin;
 class Tree{
     private $item_array = [];
 
+    public function removeItem($id)
+    {
+        $new_item_array = [];
+        foreach($this->item_array as $item_item) {
+            if($item_item['id'] != $id) {
+                array_push($new_item_array, $item_item);
+            }
+        }
+        $this->item_array = $new_item_array;
+    }
+
     public function addItem(array $item)
     {
         // check if id already exists

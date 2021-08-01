@@ -18,6 +18,17 @@ trait Crud{
     private $form_items_tree;
     private $grid_actions = [];
 
+    private function removeByIdKeyFromArray(&$array, $id) 
+    {
+        $new_item_array = [];
+        foreach($array as $item_item) {
+            if($item_item['id'] != $id) {
+                array_push($new_item_array, $item_item);
+            }
+        }
+        $array = $new_item_array;
+    }
+
     public function setSingularTitle($value)
     {
         $this->singular_title = $value;
@@ -99,6 +110,7 @@ trait Crud{
 
     public function getGridColumns()
     {
+        $this->performModelOperations();
         return $this->grid_columns;
     }
 
@@ -153,6 +165,11 @@ trait Crud{
         }
     }
 
+    public function removeGridColumn($id)
+    {
+        $this->removeByIdKeyFromArray($this->grid_columns, $id);
+    }
+
     public function addGridAction(array $action)
     {
         // check if id already exists
@@ -165,13 +182,20 @@ trait Crud{
         array_push($this->grid_actions, $action);
     }
 
+    public function removeGridAction($id)
+    {
+        $this->removeByIdKeyFromArray($this->grid_actions, $id);
+    }
+
     public function getGridActions()
     {
+        $this->performModelOperations();
         return $this->grid_actions;
     }
 
     public function getGridActionById($id)
     {
+        $this->performModelOperations();
         return collect($this->grid_actions)->firstWhere('id', $id);
     }
 
@@ -193,8 +217,55 @@ trait Crud{
         $this->form_items_tree->addItem($item);
     }
 
+    public function removeFormItem($id)
+    {
+        if($this->form_items_tree != null)
+        {
+            $this->form_items_tree->removeItem($id);
+        }
+    }
+
+    private function performModelOperations()
+    {
+        $model_operations = app()->make('speed-admin-models-register')
+            ->model_operations;
+
+        $model_operations = isset($model_operations[__CLASS__]) ?
+            $model_operations[__CLASS__] :
+            [];
+
+        foreach ($model_operations as $model_operation) {
+            $value = $model_operation['value'];
+            if($model_operation['operation'] == 'add') {
+                if ($model_operation['type'] == 'form_item') {
+                    $this->addFormItem($value);
+                }
+                if ($model_operation['type'] == 'grid_column') {
+                    $this->addGridColumn($value);
+                }
+                if ($model_operation['type'] == 'grid_action') {
+                    $this->addGridAction($value);
+                }
+            }
+            if($model_operation['operation'] == 'remove') {
+                if ($model_operation['type'] == 'form_item') {
+                    $this->removeFormItem($value);
+                }
+                if ($model_operation['type'] == 'grid_column') {
+                    $this->removeGridColumn($value);
+                }
+                if ($model_operation['type'] == 'grid_action') {
+                    $this->removeGridAction($value);
+                }
+            }
+        }
+    }
+
     public function getFormItems()
     {
+        
+        $this->performModelOperations();
+
         return $this->form_items_tree != null ? 
             $this->form_items_tree->getTree() :
             [];
@@ -202,6 +273,8 @@ trait Crud{
 
     public function getFormItemsFlat()
     {
+        $this->performModelOperations();
+
         return $this->form_items_tree != null ? 
             $this->form_items_tree->getFlatTreeArray() : [];
     }

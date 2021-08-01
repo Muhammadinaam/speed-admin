@@ -130,4 +130,40 @@ class SpeedAdminHelpers
         app()->make('speed-admin-models-register')
             ->getLatestParentClass($parent_class, $namespace, $current_class_name, $latest_parent_class_alias_name);
     }
+
+    public function addGridColumn($model_class, $column)
+    {
+        app()->make('speed-admin-models-register')
+            ->addGridColumn($model_class, $column);
+    }
+
+    public function removeGridColumn($model_class, $id)
+    {
+        app()->make('speed-admin-models-register')
+            ->removeGridColumn($model_class, $id);
+    }
+
+    public function addGridAction($model_class, $action)
+    {
+        app()->make('speed-admin-models-register')
+            ->addGridAction($model_class, $action);
+    }
+
+    public function removeGridAction($model_class, $id)
+    {
+        app()->make('speed-admin-models-register')
+            ->removeGridAction($model_class, $id);
+    }
+
+    public function addFormItem($model_class, $form_item)
+    {
+        app()->make('speed-admin-models-register')
+            ->addFormItem($model_class, $form_item);
+    }
+
+    public function removeFormItem($model_class, $id)
+    {
+        app()->make('speed-admin-models-register')
+            ->removeFormItem($model_class, $id);
+    }
 }
