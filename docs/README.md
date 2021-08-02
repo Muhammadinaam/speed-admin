@@ -53,8 +53,8 @@ Update composer.json to autoload modules. Add `"Modules\": "Modules/"` as shown 
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      
-      
+
+
       "Modules\\": "Modules/"
     }
   }
@@ -78,6 +78,7 @@ Visit `http://localhost:8000/admin` if you are running server through `php artis
 
 * spatie/laravel-translatable
 * coreui
+* nwidart/laravel-modules
 
 ## License
 

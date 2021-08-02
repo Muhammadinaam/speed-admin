@@ -133,7 +133,7 @@ public function addGridColumns()
         'id' => 'is_active', 
         'title' => __('Active'), 
         'render_function' => function ($brand) {
-            return GridHelper::renderBoolean($brand->image);
+            return GridHelper::renderBoolean($brand->is_active);
         }
     ]);
 }
