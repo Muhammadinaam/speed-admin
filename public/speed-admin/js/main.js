@@ -67,7 +67,12 @@ speedAdmin = {
       })
     } else if (error.response.status === 401) {
       window.location.href = window.adminLoginUrl + "?redirect_after_login=" + window.location.href;
-    } else if (error.response.status === 403) {
+    }
+    else if (error.response.status === 419) {
+      alert('Session expired');
+      window.location.reload();
+    }
+    else if (error.response.status === 403) {
       Swal.fire({
         title: '<strong>' + window.errorText + '</strong>',
         icon: 'error',
