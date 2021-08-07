@@ -81,7 +81,10 @@ class SpeedAdminBaseController extends BaseController
         \SpeedAdminHelpers::abortIfDontHavePermissionByTenant($obj);
         \SpeedAdminHelpers::abortIfDontHavePermission($this->model_obj->getDeletePermissionId());
 
-        $this->model_obj->where('id', $id)->delete();
+        
+        \DB::beginTransaction();
+        $this->model_obj->find($id)->delete();
+        \DB::commit();
 
         return ['success' => true, 'message' => __('Deleted successfully')];
     }

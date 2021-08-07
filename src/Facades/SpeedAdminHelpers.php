@@ -166,4 +166,16 @@ class SpeedAdminHelpers
         app()->make('speed-admin-models-register')
             ->removeFormItem($model_class, $id);
     }
+
+    public function addModelHook($model_class, $model_hook)
+    {
+        app()->make('speed-admin-models-register')
+            ->addModelHook($model_class, $model_hook);
+    }
+
+    public function removeModelHook($model_class, $id)
+    {
+        app()->make('speed-admin-models-register')
+            ->removeModelHook($model_class, $id);
+    }
 }

@@ -142,4 +142,30 @@ class SpeedAdminModelsRegister {
             ]
         );
     }
+
+    public function addModelHook($model_class, $model_hook)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'add',
+                'type' => 'model_hook',
+                'value' => $model_hook
+            ]
+        );
+    }
+
+    public function removeModelHook($model_class, $id)
+    {
+        $this->initModelOperations($model_class);
+        array_push(
+            $this->model_operations[$model_class],
+            [
+                'operation' => 'remove',
+                'type' => 'model_hook',
+                'value' => $id
+            ]
+        );
+    }
 }

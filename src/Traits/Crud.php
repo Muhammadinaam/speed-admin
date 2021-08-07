@@ -17,6 +17,37 @@ trait Crud{
     private $grid_columns = [];
     private $form_items_tree;
     private $grid_actions = [];
+    private $model_hooks = [];
+
+    private static function callHooks($model, $hook_type)
+    {
+        $model->performModelOperations();
+        foreach($model->model_hooks as $model_hook)
+        {
+            if ($model_hook['type'] == $hook_type) {
+                $model_hook['function']($model);
+            }
+        }
+    }
+
+    protected static function bootCrud()
+    {
+        static::saving(function ($model) {
+            self::callHooks($model, 'before_save');
+        });
+
+        static::saved(function ($model) {
+            self::callHooks($model, 'after_save');
+        });
+
+        static::deleting(function ($model) {
+            self::callHooks($model, 'before_delete');
+        });
+
+        static::deleted(function ($model) {
+            self::callHooks($model, 'after_delete');
+        });
+    }
 
     private function removeByIdKeyFromArray(&$array, $id) 
     {
@@ -187,6 +218,23 @@ trait Crud{
         $this->removeByIdKeyFromArray($this->grid_actions, $id);
     }
 
+    public function addModelHook(array $hook)
+    {
+        // check if id already exists
+        foreach($this->model_hooks as $model_hook) {
+            if($model_hook['id'] == $hook['id']) {
+                throw new \Exception("Duplicate hook id not allowed. id [".$hook['id']."] already exists", 1);      
+            }
+        }
+
+        array_push($this->model_hooks, $hook);
+    }
+
+    public function removeModelHook($id)
+    {
+        $this->removeByIdKeyFromArray($this->model_hooks, $id);
+    }
+
     public function getGridActions()
     {
         $this->performModelOperations();
@@ -246,6 +294,9 @@ trait Crud{
                 if ($model_operation['type'] == 'grid_action') {
                     $this->addGridAction($value);
                 }
+                if ($model_operation['type'] == 'model_hook') {
+                    $this->addModelHook($value);
+                }
             }
             if($model_operation['operation'] == 'remove') {
                 if ($model_operation['type'] == 'form_item') {
@@ -256,6 +307,9 @@ trait Crud{
                 }
                 if ($model_operation['type'] == 'grid_action') {
                     $this->removeGridAction($value);
+                }
+                if ($model_operation['type'] == 'model_hook') {
+                    $this->removeModelHook($value);
                 }
             }
         }
