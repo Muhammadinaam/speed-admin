@@ -1,12 +1,12 @@
 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown" data-id={{$menu_item['id']}}>
     <a class="c-sidebar-nav-dropdown-toggle">
-        @if(!isset($menu_item['fa-icon']))
+        @if(!isset($menu_item['fa_icon']))
         <svg class="c-sidebar-nav-icon">
             <use xlink:href="{{ asset(config('speed-admin.speed_admin_assets_path').'coreui3.4.0/vendors/@coreui/icons/svg/free.svg#'. $menu_item['icon']) }}">
             </use>
         </svg>
         @else
-        <i class="c-sidebar-nav-icon fa {{$menu_item['fa-icon']}}"></i>
+        <i class="c-sidebar-nav-icon fa {{$menu_item['fa_icon']}}"></i>
         @endif
         {{$menu_item['title']}}
     </a>
