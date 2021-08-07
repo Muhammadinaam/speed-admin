@@ -19,6 +19,12 @@ class Repeater extends BaseInputProcessor{
             $foreign_key_name = $obj->{$relation_name}()->getForeignKeyName();
             $local_key_name = $obj->{$relation_name}()->getLocalKeyName();
 
+            if (!isset($request['__'.$form_item['id']])) {
+                \SpeedAdminHelpers::getModelInstance($form_item['model'])
+                    ->where($obj->{$relation_name}()->getForeignKeyName(), $obj->getKey())
+                    ->delete();
+                return;
+            }
             for($i = 0; $i < count($request['__'.$form_item['id']]); $i++)
             {
                 $id = $request['__'.$form_item['id']][$i];
