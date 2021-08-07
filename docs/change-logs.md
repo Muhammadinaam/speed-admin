@@ -1,5 +1,21 @@
 # Change logs
 
+## v1.2.02
+
+### Added
+
+* Added model hooks (before_save, after_save, before_delete, after_delte)
+
+### Fixed
+
+* Handled 419 status code
+* Fixed menus font-awesome icons bug
+
+### Changed
+
+* Nothing
+
+
 ## v1.2.0
 
 ### Added
