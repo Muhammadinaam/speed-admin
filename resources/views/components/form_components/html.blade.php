@@ -1,1 +1,1 @@
-{!! $form_item['html'] !!}
+{!! is_callable( $form_item['html'] ) ? $form_item['html']($model, $obj) : $form_item['html'] !!}
