@@ -82,6 +82,7 @@ Route::middleware(['web', 'admin_auth', 'language'])
     {
         Route::get('system-applications', [ApplicationController::class, 'index'])->name('system-applications');
         Route::post('system-applications/{application_name}/change-status', [ApplicationController::class, 'changeStatus'])->name('system-applications.change-status');
+        Route::post('system-applications/{application_name}/update-database', [ApplicationController::class, 'updateDatabase'])->name('system-applications.update-database');
     }
 });
 
