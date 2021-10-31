@@ -19,7 +19,7 @@ trait Crud{
     private $grid_actions = [];
     private $model_hooks = [];
 
-    private static function callHooks($model, $hook_type)
+    protected static function callHooks($model, $hook_type)
     {
         $model->performModelOperations();
         foreach($model->model_hooks as $model_hook)

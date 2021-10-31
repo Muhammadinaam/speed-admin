@@ -119,6 +119,8 @@ class FormHelper{
                 $model->afterSave($request, $model, $id);
             }
 
+            $model::callHooks($model, 'after_save_with_relations');
+
             \DB::commit();
 
             return ['success' => true, 'message' => __('Saved successfully'), 'obj' => $obj];

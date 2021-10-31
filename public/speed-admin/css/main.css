@@ -32,3 +32,5 @@ td > .form-group {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
 }
+
+.tox-notification { display: none !important }

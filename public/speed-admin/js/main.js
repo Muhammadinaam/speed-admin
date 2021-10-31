@@ -234,9 +234,13 @@ speedAdmin = {
   
   submitForm: function submitForm(event) {
     event.preventDefault();
+    
+    tinyMCE.triggerSave();
+    
     let form = event.target;
-  
+    
     speedAdmin.setIndexOnFieldsInRepeaters(form);
+
   
     speedAdmin.enableFromSubmitButton(form, false);
   
@@ -659,5 +663,13 @@ speedAdminDateTime = {
       altFormat: input.dataset.alt_format,
       dateFormat: 'Y-m-d H:i:S',
     })
+  }
+}
+
+speedAdminTinyMCE = {
+  initTinyMCE: function initTinyMCE(input) {
+    tinymce.init({
+      target: input
+    });
   }
 }

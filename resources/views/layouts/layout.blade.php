@@ -92,6 +92,8 @@
 
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'axios-0.21.1.min.js')}}"></script>
 
+    <script src="{{asset(config('speed-admin.speed_admin_assets_path').'tinymce.min.js')}}"></script>
+
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/main.js')}}"></script>
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/belongs_to.js')}}"></script>
     <script src="{{asset(config('speed-admin.speed_admin_assets_path').'speed-admin/js/model.js')}}"></script>

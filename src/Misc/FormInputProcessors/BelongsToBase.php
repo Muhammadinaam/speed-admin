@@ -12,9 +12,9 @@ class BelongsToBase extends BaseInputProcessor{
             return;
         }
 
-        $exists = $model->where($model->getKeyName(), $value)
-            ->where($form_item['where'])
-            ->exists();
+        $exists = $model->where($model->getKeyName(), $value);
+        $exists = $form_item['where']($exists, request());
+        $exists = $exists->exists();
         
         if (!$exists) {
         
