@@ -2,7 +2,7 @@
 
 Speed-admin uses [https://github.com/nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) for managing applications/modules.
 
-### Autoload nwidart modules
+## Autoload nwidart modules
 
 Update composer.json to autoload modules. Add `"Modules\": "Modules/"` as shown below in psr-4.
 
@@ -12,8 +12,8 @@ Update composer.json to autoload modules. Add `"Modules\": "Modules/"` as shown 
   "autoload": {
     "psr-4": {
       "App\\": "app/",
-      
-      
+
+
       "Modules\\": "Modules/"
     }
   }
@@ -21,11 +21,10 @@ Update composer.json to autoload modules. Add `"Modules\": "Modules/"` as shown 
 ```
 {% endcode %}
 
-### Add new module
+## Add new module
 
-Run the following command to add new module. \([see nwidart documentation](https://github.com/nWidart/laravel-modules)\)
+Run the following command to add new module. ([see nwidart documentation](https://github.com/nWidart/laravel-modules))
 
 ```javascript
 php artisan module:make <module-name>
 ```
-
